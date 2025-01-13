@@ -19,6 +19,35 @@ Este repositório contém uma coleção de cheat sheets para várias tecnologias
 - [Visual Studio Code](vscode-cheat-sheet.md)
 - [Visual Studio Code Server](vscode-server-cheat-sheet.md)
 
+## Políticas de Uso de IA
+
+Este repositório adota práticas éticas no uso de Inteligências Artificiais (IAs) durante o desenvolvimento. Detalhes sobre o uso dessas ferramentas estão documentados na pasta [./AI-Usage-Policy](./AI-Usage-Policy), que contém os seguintes arquivos:
+
+- [Termo de Responsabilidade pelo Uso de IAs no Desenvolvimento](./AI-Usage-Policy/responsability.md): Declaração de princípios, regras e práticas relacionadas ao uso ético de IAs.
+- [Registros do ChatGPT](./AI-Usage-Policy/chatgpt.logs.md): Resumo das interações e contribuições realizadas com o suporte do ChatGPT.
+- [Registros do GitHub Copilot](./AI-Usage-Policy/ghcopilot.logs.md): Relatório sobre o uso e suporte fornecido pelo GitHub Copilot.
+
+## Script de Compressão
+
+Para facilitar a compressão e envio de versões do projeto para análise ou revisão, incluímos o script `compress_project.sh`. Este script:
+
+- Compacta o repositório atual em um arquivo ZIP com alta compressão.
+- Nomeia o arquivo com o formato `md_cheat-sheets_<timestamp>.zip`.
+- Automatiza o processo de geração de backups datados.
+
+### Uso do Script
+
+1. Certifique-se de que o script está no diretório raiz do repositório.
+2. Torne o script executável:
+   ```bash
+   chmod +x compress_project.sh
+   ```
+3. Execute o script:
+   ```bash
+   ./compress_project.sh
+   ```
+   Isso criará um arquivo ZIP na raiz do repositório com a data e hora atuais no nome.
+
 ## Como Usar
 
 Cada arquivo de cheat sheet está organizado de forma a fornecer uma referência rápida e fácil para comandos e configurações comuns. Basta abrir o arquivo correspondente à tecnologia ou ferramenta que você está utilizando.
@@ -49,6 +78,35 @@ This repository contains a collection of cheat sheets for various development te
 - [Vite and Vitest](vite-vitest-cheat-sheet.md)
 - [Visual Studio Code](vscode-cheat-sheet.md)
 - [Visual Studio Code Server](vscode-server-cheat-sheet.md)
+
+## AI Usage Policies
+
+This repository adopts ethical practices in the use of Artificial Intelligence (AI) during development. Details about the use of these tools are documented in the [./AI-Usage-Policy](./AI-Usage-Policy) folder, which contains the following files:
+
+- [Responsibility Statement for the Use of AI in Development](./AI-Usage-Policy/responsability.md): Declaration of principles, rules, and practices related to the ethical use of AI.
+- [ChatGPT Logs](./AI-Usage-Policy/chatgpt.logs.md): Summary of interactions and contributions made with ChatGPT's support.
+- [GitHub Copilot Logs](./AI-Usage-Policy/ghcopilot.logs.md): Report on the use and support provided by GitHub Copilot.
+
+## Compression Script
+
+To facilitate project compression and submission for review or analysis, we included the `compress_project.sh` script. This script:
+
+- Compresses the current repository into a ZIP file with high compression.
+- Names the file in the format `md_cheat-sheets_<timestamp>.zip`.
+- Automates the process of generating dated backups.
+
+### Using the Script
+
+1. Ensure the script is in the root directory of the repository.
+2. Make the script executable:
+   ```bash
+   chmod +x compress_project.sh
+   ```
+3. Run the script:
+   ```bash
+   ./compress_project.sh
+   ```
+   This will create a ZIP file in the root directory of the repository, with the current date and time in the name.
 
 ## How to Use
 
