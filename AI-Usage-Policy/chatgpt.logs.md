@@ -1,62 +1,28 @@
 # Cheat Sheets Project
 
-## PT-BR
-
-### Princípios de Instrução
-
-
-### Contexto do Projeto
-
-
-### Documentação Utilizada
-
-
-
-### Resumo Geral de Conversas
-
-
-
----
-
-### Identificador Único
-
-Este arquivo foi gerado com o suporte do ChatGPT Projects, uma ferramenta de assistência de IA que contribui para a automação e organização de projetos de software. Todas as informações foram verificadas e revisadas pelo autor.
-
----
-
-## EN-US
-
 ### Instruction Principles
 
-
+The Cheat Sheets Project adheres to ethical and transparent practices in its use of AI tools. These principles guide all stages of the project, from ideation to delivery.
 
 ### Project Context
 
+This project creates a structured repository of cheat sheets for various technologies and tools, designed to improve developer efficiency and knowledge-sharing. The project emphasizes:
+- Best practices in software development.
+- Sustainable and ethical integration of AI.
+- Transparency in tool usage.
 
 ### Documentation Used
 
-
+1. Responsibility Statement (file: responsability.md), defining AI's role in ethical development.
+2. Project-specific markdown standards for formatting consistency.
+3. References to development methodologies such as DRY, SOLID, and KISS.
 
 ### General Conversation Summary
 
-
+This log captures the progression of the Cheat Sheets Project through collaborative and iterative efforts. Conversations and decisions are documented to ensure accountability and clarity.
 
 ---
 
 ### Unique Identifier
 
 This document was generated with the support of ChatGPT Projects, an AI assistance tool that contributes to the automation and organization of software projects. All information has been verified and reviewed by the author.
-
----
-
-### Hash
-
-`sha256:$(echo -n "$(cat chatgpt.logs.md)" | sha256sum | awk '{print $1}')`
-
-#### Usage
-
-`echo -n "$(cat chatgpt.logs.md)" | sha256sum | awk '{print $1}'`
-
-#### Signature
-
-ceb3cbb0e0f5a90b162ed6c809139e1417279e4e277a41912fe7c36237bfd4e0
