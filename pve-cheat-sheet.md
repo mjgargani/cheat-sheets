@@ -1,24 +1,81 @@
-# ProxMox Virtual Environment 8.3.1 Cheat Sheet (2024)
+# Proxmox VE Cheat Sheet (Atualizado em Janeiro de 2025)
 
-## General Information
+Este cheat sheet cobre comandos essenciais e práticas recomendadas para gerenciar ambientes Proxmox VE (Virtual Environment), uma plataforma de virtualização de código aberto baseada em Debian. Baseado na versão mais recente, fornece abstrações pedagógicas e instruções claras.
 
--   **Version**: 8.3.1
--   **OS Base**: Debian 12 (Bookworm)
--   **Kernel**: 6.1 LTS (by default)
--   **Hypervisor Type**: Type 1 (Bare-metal)
--   **Virtualization**: KVM (for VMs), LXC (for Containers)
--   **Web Interface**: Available at `https://<server-ip>:8006`
+## Índice (pt-BR)
 
-## Installation & Setup
+1. [O que é o Proxmox VE?](#o-que-e-o-proxmox-ve)
+2. [Instalação](#instalacao)
+3. [Gerenciamento de Rede](#gerenciamento-de-rede)
+4. [Gerenciamento de VMs](#gerenciamento-de-vms)
+5. [Gerenciamento de Containers (LXC)](#gerenciamento-de-containers-lxc)
+6. [Gerenciamento de Armazenamento](#gerenciamento-de-armazenamento)
+7. [Backup e Restauração](#backup-e-restauracao)
+8. [Recursos Depreciados](#recursos-depreciados)
+9. [Referências Adicionais](#referencias-adicionais)
 
-### Download ISO
+## Table of Contents (en-US)
 
--   Download from: [https://www.proxmox.com/downloads](https://www.proxmox.com/downloads)
+1. [What is Proxmox VE?](#what-is-proxmox-ve)
+2. [Installation](#installation)
+3. [Network Management](#network-management)
+4. [VM Management](#vm-management)
+5. [Container (LXC) Management](#container-lxc-management)
+6. [Storage Management](#storage-management)
+7. [Backup and Restore](#backup-and-restore)
+8. [Deprecated Features](#deprecated-features)
+9. [Additional References](#additional-references)
 
-### Basic Installation (Debian 12-based)
+---
+
+### O que é o Proxmox VE? (pt-BR)
+
+Proxmox VE é uma plataforma de virtualização baseada em Debian, oferecendo suporte para máquinas virtuais (KVM) e containers (LXC). Ele é amplamente utilizado em ambientes de produção por sua flexibilidade, interface web intuitiva e ferramentas integradas para backup e gerenciamento de clusters.
+
+- **Suporte a VMs e Containers**: Combina KVM e LXC.
+- **Interface Web**: Gerenciamento simplificado.
+- **Recursos Integrados**: Backups, alta disponibilidade e clusterização.
+
+Mais informações: [Proxmox VE Oficial](https://www.proxmox.com/).
+
+### What is Proxmox VE? (en-US)
+
+Proxmox VE is a Debian-based virtualization platform supporting virtual machines (KVM) and containers (LXC). It is widely used in production environments for its flexibility, intuitive web interface, and integrated tools for backup and cluster management.
+
+- **VM and Container Support**: Combines KVM and LXC.
+- **Web Interface**: Simplified management.
+- **Integrated Features**: Backups, high availability, and clustering.
+
+More information: [Proxmox VE Official](https://www.proxmox.com/).
+
+---
+
+### Instalação (pt-BR)
+
+1. **Baixe a ISO**: [Proxmox VE Downloads](https://www.proxmox.com/en/downloads).
+2. **Prepare o Instalador**:
 
 ```bash
-# Update system before installing Proxmox VE
+# Atualize o sistema antes de instalar o Proxmox VE
+apt update && apt full-upgrade -y
+
+# Instale o Proxmox VE
+apt install proxmox-ve postfix open-iscsi -y
+
+# Remova pacotes conflitantes
+apt remove os-prober
+
+# Reinicie após a instalação
+reboot
+```
+
+### Installation (en-US)
+
+1. **Download the ISO**: [Proxmox VE Downloads](https://www.proxmox.com/en/downloads).
+2. **Prepare the Installer**:
+
+```bash
+# Update the system before installing Proxmox VE
 apt update && apt full-upgrade -y
 
 # Install Proxmox VE
@@ -31,165 +88,133 @@ apt remove os-prober
 reboot
 ```
 
-### Post-Installation
-
-```bash
-# Update Proxmox VE
-apt update && apt dist-upgrade -y
-
-# Remove the enterprise repo (if not subscribed)
-sed -i 's/^deb/#deb/' /etc/apt/sources.list.d/pve-enterprise.list
-
-# Add community repo
-echo "deb http://download.proxmox.com/debian/pve bookworm pve-no-subscription" > /etc/apt/sources.list.d/pve-no-subscription.list
-
-# Update repository and upgrade
-apt update && apt dist-upgrade -y
-
-# Reboot to ensure kernel updates apply
-reboot
-```
-
 ---
 
-## Networking
+### Gerenciamento de Rede (pt-BR)
 
-### Show Network Interfaces
+- **Exibir interfaces de rede**:
 
 ```bash
 ip a
 ```
 
-### Configure Static IP (Bridge Mode)
+- **Configurar IP Estático (modo bridge)**:
 
 ```bash
 nano /etc/network/interfaces
 
-# Example configuration (replace values accordingly)
+# Exemplo de configuração
 auto vmbr0
 iface vmbr0 inet static
-    address 10.66.166.2/23
-    gateway 10.66.166.1
+    address 192.168.1.10/24
+    gateway 192.168.1.1
     bridge_ports enp0s31f6
     bridge_stp off
     bridge_fd 0
 ```
 
+- **Aplicar alterações**:
+
 ```bash
-# Apply Changes
+systemctl restart networking
+```
+
+### Network Management (en-US)
+
+- **Show network interfaces**:
+
+```bash
+ip a
+```
+
+- **Configure Static IP (bridge mode)**:
+
+```bash
+nano /etc/network/interfaces
+
+# Configuration example
+auto vmbr0
+iface vmbr0 inet static
+    address 192.168.1.10/24
+    gateway 192.168.1.1
+    bridge_ports enp0s31f6
+    bridge_stp off
+    bridge_fd 0
+```
+
+- **Apply changes**:
+
+```bash
 systemctl restart networking
 ```
 
 ---
 
-## VM Management
+### Gerenciamento de VMs (pt-BR)
 
-### Create VM
+- **Criar uma VM**:
 
 ```bash
 qm create 100 --name ubuntu-server --memory 4096 --net0 virtio,bridge=vmbr0 --cores 2 --cpu host
 ```
 
-### Import ISO
-
-```bash
-pvesm alloc local iso ubuntu-22.04.iso 2G
-wget -O /var/lib/vz/template/iso/ubuntu-22.04.iso <ISO_URL>
-```
-
-### Start VM
+- **Iniciar uma VM**:
 
 ```bash
 qm start 100
 ```
 
-### Stop VM
+- **Parar uma VM**:
 
 ```bash
 qm stop 100
 ```
 
-### Delete VM
+### VM Management (en-US)
+
+- **Create a VM**:
 
 ```bash
-qm destroy 100
+qm create 100 --name ubuntu-server --memory 4096 --net0 virtio,bridge=vmbr0 --cores 2 --cpu host
 ```
 
-### Resize Disk (without VM running)
+- **Start a VM**:
 
 ```bash
-qm resize 100 scsi0 +10G
+qm start 100
 ```
 
----
-
-## LXC Container Management
-
-### Create Container
+- **Stop a VM**:
 
 ```bash
-pct create 101 local:vztmpl/debian-12-standard_12.0-1_amd64.tar.zst --hostname debian-container --storage local-lvm --password YOUR_PASSWORD --rootfs 8G --cores 2 --memory 2048 --net0 name=eth0,bridge=vmbr0,ip=dhcp
-```
-
-### Start Container
-
-```bash
-pct start 101
-```
-
-### Stop Container
-
-```bash
-pct stop 101
-```
-
-### Destroy Container
-
-```bash
-pct destroy 101
-```
-
-### Resize LXC Disk
-
-```bash
-lvextend -L+5G /dev/pve/vm-101-disk-0
-resize2fs /dev/pve/vm-101-disk-0
+qm stop 100
 ```
 
 ---
 
-## Storage Management
+### Backup e Restauração (pt-BR)
 
-### List Storage
-
-```bash
-pvesm status
-```
-
-### Add NFS Storage
-
-```bash
-pvesm add nfs nfs-storage --server 10.66.166.5 --export /mnt/share --path /mnt/pve/nfs-storage
-```
-
-### Resize LVM (Expand Storage)
-
-```bash
-lvextend -L+100G /dev/pve/data
-resize2fs /dev/pve/data
-```
-
----
-
-## Backup & Restore
-
-### Backup VM
+- **Backup de VM**:
 
 ```bash
 vzdump 100 --storage local --compress zstd --dumpdir /var/lib/vz/dump/
 ```
 
-### Restore VM
+- **Restaurar uma VM**:
+
+```bash
+qmrestore /var/lib/vz/dump/vzdump-qemu-100-YYYY_MM_DD-HH_mm_ss.vma.zst 200
+```
+
+### Backup and Restore (en-US)
+
+- **VM Backup**:
+
+```bash
+vzdump 100 --storage local --compress zstd --dumpdir /var/lib/vz/dump/
+```
+
+- **Restore a VM**:
 
 ```bash
 qmrestore /var/lib/vz/dump/vzdump-qemu-100-YYYY_MM_DD-HH_mm_ss.vma.zst 200
@@ -197,60 +222,22 @@ qmrestore /var/lib/vz/dump/vzdump-qemu-100-YYYY_MM_DD-HH_mm_ss.vma.zst 200
 
 ---
 
-## Cluster Management
+### Recursos Depreciados (pt-BR)
 
-### Create Cluster
+Consulte os comandos obsoletos na [documentação oficial](https://pve.proxmox.com/wiki/Main_Page).
 
-```bash
-pvecm create cluster-name
-```
+### Deprecated Features (en-US)
 
-### Add Node to Cluster
-
-```bash
-pvecm add <master-node-ip>
-```
-
-### Remove Node from Cluster
-
-```bash
-pvecm delnode node-name
-```
+Refer to deprecated commands in the [official documentation](https://pve.proxmox.com/wiki/Main_Page).
 
 ---
 
-## Troubleshooting
+### Referências Adicionais (pt-BR)
 
-### Restart Proxmox Services
+- [Documentação Oficial do Proxmox VE](https://pve.proxmox.com/)
+- [Fórum da Comunidade Proxmox](https://forum.proxmox.com/)
 
-```bash
-systemctl restart pve-cluster pvedaemon pveproxy pvestatd
-```
+### Additional References (en-US)
 
-### Check Logs
-
-```bash
-journalctl -u pve-cluster -f
-```
-
-### Force Stop VM
-
-```bash
-qm stop 100 --skiplock
-```
-
----
-
-## Deprecated Commands (2024)
-
--   **`ifup` / `ifdown`** - Deprecated in favor of `ip link set <iface> up/down`
--   **`service networking restart`** - Use `systemctl restart networking`
--   **`brctl`** - Use `ip link` or `nmcli` instead
-
----
-
-## Additional Resources
-
--   [Official Documentation](https://pve.proxmox.com/wiki/Main_Page)
--   [Community Forum](https://forum.proxmox.com)
--   [Proxmox GitHub](https://github.com/proxmox)
+- [Proxmox VE Official Documentation](https://pve.proxmox.com/)
+- [Proxmox Community Forum](https://forum.proxmox.com/)

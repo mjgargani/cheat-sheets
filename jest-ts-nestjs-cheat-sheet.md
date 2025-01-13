@@ -1,10 +1,66 @@
-Aqui está uma versão mais detalhada do cheat sheet para utilizar **Jest** com **Node.js**, **TypeScript**, e integração avançada com **NestJS**, incluindo o uso extensivo de **mocks**, **spies**, e outros recursos.
+# Jest + TypeScript + NestJS Cheat Sheet (Atualizado em Janeiro de 2025)
+
+Este cheat sheet atualizado aborda o uso do Jest em projetos Node.js com TypeScript e NestJS, detalhando recursos como mocks, spies e testes avançados. O conteúdo foi baseado nas melhores práticas de desenvolvimento e nas versões mais recentes de Jest e NestJS.
+
+## Índice (pt-BR)
+
+1. [Instalação](#instalacao)
+2. [Configuração do Jest](#configuracao-do-jest)
+3. [Estrutura de Pastas](#estrutura-de-pastas)
+4. [Testes Unitários](#testes-unitarios)
+5. [Testes de Integração e E2E](#testes-de-integracao-e-e2e)
+6. [Recursos Avançados](#recursos-avancados)
+7. [Recursos Depreciados](#recursos-depreciados)
+8. [Referências Adicionais](#referencias-adicionais)
 
 ---
 
-## **1. Instalação**
+## Table of Contents (en-US)
 
-Instale as dependências necessárias:
+1. [Installation](#installation)
+2. [Jest Configuration](#jest-configuration)
+3. [Folder Structure](#folder-structure)
+4. [Unit Testing](#unit-testing)
+5. [Integration and E2E Testing](#integration-and-e2e-testing)
+6. [Advanced Features](#advanced-features)
+7. [Deprecated Features](#deprecated-features)
+8. [Additional References](#additional-references)
+
+---
+
+### O que é o Jest? (pt-BR)
+
+Jest é um framework de testes completo para aplicações JavaScript e TypeScript. Ele suporta testes unitários, de integração e de ponta a ponta, e vem integrado com funcionalidades como mocks e spies.
+
+- **Mocks**: Simulam funções ou módulos externos.
+- **Spies**: Observam chamadas a métodos reais para verificar comportamentos.
+- **Cobertura de Código**: Gera relatórios detalhados sobre quais partes do código foram testadas.
+
+Para mais informações: [Jest Official Docs](https://jestjs.io/pt-BR/).
+
+### What is Jest? (en-US)
+
+Jest is a comprehensive testing framework for JavaScript and TypeScript applications. It supports unit, integration, and end-to-end testing and comes with built-in features like mocks and spies.
+
+- **Mocks**: Simulate external functions or modules.
+- **Spies**: Monitor real method calls to verify behaviors.
+- **Code Coverage**: Provides detailed reports on tested code areas.
+
+For more information: [Jest Official Docs](https://jestjs.io/).
+
+---
+
+### Instalação (pt-BR)
+
+Instale o Jest e dependências necessárias:
+
+```bash
+npm install --save-dev jest ts-jest @types/jest @nestjs/testing supertest
+```
+
+### Installation (en-US)
+
+Install Jest and required dependencies:
 
 ```bash
 npm install --save-dev jest ts-jest @types/jest @nestjs/testing supertest
@@ -12,263 +68,222 @@ npm install --save-dev jest ts-jest @types/jest @nestjs/testing supertest
 
 ---
 
-## **2. Configuração do Jest**
+### Configuração do Jest (pt-BR)
 
-Crie um arquivo `jest.config.ts` na raiz do projeto com as configurações otimizadas para TypeScript e NestJS:
+Crie o arquivo `jest.config.ts`:
 
 ```typescript
-import type { JestConfigWithTsJest } from "ts-jest";
+import type { JestConfigWithTsJest } from 'ts-jest';
 
 const config: JestConfigWithTsJest = {
-    preset: "ts-jest",
-    testEnvironment: "node",
-    transform: {
-        "^.+\\.ts$": "ts-jest",
-    },
-    moduleFileExtensions: ["ts", "js", "json"],
-    testMatch: ["**/*.spec.ts", "**/*.e2e-spec.ts"],
-    collectCoverage: true,
-    coverageDirectory: "./coverage",
-    coverageReporters: ["text", "lcov"],
-    moduleNameMapper: {
-        "^src/(.*)$": "<rootDir>/src/$1",
-    },
+  preset: 'ts-jest',
+  testEnvironment: 'node',
+  transform: {
+    '^.+\\.ts$': 'ts-jest',
+  },
+  collectCoverage: true,
+  coverageReporters: ['text', 'lcov'],
 };
 
 export default config;
 ```
 
-Adicione os scripts no `package.json`:
+### Jest Configuration (en-US)
 
-```json
-{
-    "scripts": {
-        "test": "jest",
-        "test:watch": "jest --watch",
-        "test:cov": "jest --coverage",
-        "test:e2e": "jest --config jest-e2e.config.ts"
-    }
-}
+Create the `jest.config.ts` file:
+
+```typescript
+import type { JestConfigWithTsJest } from 'ts-jest';
+
+const config: JestConfigWithTsJest = {
+  preset: 'ts-jest',
+  testEnvironment: 'node',
+  transform: {
+    '^.+\\.ts$': 'ts-jest',
+  },
+  collectCoverage: true,
+  coverageReporters: ['text', 'lcov'],
+};
+
+export default config;
 ```
 
 ---
 
-## **3. Estrutura de Pastas**
+### Estrutura de Pastas (pt-BR)
 
-Organize as pastas e arquivos do projeto assim:
+Organize seu projeto com a seguinte estrutura:
 
 ```
 project-root/
 ├── src/
 │   ├── app.controller.ts
-│   ├── app.service.ts
-│   ├── app.module.ts
-│   └── main.ts
+│   └── app.service.ts
 ├── test/
 │   └── app.e2e-spec.ts
-├── jest.config.ts
-├── tsconfig.json
-└── package.json
+└── jest.config.ts
+```
+
+### Folder Structure (en-US)
+
+Organize your project with the following structure:
+
+```
+project-root/
+├── src/
+│   ├── app.controller.ts
+│   └── app.service.ts
+├── test/
+│   └── app.e2e-spec.ts
+└── jest.config.ts
 ```
 
 ---
 
-## **4. Criando um Teste Unitário com Mocks e Spies**
+### Testes Unitários (pt-BR)
 
-### 4.1. Testando o `AppService` com mocks:
-
-#### Código de exemplo:
-
-**src/app.service.ts**
+Exemplo de mock e spy no `AppService`:
 
 ```typescript
-export class AppService {
-    getHello(): string {
-        return "Hello World!";
-    }
-}
+import { AppService } from './app.service';
+
+describe('AppService', () => {
+  let service: AppService;
+
+  beforeEach(() => {
+    service = new AppService();
+  });
+
+  it('should return "Hello World!"', () => {
+    expect(service.getHello()).toBe('Hello World!');
+  });
+});
 ```
 
-#### Teste com Jest:
+### Unit Testing (en-US)
 
-**src/app.service.spec.ts**
+Mock and spy example for `AppService`:
 
 ```typescript
-import { AppService } from "./app.service";
+import { AppService } from './app.service';
 
-describe("AppService", () => {
-    let appService: AppService;
+describe('AppService', () => {
+  let service: AppService;
 
-    beforeEach(() => {
-        appService = new AppService();
-    });
+  beforeEach(() => {
+    service = new AppService();
+  });
 
-    it('should return "Hello World!"', () => {
-        expect(appService.getHello()).toBe("Hello World!");
-    });
-
-    it("should call getHello", () => {
-        const spy = jest.spyOn(appService, "getHello");
-        appService.getHello();
-        expect(spy).toHaveBeenCalled();
-    });
+  it('should return "Hello World!"', () => {
+    expect(service.getHello()).toBe('Hello World!');
+  });
 });
 ```
 
 ---
 
-### 4.2. Testando o `AppController` com um mock do serviço:
+### Testes de Integração e E2E (pt-BR)
 
-#### Código de exemplo:
-
-**src/app.controller.ts**
+Exemplo com `supertest`:
 
 ```typescript
-import { Controller, Get } from "@nestjs/common";
-import { AppService } from "./app.service";
+import * as request from 'supertest';
+import { Test, TestingModule } from '@nestjs/testing';
+import { INestApplication } from '@nestjs/common';
+import { AppModule } from '../src/app.module';
 
-@Controller()
-export class AppController {
-    constructor(private readonly appService: AppService) {}
+describe('AppController (e2e)', () => {
+  let app: INestApplication;
 
-    @Get()
-    getHello(): string {
-        return this.appService.getHello();
-    }
-}
+  beforeAll(async () => {
+    const moduleFixture: TestingModule = await Test.createTestingModule({
+      imports: [AppModule],
+    }).compile();
+
+    app = moduleFixture.createNestApplication();
+    await app.init();
+  });
+
+  it('/ (GET)', () => {
+    return request(app.getHttpServer())
+      .get('/')
+      .expect(200)
+      .expect('Hello World!');
+  });
+});
 ```
 
-#### Teste com Jest:
+### Integration and E2E Testing (en-US)
 
-**src/app.controller.spec.ts**
+Example with `supertest`:
 
 ```typescript
-import { Test, TestingModule } from "@nestjs/testing";
-import { AppController } from "./app.controller";
-import { AppService } from "./app.service";
+import * as request from 'supertest';
+import { Test, TestingModule } from '@nestjs/testing';
+import { INestApplication } from '@nestjs/common';
+import { AppModule } from '../src/app.module';
 
-describe("AppController", () => {
-    let appController: AppController;
-    let appService: AppService;
+describe('AppController (e2e)', () => {
+  let app: INestApplication;
 
-    const mockAppService = {
-        getHello: jest.fn().mockReturnValue("Mocked Hello World!"),
-    };
+  beforeAll(async () => {
+    const moduleFixture: TestingModule = await Test.createTestingModule({
+      imports: [AppModule],
+    }).compile();
 
-    beforeEach(async () => {
-        const module: TestingModule = await Test.createTestingModule({
-            controllers: [AppController],
-            providers: [{ provide: AppService, useValue: mockAppService }],
-        }).compile();
+    app = moduleFixture.createNestApplication();
+    await app.init();
+  });
 
-        appController = module.get<AppController>(AppController);
-        appService = module.get<AppService>(AppService);
-    });
-
-    it('should return "Mocked Hello World!"', () => {
-        expect(appController.getHello()).toBe("Mocked Hello World!");
-    });
-
-    it("should call AppService.getHello", () => {
-        appController.getHello();
-        expect(mockAppService.getHello).toHaveBeenCalled();
-    });
+  it('/ (GET)', () => {
+    return request(app.getHttpServer())
+      .get('/')
+      .expect(200)
+      .expect('Hello World!');
+  });
 });
 ```
 
 ---
 
-## **5. Criando um Teste E2E**
+### Recursos Avançados (pt-BR)
 
-Use o suporte do NestJS para testes end-to-end (e2e).
-
-### Exemplo de Teste:
-
-#### Código de exemplo:
-
-**src/app.module.ts**
+- **jest.spyOn**: Observa métodos reais:
 
 ```typescript
-import { Module } from "@nestjs/common";
-import { AppController } from "./app.controller";
-import { AppService } from "./app.service";
-
-@Module({
-    imports: [],
-    controllers: [AppController],
-    providers: [AppService],
-})
-export class AppModule {}
-```
-
-#### Teste E2E:
-
-**test/app.e2e-spec.ts**
-
-```typescript
-import { Test, TestingModule } from "@nestjs/testing";
-import { INestApplication } from "@nestjs/common";
-import * as request from "supertest";
-import { AppModule } from "./../src/app.module";
-
-describe("AppController (e2e)", () => {
-    let app: INestApplication;
-
-    beforeAll(async () => {
-        const moduleFixture: TestingModule = await Test.createTestingModule({
-            imports: [AppModule],
-        }).compile();
-
-        app = moduleFixture.createNestApplication();
-        await app.init();
-    });
-
-    it("/ (GET)", () => {
-        return request(app.getHttpServer())
-            .get("/")
-            .expect(200)
-            .expect("Hello World!");
-    });
-
-    afterAll(async () => {
-        await app.close();
-    });
-});
-```
-
----
-
-## **6. Recursos Avançados**
-
-### 6.1. Mockando Dependências:
-
-Use o pacote `jest-mock`:
-
-```typescript
-jest.mock("./some-module", () => ({
-    someFunction: jest.fn(() => "mocked value"),
-}));
-```
-
-### 6.2. Usando `jest.spyOn` para observar métodos reais:
-
-```typescript
-const spy = jest.spyOn(service, "someMethod");
-service.someMethod();
+const spy = jest.spyOn(service, 'method');
+service.method();
 expect(spy).toHaveBeenCalled();
 ```
 
-### 6.3. Testando exceções e erros:
+### Advanced Features (en-US)
+
+- **jest.spyOn**: Observes real methods:
 
 ```typescript
-it("should throw an error", () => {
-    jest.spyOn(service, "someMethod").mockImplementation(() => {
-        throw new Error("Test error");
-    });
-    expect(() => service.someMethod()).toThrow("Test error");
-});
+const spy = jest.spyOn(service, 'method');
+service.method();
+expect(spy).toHaveBeenCalled();
 ```
 
 ---
 
-Este cheat sheet oferece um guia completo e avançado para usar Jest com Node.js, TypeScript e NestJS, aproveitando ao máximo recursos como mocks, spies e testes integrados. Sinta-se à vontade para ajustar conforme necessário para atender aos requisitos do seu projeto! 🚀
+### Recursos Depreciados (pt-BR)
+
+Funções obsoletas são listadas na [documentação oficial do Jest](https://jestjs.io/pt-BR/docs/).
+
+### Deprecated Features (en-US)
+
+Deprecated functions are listed in the [official Jest documentation](https://jestjs.io/docs/).
+
+---
+
+### Referências Adicionais (pt-BR)
+
+- [Documentação Oficial do Jest](https://jestjs.io/pt-BR/)
+- [Repositório GitHub do Jest](https://github.com/facebook/jest)
+
+### Additional References (en-US)
+
+- [Jest Official Documentation](https://jestjs.io/)
+- [Jest GitHub Repository](https://github.com/facebook/jest)

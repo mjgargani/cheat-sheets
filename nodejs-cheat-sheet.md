@@ -1,203 +1,273 @@
-Here's an updated TypeScript cheat sheet for 2024, highlighting essential features and noting deprecated functions and attributes. This guide is structured to facilitate step-by-step learning, ensuring clarity and ease of understanding.
+# Node.js Cheat Sheet (Atualizado em Janeiro de 2025)
 
-**1. Basic Types**
+Este cheat sheet cobre comandos essenciais, conceitos importantes e práticas recomendadas para o desenvolvimento com Node.js. Baseado nas últimas versões, serve como um guia prático para desenvolvedores.
 
-- **Boolean**: `let isDone: boolean = false;`
-- **Number**: `let decimal: number = 10;`
-- **String**: `let name: string = 'TypeScript';`
-- **Array**: `let list: number[] = [1, 2, 3];`
-- **Tuple**: `let tuple: [string, number] = ['TypeScript', 10];`
-- **Enum**:
-  ```typescript
-  enum Direction {
-    Up,
-    Down,
-    Left,
-    Right
-  }
-  let dir: Direction = Direction.Up;
-  ```
-- **Any**: `let notSure: any = 4;`
-- **Void**: Used for functions that return no value.
-  ```typescript
-  function warnUser(): void {
-    console.log("This is a warning message");
-  }
-  ```
-- **Null and Undefined**:
-  ```typescript
-  let u: undefined = undefined;
-  let n: null = null;
-  ```
-- **Never**: Represents the type of values that never occur.
-  ```typescript
-  function error(message: string): never {
-    throw new Error(message);
-  }
-  ```
+## Índice (pt-BR)
 
-**2. Functions**
+1. [O que é o Node.js?](#o-que-e-o-nodejs)
+2. [Instalação](#instalacao)
+3. [Execução de Scripts](#execucao-de-scripts)
+4. [Módulos](#modulos)
+5. [Eventos](#eventos)
+6. [File System](#file-system)
+7. [HTTP](#http)
+8. [Debugging](#debugging)
+9. [Recursos Depreciados](#recursos-depreciados)
+10. [Referências Adicionais](#referencias-adicionais)
 
-- **Basic Function**:
-  ```typescript
-  function add(x: number, y: number): number {
-    return x + y;
-  }
-  ```
-- **Optional Parameters and Default Values**:
-  ```typescript
-  function buildName(firstName: string, lastName?: string): string {
-    return lastName ? `${firstName} ${lastName}` : firstName;
-  }
+## Table of Contents (en-US)
 
-  function buildNameWithDefault(firstName: string, lastName = "Smith"): string {
-    return `${firstName} ${lastName}`;
-  }
-  ```
-- **Rest Parameters**:
-  ```typescript
-  function sum(...numbers: number[]): number {
-    return numbers.reduce((acc, curr) => acc + curr, 0);
-  }
-  ```
+1. [What is Node.js?](#what-is-nodejs)
+2. [Installation](#installation)
+3. [Running Scripts](#running-scripts)
+4. [Modules](#modules)
+5. [Events](#events)
+6. [File System](#file-system)
+7. [HTTP](#http)
+8. [Debugging](#debugging)
+9. [Deprecated Features](#deprecated-features)
+10. [Additional References](#additional-references)
 
-**3. Interfaces**
+---
 
-- **Defining an Interface**:
-  ```typescript
-  interface User {
-    name: string;
-    age: number;
-    isAdmin?: boolean; // Optional property
-  }
+### O que é o Node.js? (pt-BR)
 
-  function greet(user: User) {
-    return `Hello, ${user.name}`;
-  }
-  ```
-- **Extending Interfaces**:
-  ```typescript
-  interface Admin extends User {
-    permissions: string[];
-  }
-  ```
+Node.js é um runtime JavaScript baseado no mecanismo V8 do Chrome. Ele permite executar código JavaScript fora do navegador e é amplamente utilizado para criar aplicações de servidor escaláveis e performáticas.
 
-**4. Classes**
+- **Event-Driven**: Baseado em eventos e não bloqueante.
+- **Alta Performance**: Aproveita o V8 para executar código rapidamente.
+- **Ecosistema Rico**: Milhões de pacotes disponíveis no npm.
 
-- **Basic Class**:
-  ```typescript
-  class Person {
-    name: string;
+Mais informações: [Node.js Oficial](https://nodejs.org/pt-br/).
 
-    constructor(name: string) {
-      this.name = name;
-    }
+### What is Node.js? (en-US)
 
-    greet() {
-      return `Hello, ${this.name}`;
-    }
-  }
-  ```
-- **Inheritance**:
-  ```typescript
-  class Employee extends Person {
-    position: string;
+Node.js is a JavaScript runtime built on Chrome's V8 engine. It enables running JavaScript code outside the browser and is widely used for creating scalable and high-performance server applications.
 
-    constructor(name: string, position: string) {
-      super(name);
-      this.position = position;
-    }
+- **Event-Driven**: Non-blocking and event-based.
+- **High Performance**: Utilizes V8 for fast code execution.
+- **Rich Ecosystem**: Millions of packages available on npm.
 
-    work() {
-      return `${this.name} is working as a ${this.position}`;
-    }
-  }
-  ```
-- **Access Modifiers**:
-  - `public`: Accessible everywhere.
-  - `private`: Accessible only within the class.
-  - `protected`: Accessible within the class and its subclasses.
-  ```typescript
-  class EncapsulatedPerson {
-    protected name: string;
-    private ssn: string;
+More information: [Node.js Official](https://nodejs.org/).
 
-    constructor(name: string, ssn: string) {
-      this.name = name;
-      this.ssn = ssn;
-    }
+---
 
-    getName(): string {
-      return this.name;
-    }
-  }
-  ```
+### Instalação (pt-BR)
 
-**5. Generics**
+Baixe e instale o Node.js do site oficial:
 
-- **Generic Function**:
-  ```typescript
-  function identity<T>(arg: T): T {
-    return arg;
-  }
+```bash
+# Para sistemas baseados em Debian/Ubuntu
+sudo apt update
+sudo apt install -y nodejs npm
 
-  let output = identity<string>("TypeScript"); // Explicit type
-  let inferredOutput = identity(13); // Inferred type
-  ```
-- **Generic Constraints**:
-  ```typescript
-  function loggingIdentity<T extends { length: number }>(arg: T): T {
-    console.log(arg.length); // OK, `length` is a property.
-    return arg;
-  }
-  ```
+# Verifique a versão instalada
+node --version
+npm --version
+```
 
-**6. Modules**
+### Installation (en-US)
 
-- **Exporting and Importing**:
-  ```typescript
-  // math.ts
-  export function add(x: number, y: number): number {
-    return x + y;
-  }
+Download and install Node.js from the official website:
 
-  // app.ts
-  import { add } from './math';
-  console.log(add(1, 2)); // 3
-  ```
-- **Default Exports**:
-  ```typescript
-  // defaultMath.ts
-  export default function subtract(x: number, y: number): number {
-    return x - y;
-  }
+```bash
+# For Debian/Ubuntu-based systems
+sudo apt update
+sudo apt install -y nodejs npm
 
-  // app.ts
-  import subtract from './defaultMath';
-  console.log(subtract(5, 3)); // 2
-  ```
+# Verify the installed version
+node --version
+npm --version
+```
 
-**7. Deprecated Features**
+---
 
-As TypeScript evolves, certain features become deprecated to improve the language's efficiency and security. It's crucial to stay updated and refactor code to replace deprecated features with their modern alternatives.
+### Execução de Scripts (pt-BR)
 
-- **Identifying Deprecated Features**:
-  - Utilize the TypeScript compiler's strict mode. Enabling strict mode flags such as `--strict`, `--noImplicitAny`, and `--strictNullChecks` can help detect deprecated features during the compilation process. 
-  - Pay attention to deprecation warnings in your editor or during compilation.
-  - Regularly review the official TypeScript release notes for information on deprecated features.
-- **Managing Deprecated Functions**:
-  - Transition to the new function: Replace all instances of the deprecated function with the recommended alternative. 
-  - Test thoroughly to ensure that replacing deprecated features does not introduce new issues.
-  - Keep your TypeScript version updated to benefit from the latest features and security improvements.
+- **Executar um arquivo JavaScript**:
 
-**8. Utility Types**
+```bash
+node arquivo.js
+```
 
-- **Partial**:
-  ```typescript
-  interface Todo {
-    title: string;
-    description: string;
-  }
+- **Abrir o REPL (Read-Eval-Print Loop)**:
 
-  let todo: Partial<Todo> = {
-    title: "Write cheatsheet 
+```bash
+node
+```
+
+### Running Scripts (en-US)
+
+- **Run a JavaScript file**:
+
+```bash
+node file.js
+```
+
+- **Open the REPL (Read-Eval-Print Loop)**:
+
+```bash
+node
+```
+
+---
+
+### Módulos (pt-BR)
+
+**Importando um módulo:**
+
+```javascript
+const fs = require('fs');
+```
+
+**Exportando funções ou objetos:**
+
+```javascript
+module.exports = {
+  minhaFuncao: () => console.log('Olá!'),
+};
+```
+
+### Modules (en-US)
+
+**Importing a module:**
+
+```javascript
+const fs = require('fs');
+```
+
+**Exporting functions or objects:**
+
+```javascript
+module.exports = {
+  myFunction: () => console.log('Hello!'),
+};
+```
+
+---
+
+### Eventos (pt-BR)
+
+**Criando e Emitindo Eventos:**
+
+```javascript
+const EventEmitter = require('events');
+const emitter = new EventEmitter();
+
+emitter.on('evento', () => console.log('Evento disparado!'));
+emitter.emit('evento');
+```
+
+### Events (en-US)
+
+**Creating and Emitting Events:**
+
+```javascript
+const EventEmitter = require('events');
+const emitter = new EventEmitter();
+
+emitter.on('event', () => console.log('Event fired!'));
+emitter.emit('event');
+```
+
+---
+
+### File System (pt-BR)
+
+**Lendo um arquivo:**
+
+```javascript
+const fs = require('fs');
+fs.readFile('arquivo.txt', 'utf8', (err, data) => {
+  if (err) throw err;
+  console.log(data);
+});
+```
+
+### File System (en-US)
+
+**Reading a file:**
+
+```javascript
+const fs = require('fs');
+fs.readFile('file.txt', 'utf8', (err, data) => {
+  if (err) throw err;
+  console.log(data);
+});
+```
+
+---
+
+### HTTP (pt-BR)
+
+**Criando um servidor HTTP:**
+
+```javascript
+const http = require('http');
+const server = http.createServer((req, res) => {
+  res.statusCode = 200;
+  res.setHeader('Content-Type', 'text/plain');
+  res.end('Olá Mundo\n');
+});
+
+server.listen(3000, () => {
+  console.log('Servidor rodando em http://localhost:3000/');
+});
+```
+
+### HTTP (en-US)
+
+**Creating an HTTP server:**
+
+```javascript
+const http = require('http');
+const server = http.createServer((req, res) => {
+  res.statusCode = 200;
+  res.setHeader('Content-Type', 'text/plain');
+  res.end('Hello World\n');
+});
+
+server.listen(3000, () => {
+  console.log('Server running at http://localhost:3000/');
+});
+```
+
+---
+
+### Debugging (pt-BR)
+
+**Iniciando o Debugger:**
+
+```bash
+node inspect arquivo.js
+```
+
+### Debugging (en-US)
+
+**Starting the Debugger:**
+
+```bash
+node inspect file.js
+```
+
+---
+
+### Recursos Depreciados (pt-BR)
+
+Consulte as funções obsoletas e removidas na [documentação oficial](https://nodejs.org/api/deprecations.html).
+
+### Deprecated Features (en-US)
+
+Refer to deprecated and removed functions in the [official documentation](https://nodejs.org/api/deprecations.html).
+
+---
+
+### Referências Adicionais (pt-BR)
+
+- [Documentação Oficial do Node.js](https://nodejs.org/pt-br/)
+- [npm - Gerenciador de Pacotes](https://www.npmjs.com/)
+
+### Additional References (en-US)
+
+- [Node.js Official Documentation](https://nodejs.org/)
+- [npm - Package Manager](https://www.npmjs.com/)

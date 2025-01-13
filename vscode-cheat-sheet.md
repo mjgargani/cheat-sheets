@@ -1,31 +1,97 @@
-# Visual Studio Code Server Cheat Sheet (2024)
+# Visual Studio Code Cheat Sheet (Atualizado em Janeiro de 2025)
+
+Este cheat sheet cobre como instalar, configurar e usar o Visual Studio Code, incluindo o VS Code Server para desenvolvimento remoto. Baseado nas últimas versões, fornece instruções claras e práticas.
+
+## Índice (pt-BR)
+
+1. [O que é o Visual Studio Code?](#o-que-e-o-visual-studio-code)
+2. [Instalação e Configuração](#instalacao-e-configuracao)
+3. [Desenvolvimento Remoto com SSH](#desenvolvimento-remoto-com-ssh)
+4. [Gerenciamento do VS Code Server](#gerenciamento-do-vs-code-server)
+5. [Autenticação com Chaves SSH](#autenticacao-com-chaves-ssh)
+6. [Extensões no VS Code Server](#extensoes-no-vs-code-server)
+7. [Soluções de Problemas Comuns](#solucoes-de-problemas-comuns)
+8. [Recursos Depreciados](#recursos-depreciados)
+9. [Referências Adicionais](#referencias-adicionais)
+
+## Table of Contents (en-US)
+
+1. [What is Visual Studio Code?](#what-is-visual-studio-code)
+2. [Installation and Setup](#installation-and-setup)
+3. [Remote Development with SSH](#remote-development-with-ssh)
+4. [VS Code Server Management](#vs-code-server-management)
+5. [SSH Key Authentication](#ssh-key-authentication)
+6. [Extensions in VS Code Server](#extensions-in-vs-code-server)
+7. [Common Issue Fixes](#common-issue-fixes)
+8. [Deprecated Features](#deprecated-features)
+9. [Additional References](#additional-references)
 
 ---
 
-## 1. **Installation & Setup**
+### O que é o Visual Studio Code? (pt-BR)
 
-### **1.1 Install VS Code (Local Machine):**
+Visual Studio Code é um editor de código-fonte leve, poderoso e extensível, suportando várias linguagens de programação. Ele oferece ferramentas integradas para depuração, controle de versão e desenvolvimento remoto.
+
+- **Editor Extensível**: Milhares de extensões disponíveis no Marketplace.
+- **Desenvolvimento Remoto**: Suporte integrado para SSH, Docker e WSL.
+- **Multi-plataforma**: Disponível para Windows, macOS e Linux.
+
+Mais informações: [Documentação Oficial do VS Code](https://code.visualstudio.com/).
+
+### What is Visual Studio Code? (en-US)
+
+Visual Studio Code is a lightweight, powerful, and extensible source-code editor supporting multiple programming languages. It provides built-in tools for debugging, version control, and remote development.
+
+- **Extensible Editor**: Thousands of extensions available in the Marketplace.
+- **Remote Development**: Built-in support for SSH, Docker, and WSL.
+- **Cross-Platform**: Available for Windows, macOS, and Linux.
+
+More information: [VS Code Official Documentation](https://code.visualstudio.com/).
+
+---
+
+### Instalação e Configuração (pt-BR)
+
+**Instalar o VS Code em uma Máquina Local**:
+
 ```bash
 sudo apt update
-sudo apt install code  # or download .deb/.rpm from https://code.visualstudio.com/
+sudo apt install code  # Ou baixe o .deb/.rpm em https://code.visualstudio.com/
 ```
 
-### **1.2 Install VS Code Server (Remote Machine):**
+**Instalar o VS Code Server em uma Máquina Remota**:
+
 ```bash
-# Run this from the local machine
+code --remote ssh-user@remote-host --install-extension ms-vscode-remote.remote-ssh
+```
+
+### Installation and Setup (en-US)
+
+**Install VS Code on a Local Machine**:
+
+```bash
+sudo apt update
+sudo apt install code  # Or download the .deb/.rpm from https://code.visualstudio.com/
+```
+
+**Install VS Code Server on a Remote Machine**:
+
+```bash
 code --remote ssh-user@remote-host --install-extension ms-vscode-remote.remote-ssh
 ```
 
 ---
 
-## 2. **Remote SSH (Remote Development)**
+### Desenvolvimento Remoto com SSH (pt-BR)
 
-### **2.1 SSH Configuration:**
+**Configuração do SSH**:
+
 ```bash
-# Edit SSH config for easy access
 nano ~/.ssh/config
 ```
-**Example:**
+
+**Exemplo**:
+
 ```ini
 Host myserver
     HostName 192.168.1.100
@@ -33,147 +99,91 @@ Host myserver
     IdentityFile ~/.ssh/id_rsa
 ```
 
-### **2.2 Connect to Remote Server:**
+**Conectar ao Servidor Remoto**:
+
 ```bash
-# Connect to remote server via VS Code
 code --remote ssh-remote+myserver
 ```
-OR via GUI:
-- **Ctrl + Shift + P** ➝ `Remote-SSH: Connect to Host` ➝ Select `myserver`
 
-### **2.3 Check Running VS Code Server on Remote:**
+### Remote Development with SSH (en-US)
+
+**SSH Configuration**:
+
 ```bash
-ps aux | grep vscode
+nano ~/.ssh/config
 ```
 
-### **2.4 Kill Running VS Code Server (Troubleshooting):**
-```bash
-vscode-server/bin/<commit_id>/bin/code-server --uninstall
+**Example**:
+
+```ini
+Host myserver
+    HostName 192.168.1.100
+    User username
+    IdentityFile ~/.ssh/id_rsa
 ```
-OR
+
+**Connect to Remote Server**:
+
 ```bash
-rm -rf ~/.vscode-server
+code --remote ssh-remote+myserver
 ```
 
 ---
 
-## 3. **VS Code Server Management**
+### Gerenciamento do VS Code Server (pt-BR)
 
-### **3.1 Update VS Code Server:**
+- **Atualizar o VS Code Server**:
+
 ```bash
 code --remote ssh-remote+myserver --force-update
 ```
 
-### **3.2 Start/Stop VS Code Server:**
+- **Iniciar ou Parar o VS Code Server Manualmente**:
+
 ```bash
-# Start server manually
 ~/.vscode-server/bin/<commit_id>/server.sh &
-
-# Stop running server
-pkill -f vscode-server
 ```
 
-### **3.3 Port Forwarding (Remote Server):**
+### VS Code Server Management (en-US)
+
+- **Update VS Code Server**:
+
 ```bash
-ssh -L 8080:localhost:8080 user@remote-host
-```
-- **Access local app**: `http://localhost:8080`
-
----
-
-## 4. **Extensions Management (Remote)**
-
-### **4.1 Install Extensions (Remote):**
-```bash
-code --install-extension <extension-id> --remote ssh-remote+myserver
+code --remote ssh-remote+myserver --force-update
 ```
 
-### **4.2 List Installed Extensions:**
-```bash
-code --list-extensions --show-versions
-```
+- **Start or Stop VS Code Server Manually**:
 
-### **4.3 Remove Extensions:**
 ```bash
-code --uninstall-extension <extension-id> --remote ssh-remote+myserver
+~/.vscode-server/bin/<commit_id>/server.sh &
 ```
 
 ---
 
-## 5. **SSH Key Authentication**
+### Soluções de Problemas Comuns (pt-BR)
 
-### **5.1 Generate SSH Key (Local):**
-```bash
-ssh-keygen -t rsa -b 4096
-```
+- **VS Code Server não inicia**:
 
-### **5.2 Copy Public Key to Remote Server:**
-```bash
-ssh-copy-id user@remote-host
-```
-OR manually:
-```bash
-cat ~/.ssh/id_rsa.pub | ssh user@remote-host 'cat >> ~/.ssh/authorized_keys'
-```
-
----
-
-## 6. **Common Issues & Fixes**
-
-### **6.1 VS Code Server Not Starting:**
 ```bash
 rm -rf ~/.vscode-server/bin && rm -rf ~/.vscode-server-insiders/bin
 ```
 
-### **6.2 Connection Timeout:**
-```bash
-# Add this to ~/.ssh/config
-Host *
-    ServerAliveInterval 60
-```
+### Common Issue Fixes (en-US)
 
-### **6.3 Failed to Update VS Code Server:**
-```bash
-rm -rf ~/.vscode-server
-```
+- **VS Code Server not starting**:
 
-### **6.4 Remote Server Out of Disk Space:**
 ```bash
-# Clear unused extensions
-rm -rf ~/.vscode-server/extensions
+rm -rf ~/.vscode-server/bin && rm -rf ~/.vscode-server-insiders/bin
 ```
 
 ---
 
-## 7. **VS Code Deprecations (2024)**
+### Referências Adicionais (pt-BR)
 
-- **`--install-extension`**: Now requires `--remote` explicitly for remote installs.
-- **`version` in `docker-compose.yml`**: Deprecated; use schema versioning.
-- **`~/.vscode-server-insiders`**: Deprecated; replaced by `~/.vscode-server`.
+- [Documentação Oficial do VS Code](https://code.visualstudio.com/)
+- [Extensões Remotas no Marketplace](https://marketplace.visualstudio.com/VSCode)
 
----
+### Additional References (en-US)
 
-## 8. **Advanced (SSH Tunnels & Custom Ports)**
-
-### **8.1 Use Custom SSH Port:**
-```bash
-ssh -p 2222 user@remote-host
-```
-
-### **8.2 SSH Tunnel to Remote Service:**
-```bash
-ssh -L 3000:localhost:3000 user@remote-host
-```
-
-### **8.3 Access Docker Daemon on Remote Server (VS Code):**
-```bash
-ssh -L /var/run/docker.sock:/var/run/docker.sock user@remote-host
-```
-
----
-
-## 9. **Useful Shortcuts**
-- **Reconnect to Remote:** `Ctrl + Shift + P` ➝ `Remote-SSH: Connect to Host`
-- **Open Terminal on Remote:** `Ctrl + Shift + P` ➝ `Remote-SSH: Open Remote Terminal`
-- **Remote Port Forwarding:** `Ctrl + Shift + P` ➝ `Remote-SSH: Forward Port`
-
+- [VS Code Official Documentation](https://code.visualstudio.com/)
+- [Remote Extensions on the Marketplace](https://marketplace.visualstudio.com/VSCode)

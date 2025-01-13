@@ -4,6 +4,16 @@ Este repositório contém uma coleção de cheat sheets para várias tecnologias
 
 **Nota:** Estes cheat sheets foram construídos e atualizados com a ajuda do Chat-GPT.
 
+## Ghostwriter para Leitura
+
+Adicionamos o [Ghostwriter 2.1.6 Portable](./ghostwriter_2.1.6_win64_portable) ao repositório. Este editor minimalista de Markdown oferece:
+
+- **Visualização Limpa:** Veja o conteúdo em tempo real com temas customizáveis.
+- **Suporte ao Repositório:** Ideal para explorar e editar os cheat sheets.
+- **Portabilidade:** Funciona diretamente sem necessidade de instalação.
+
+---
+
 ## Conteúdo
 
 - [Docker](docker-cheat-sheet.md)
@@ -15,9 +25,10 @@ Este repositório contém uma coleção de cheat sheets para várias tecnologias
 - [ProxMox Virtual Environment](pve-cheat-sheet.md)
 - [TypeScript](typescript-cheat-sheet.md)
 - [Vite com React e TypeScript](vite-reactjs-ts-cheat-sheet.md)
-- [Vite e Vitest](vite-vitest-cheat-sheet.md)
 - [Visual Studio Code](vscode-cheat-sheet.md)
 - [Visual Studio Code Server](vscode-server-cheat-sheet.md)
+
+---
 
 ## Políticas de Uso de IA
 
@@ -26,6 +37,8 @@ Este repositório adota práticas éticas no uso de Inteligências Artificiais (
 - [Termo de Responsabilidade pelo Uso de IAs no Desenvolvimento](./AI-Usage-Policy/responsability.md): Declaração de princípios, regras e práticas relacionadas ao uso ético de IAs.
 - [Registros do ChatGPT](./AI-Usage-Policy/chatgpt.logs.md): Resumo das interações e contribuições realizadas com o suporte do ChatGPT.
 - [Registros do GitHub Copilot](./AI-Usage-Policy/ghcopilot.logs.md): Relatório sobre o uso e suporte fornecido pelo GitHub Copilot.
+
+---
 
 ## Script de Compressão
 
@@ -48,70 +61,14 @@ Para facilitar a compressão e envio de versões do projeto para análise ou rev
    ```
    Isso criará um arquivo ZIP na raiz do repositório com a data e hora atuais no nome.
 
+---
+
 ## Como Usar
 
 Cada arquivo de cheat sheet está organizado de forma a fornecer uma referência rápida e fácil para comandos e configurações comuns. Basta abrir o arquivo correspondente à tecnologia ou ferramenta que você está utilizando.
 
+---
+
 ## Contribuições
 
 Contribuições são bem-vindas! Se você deseja adicionar novos cheat sheets ou melhorar os existentes, sinta-se à vontade para abrir um pull request.
-
----
-
-# Development Cheat Sheets
-
-This repository contains a collection of cheat sheets for various development technologies and tools. Each file provides essential commands, configuration examples, and best practices to help developers work efficiently with these technologies.
-
-**Note:** These cheat sheets were built and updated with the help of Chat-GPT.
-
-## Contents
-
-- [Docker](docker-cheat-sheet.md)
-- [Jest with TypeScript and NestJS](jest-ts-nestjs-cheat-sheet.md)
-- [MongoDB](mongodb-cheat-sheet.md)
-- [Mongoose](mongoose-cheat-sheet.md)
-- [NestJS](nestjs-cheat-sheet.md)
-- [Node.js](nodejs-cheat-sheet.md)
-- [ProxMox Virtual Environment](pve-cheat-sheet.md)
-- [TypeScript](typescript-cheat-sheet.md)
-- [Vite with React and TypeScript](vite-reactjs-ts-cheat-sheet.md)
-- [Vite and Vitest](vite-vitest-cheat-sheet.md)
-- [Visual Studio Code](vscode-cheat-sheet.md)
-- [Visual Studio Code Server](vscode-server-cheat-sheet.md)
-
-## AI Usage Policies
-
-This repository adopts ethical practices in the use of Artificial Intelligence (AI) during development. Details about the use of these tools are documented in the [./AI-Usage-Policy](./AI-Usage-Policy) folder, which contains the following files:
-
-- [Responsibility Statement for the Use of AI in Development](./AI-Usage-Policy/responsability.md): Declaration of principles, rules, and practices related to the ethical use of AI.
-- [ChatGPT Logs](./AI-Usage-Policy/chatgpt.logs.md): Summary of interactions and contributions made with ChatGPT's support.
-- [GitHub Copilot Logs](./AI-Usage-Policy/ghcopilot.logs.md): Report on the use and support provided by GitHub Copilot.
-
-## Compression Script
-
-To facilitate project compression and submission for review or analysis, we included the `compress_project.sh` script. This script:
-
-- Compresses the current repository into a ZIP file with high compression.
-- Names the file in the format `md_cheat-sheets_<timestamp>.zip`.
-- Automates the process of generating dated backups.
-
-### Using the Script
-
-1. Ensure the script is in the root directory of the repository.
-2. Make the script executable:
-   ```bash
-   chmod +x compress_project.sh
-   ```
-3. Run the script:
-   ```bash
-   ./compress_project.sh
-   ```
-   This will create a ZIP file in the root directory of the repository, with the current date and time in the name.
-
-## How to Use
-
-Each cheat sheet file is organized to provide a quick and easy reference for common commands and configurations. Simply open the file corresponding to the technology or tool you are using.
-
-## Contributions
-
-Contributions are welcome! If you want to add new cheat sheets or improve existing ones, feel free to open a pull request.

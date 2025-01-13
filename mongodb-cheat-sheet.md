@@ -1,232 +1,279 @@
-Here's an updated Mongoose cheat sheet for 2024, highlighting current best practices and noting deprecated functions and attributes.
+# MongoDB Cheat Sheet (Atualizado em Janeiro de 2025)
 
-**Installation**
+Este cheat sheet atualizado cobre os comandos essenciais, melhores práticas e recursos para MongoDB, com foco em administração, desenvolvimento e manutenção. As informações são baseadas nas últimas versões do MongoDB e seguem as recomendações oficiais.
+
+## Índice (pt-BR)
+
+1. [O que é o MongoDB?](#o-que-e-o-mongodb)
+2. [Instalação](#instalacao)
+3. [Comandos de Banco de Dados](#comandos-de-banco-de-dados)
+4. [Comandos de Coleções](#comandos-de-colecoes)
+5. [Operações com Documentos](#operacoes-com-documentos)
+6. [Operadores de Consulta](#operadores-de-consulta)
+7. [Framework de Agregação](#framework-de-agregacao)
+8. [Indexação](#indexacao)
+9. [Recursos Depreciados](#recursos-depreciados)
+10. [Referências Adicionais](#referencias-adicionais)
+
+## Table of Contents (en-US)
+
+1. [What is MongoDB?](#what-is-mongodb)
+2. [Installation](#installation)
+3. [Database Commands](#database-commands)
+4. [Collection Commands](#collection-commands)
+5. [Document Operations](#document-operations)
+6. [Query Operators](#query-operators)
+7. [Aggregation Framework](#aggregation-framework)
+8. [Indexing](#indexing)
+9. [Deprecated Features](#deprecated-features)
+10. [Additional References](#additional-references)
+
+---
+
+### O que é o MongoDB? (pt-BR)
+
+MongoDB é um banco de dados NoSQL orientado a documentos, projetado para lidar com grandes volumes de dados não estruturados e semi-estruturados. Ele armazena dados no formato JSON (ou BSON) e é altamente escalável, suportando consultas complexas e índices avançados.
+
+- **Flexível**: Modelos de dados dinâmicos sem esquemas rígidos.
+- **Escalável**: Suporte a particionamento e replicação.
+- **Consultas Ricas**: Suporte a operadores complexos.
+
+Mais informações: [MongoDB Official Docs](https://www.mongodb.com/docs/).
+
+### What is MongoDB? (en-US)
+
+MongoDB is a NoSQL document-oriented database designed to handle large volumes of unstructured and semi-structured data. It stores data in JSON (or BSON) format and is highly scalable, supporting complex queries and advanced indexing.
+
+- **Flexible**: Dynamic data models without rigid schemas.
+- **Scalable**: Supports sharding and replication.
+- **Rich Queries**: Comprehensive operator support.
+
+More information: [MongoDB Official Docs](https://www.mongodb.com/docs/).
+
+---
+
+### Instalação (pt-BR)
+
+Para instalar o MongoDB:
 
 ```bash
-npm install mongoose
+# No Ubuntu
+wget -qO - https://www.mongodb.org/static/pgp/server-6.0.asc | sudo apt-key add -
+echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/6.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-6.0.list
+sudo apt update
+sudo apt install -y mongodb-org
+
+# Inicie o serviço
+sudo systemctl start mongod
 ```
 
-**Connecting to MongoDB**
+### Installation (en-US)
 
-```javascript
-const mongoose = require('mongoose');
+To install MongoDB:
 
-mongoose.connect('mongodb://localhost:27017/my_database', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-})
-  .then(() => console.log('Connected to MongoDB'))
-  .catch((err) => console.error('Connection error', err));
+```bash
+# On Ubuntu
+wget -qO - https://www.mongodb.org/static/pgp/server-6.0.asc | sudo apt-key add -
+echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/6.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-6.0.list
+sudo apt update
+sudo apt install -y mongodb-org
+
+# Start the service
+sudo systemctl start mongod
 ```
 
-**Defining a Schema**
+---
+
+### Comandos de Banco de Dados (pt-BR)
+
+- **Exibir Bancos de Dados**:
 
 ```javascript
-const userSchema = new mongoose.Schema({
-  name: { type: String, required: true },
-  email: { type: String, required: true, unique: true },
-  age: Number,
-  createdAt: { type: Date, default: Date.now },
-});
+show dbs;
 ```
 
-**Creating a Model**
+- **Selecionar ou Criar Banco de Dados**:
 
 ```javascript
-const User = mongoose.model('User', userSchema);
+use <nome_do_banco>;
 ```
 
-**CRUD Operations**
-
-- **Create**
-
-  ```javascript
-  const newUser = new User({
-    name: 'John Doe',
-    email: 'john.doe@example.com',
-    age: 30,
-  });
-
-  newUser.save()
-    .then(user => console.log('User saved:', user))
-    .catch(err => console.error('Save error', err));
-  ```
-
-- **Read**
-
-  ```javascript
-  // Find all users
-  User.find()
-    .then(users => console.log('All users:', users))
-    .catch(err => console.error('Find error', err));
-
-  // Find by ID
-  User.findById('user_id')
-    .then(user => console.log('User found:', user))
-    .catch(err => console.error('FindById error', err));
-  ```
-
-- **Update**
-
-  ```javascript
-  // Update by ID
-  User.findByIdAndUpdate(
-    'user_id',
-    { age: 31 },
-    { new: true, runValidators: true } // Returns the updated document
-  )
-    .then(user => console.log('User updated:', user))
-    .catch(err => console.error('Update error', err));
-  ```
-
-- **Delete**
-
-  ```javascript
-  // Delete by ID
-  User.findByIdAndDelete('user_id')
-    .then(() => console.log('User deleted'))
-    .catch(err => console.error('Delete error', err));
-  ```
-
-**Deprecated Functions and Their Replacements**
-
-Mongoose has deprecated certain functions to align with MongoDB's CRUD specifications.
-
-- **`remove()`**
-
-  Deprecated in favor of `deleteOne()` and `deleteMany()`.
-
-  ```javascript
-  // Replace this:
-  User.remove({ age: { $lt: 18 } });
-
-  // With this:
-  User.deleteMany({ age: { $lt: 18 } });
-  ```
-
-- **`update()`**
-
-  Deprecated in favor of `updateOne()`, `updateMany()`, and `replaceOne()`.
-
-  ```javascript
-  // Replace this:
-  User.update({ name: 'John' }, { age: 32 });
-
-  // With this:
-  User.updateOne({ name: 'John' }, { age: 32 });
-  ```
-
-- **`count()`**
-
-  Deprecated in favor of `countDocuments()` and `estimatedDocumentCount()`.
-
-  ```javascript
-  // Replace this:
-  User.count({ age: { $gt: 18 } });
-
-  // With this:
-  User.countDocuments({ age: { $gt: 18 } });
-  ```
-
-**Querying**
-
-- **Filtering**
-
-  ```javascript
-  // Find users older than 25
-  User.find({ age: { $gt: 25 } })
-    .then(users => console.log('Users found:', users))
-    .catch(err => console.error('Find error', err));
-  ```
-
-- **Sorting**
-
-  ```javascript
-  // Sort users by name in ascending order
-  User.find().sort({ name: 1 })
-    .then(users => console.log('Sorted users:', users))
-    .catch(err => console.error('Sort error', err));
-  ```
-
-- **Pagination**
-
-  ```javascript
-  const pageSize = 10;
-  const pageNumber = 2;
-
-  User.find()
-    .skip((pageNumber - 1) * pageSize)
-    .limit(pageSize)
-    .then(users => console.log('Paginated users:', users))
-    .catch(err => console.error('Pagination error', err));
-  ```
-
-**Validation**
-
-Mongoose provides built-in validators and the ability to create custom validation logic.
-
-- **Built-in Validation**
-
-  ```javascript
-  const productSchema = new mongoose.Schema({
-    name: { type: String, required: true },
-    price: { type: Number, min: 0 },
-    category: {
-      type: String,
-      enum: ['Electronics', 'Books', 'Clothing'],
-    },
-  });
-  ```
-
-- **Custom Validation**
-
-  ```javascript
-  const userSchema = new mongoose.Schema({
-    username: {
-      type: String,
-      validate: {
-        validator: function(v) {
-          return /\w{5,}/.test(v); // At least 5 alphanumeric characters
-        },
-        message: props => `${props.value} is not a valid username!`,
-      },
-      required: [true, 'User name required'],
-    },
-  });
-  ```
-
-**Middleware (Hooks)**
-
-Mongoose supports middleware for handling logic before or after certain operations.
-
-- **Pre-save Hook**
-
-  ```javascript
-  userSchema.pre('save', function(next) {
-    this.updatedAt = Date.now();
-    next();
-  });
-  ```
-
-- **Post-save Hook**
-
-  ```javascript
-  userSchema.post('save', function(doc) {
-    console.log('%s has been saved', doc._id);
-  });
-  ```
-
-**Indexes**
-
-Indexes improve query performance. Define them in your schema.
+- **Excluir Banco de Dados**:
 
 ```javascript
-userSchema.index({ email: 1 }); // 1 for ascending order
+db.dropDatabase();
 ```
 
-**Population**
+### Database Commands (en-US)
 
-Populate is used for referencing documents in other collections.
+- **Show Databases**:
 
 ```javascript
-const postSchema = 
+show dbs;
+```
+
+- **Select or Create a Database**:
+
+```javascript
+use <database_name>;
+```
+
+- **Drop a Database**:
+
+```javascript
+db.dropDatabase();
+```
+
+---
+
+### Comandos de Coleções (pt-BR)
+
+- **Exibir Coleções**:
+
+```javascript
+show collections;
+```
+
+- **Criar uma Coleção**:
+
+```javascript
+db.createCollection("nome_da_colecao");
+```
+
+- **Excluir uma Coleção**:
+
+```javascript
+db.nome_da_colecao.drop();
+```
+
+### Collection Commands (en-US)
+
+- **Show Collections**:
+
+```javascript
+show collections;
+```
+
+- **Create a Collection**:
+
+```javascript
+db.createCollection("collection_name");
+```
+
+- **Drop a Collection**:
+
+```javascript
+db.collection_name.drop();
+```
+
+---
+
+### Operações com Documentos (pt-BR)
+
+- **Inserir um Documento**:
+
+```javascript
+db.collection_name.insertOne({ key: "value" });
+```
+
+- **Encontrar um Documento**:
+
+```javascript
+db.collection_name.find({ key: "value" });
+```
+
+### Document Operations (en-US)
+
+- **Insert a Document**:
+
+```javascript
+db.collection_name.insertOne({ key: "value" });
+```
+
+- **Find a Document**:
+
+```javascript
+db.collection_name.find({ key: "value" });
+```
+
+---
+
+### Operadores de Consulta (pt-BR)
+
+- **Comparação**:
+
+```javascript
+$eq, $ne, $gt, $lt, $gte, $lte
+```
+
+### Query Operators (en-US)
+
+- **Comparison**:
+
+```javascript
+$eq, $ne, $gt, $lt, $gte, $lte
+```
+
+---
+
+### Framework de Agregação (pt-BR)
+
+Exemplo:
+
+```javascript
+db.collection_name.aggregate([
+  { $match: { status: "A" } },
+  { $group: { _id: "$cust_id", total: { $sum: "$amount" } } }
+]);
+```
+
+### Aggregation Framework (en-US)
+
+Example:
+
+```javascript
+db.collection_name.aggregate([
+  { $match: { status: "A" } },
+  { $group: { _id: "$cust_id", total: { $sum: "$amount" } } }
+]);
+```
+
+---
+
+### Indexação (pt-BR)
+
+- **Criar um Índice**:
+
+```javascript
+db.collection_name.createIndex({ key: 1 });
+```
+
+### Indexing (en-US)
+
+- **Create an Index**:
+
+```javascript
+db.collection_name.createIndex({ key: 1 });
+```
+
+---
+
+### Recursos Depreciados (pt-BR)
+
+Consulte os recursos obsoletos na [documentação oficial do MongoDB](https://www.mongodb.com/docs/).
+
+### Deprecated Features (en-US)
+
+Refer to deprecated features in the [official MongoDB documentation](https://www.mongodb.com/docs/).
+
+---
+
+### Referências Adicionais (pt-BR)
+
+- [Documentação Oficial do MongoDB](https://www.mongodb.com/docs/)
+- [Guia de Agregação](https://www.mongodb.com/docs/manual/aggregation/)
+
+### Additional References (en-US)
+
+- [MongoDB Official Documentation](https://www.mongodb.com/docs/)
+- [Aggregation Guide](https://www.mongodb.com/docs/manual/aggregation/)

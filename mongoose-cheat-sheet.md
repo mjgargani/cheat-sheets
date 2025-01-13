@@ -1,135 +1,253 @@
-Here's an updated cheat sheet for setting up and working with a React 19 project using Vite and TypeScript as of December 2024. This guide also highlights deprecated functions and attributes to help you maintain modern and efficient code.
+# Mongoose Cheat Sheet (Atualizado em Janeiro de 2025)
 
-**1. Setting Up a New Project**
+Este cheat sheet aborda o uso do Mongoose, uma biblioteca de modelagem para MongoDB, detalhando comandos essenciais, melhores práticas e abstrações pedagógicas para facilitar o aprendizado.
 
-To create a new React project with Vite and TypeScript, run:
+## Índice (pt-BR)
+
+1. [O que é o Mongoose?](#o-que-e-o-mongoose)
+2. [Instalação](#instalacao)
+3. [Conectando ao MongoDB](#conectando-ao-mongodb)
+4. [Definição de Esquema](#definicao-de-esquema)
+5. [Operações CRUD](#operacoes-crud)
+6. [Validações e Middleware](#validacoes-e-middleware)
+7. [População de Dados](#populacao-de-dados)
+8. [Recursos Depreciados](#recursos-depreciados)
+9. [Referências Adicionais](#referencias-adicionais)
+
+## Table of Contents (en-US)
+
+1. [What is Mongoose?](#what-is-mongoose)
+2. [Installation](#installation)
+3. [Connecting to MongoDB](#connecting-to-mongodb)
+4. [Schema Definition](#schema-definition)
+5. [CRUD Operations](#crud-operations)
+6. [Validations and Middleware](#validations-and-middleware)
+7. [Data Population](#data-population)
+8. [Deprecated Features](#deprecated-features)
+9. [Additional References](#additional-references)
+
+---
+
+### O que é o Mongoose? (pt-BR)
+
+Mongoose é uma biblioteca de modelagem para MongoDB que fornece uma interface rigorosa para criar, consultar, atualizar e excluir documentos. Ele abstrai detalhes complexos do MongoDB, permitindo foco no modelo de dados.
+
+- **Modelagem Avançada**: Crie esquemas detalhados com validação embutida.
+- **Middleware Poderoso**: Execute lógica personalizada antes ou depois de ações.
+- **População de Dados**: Relacione coleções com facilidade.
+
+Mais informações: [Mongoose Docs](https://mongoosejs.com/).
+
+### What is Mongoose? (en-US)
+
+Mongoose is a MongoDB modeling library that provides a strict interface for creating, querying, updating, and deleting documents. It abstracts complex MongoDB details, allowing you to focus on data modeling.
+
+- **Advanced Modeling**: Create detailed schemas with built-in validation.
+- **Powerful Middleware**: Execute custom logic before or after actions.
+- **Data Population**: Easily relate collections.
+
+More information: [Mongoose Docs](https://mongoosejs.com/).
+
+---
+
+### Instalação (pt-BR)
 
 ```bash
-npm create vite@latest my-react-app -- --template react-ts
+npm install mongoose
 ```
 
-This command initializes a new Vite project with React and TypeScript templates. 
+### Installation (en-US)
 
-**2. Project Structure**
-
-After setup, your project structure will resemble:
-
-```
-my-react-app/
-├── node_modules/
-├── public/
-│   └── index.html
-├── src/
-│   ├── App.tsx
-│   ├── main.tsx
-│   └── vite-env.d.ts
-├── .gitignore
-├── index.html
-├── package.json
-├── tsconfig.json
-└── vite.config.ts
+```bash
+npm install mongoose
 ```
 
-**3. Vite Configuration (`vite.config.ts`)**
+---
 
-Configure Vite to work seamlessly with React and TypeScript:
+### Conectando ao MongoDB (pt-BR)
 
-```typescript
-import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
+```javascript
+const mongoose = require('mongoose');
 
-export default defineConfig({
-  plugins: [react()],
-  server: {
-    open: true,
+mongoose.connect('mongodb://localhost:27017/my_database', {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+})
+  .then(() => console.log('Conectado ao MongoDB'))
+  .catch((err) => console.error('Erro de conexão', err));
+```
+
+### Connecting to MongoDB (en-US)
+
+```javascript
+const mongoose = require('mongoose');
+
+mongoose.connect('mongodb://localhost:27017/my_database', {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+})
+  .then(() => console.log('Connected to MongoDB'))
+  .catch((err) => console.error('Connection error', err));
+```
+
+---
+
+### Definição de Esquema (pt-BR)
+
+```javascript
+const userSchema = new mongoose.Schema({
+  name: { type: String, required: true },
+  email: { type: String, required: true, unique: true },
+  age: Number,
+  createdAt: { type: Date, default: Date.now },
+});
+```
+
+### Schema Definition (en-US)
+
+```javascript
+const userSchema = new mongoose.Schema({
+  name: { type: String, required: true },
+  email: { type: String, required: true, unique: true },
+  age: Number,
+  createdAt: { type: Date, default: Date.now },
+});
+```
+
+---
+
+### Operações CRUD (pt-BR)
+
+**Criação**:
+
+```javascript
+const User = mongoose.model('User', userSchema);
+
+const newUser = new User({
+  name: 'João',
+  email: 'joao@example.com',
+  age: 30,
+});
+
+newUser.save()
+  .then(user => console.log('Usuário salvo:', user))
+  .catch(err => console.error('Erro ao salvar:', err));
+```
+
+**Leitura**:
+
+```javascript
+User.find()
+  .then(users => console.log('Usuários:', users))
+  .catch(err => console.error('Erro na consulta:', err));
+```
+
+### CRUD Operations (en-US)
+
+**Create**:
+
+```javascript
+const User = mongoose.model('User', userSchema);
+
+const newUser = new User({
+  name: 'John',
+  email: 'john@example.com',
+  age: 30,
+});
+
+newUser.save()
+  .then(user => console.log('User saved:', user))
+  .catch(err => console.error('Save error:', err));
+```
+
+**Read**:
+
+```javascript
+User.find()
+  .then(users => console.log('Users:', users))
+  .catch(err => console.error('Query error:', err));
+```
+
+---
+
+### Validações e Middleware (pt-BR)
+
+- **Validação Customizada**:
+
+```javascript
+const userSchema = new mongoose.Schema({
+  username: {
+    type: String,
+    validate: {
+      validator: (v) => /\w{5,}/.test(v),
+      message: (props) => `${props.value} não é um nome de usuário válido!`,
+    },
+    required: [true, 'Nome de usuário é obrigatório'],
   },
 });
 ```
 
-This setup includes the React plugin and configures the development server to open automatically. 
+### Validations and Middleware (en-US)
 
-**4. TypeScript Configuration (`tsconfig.json`)**
+- **Custom Validation**:
 
-Ensure your TypeScript configuration is optimized for React:
-
-```json
-{
-  "compilerOptions": {
-    "target": "ESNext",
-    "module": "ESNext",
-    "jsx": "react-jsx",
-    "strict": true,
-    "moduleResolution": "node",
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true
+```javascript
+const userSchema = new mongoose.Schema({
+  username: {
+    type: String,
+    validate: {
+      validator: (v) => /\w{5,}/.test(v),
+      message: (props) => `${props.value} is not a valid username!`,
+    },
+    required: [true, 'Username is required'],
   },
-  "include": ["src"]
-}
+});
 ```
 
-**5. Running the Development Server**
+---
 
-Start the development server with:
+### População de Dados (pt-BR)
 
-```bash
-npm run dev
+```javascript
+const postSchema = new mongoose.Schema({
+  title: String,
+  author: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+});
+
+const Post = mongoose.model('Post', postSchema);
+Post.find().populate('author').exec();
 ```
 
-Access your application at `http://localhost:3000`.
+### Data Population (en-US)
 
-**6. Building for Production**
+```javascript
+const postSchema = new mongoose.Schema({
+  title: String,
+  author: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+});
 
-To create an optimized production build:
-
-```bash
-npm run build
+const Post = mongoose.model('Post', postSchema);
+Post.find().populate('author').exec();
 ```
 
-The output will be in the `dist` directory.
+---
 
-**7. Deprecated Features in React 19**
+### Recursos Depreciados (pt-BR)
 
-React 19 has deprecated certain features to encourage better practices:
+Consulte os recursos obsoletos na [documentação oficial do Mongoose](https://mongoosejs.com/docs/).
 
-- **`propTypes` and `defaultProps` for Function Components**: These have been removed. For function components, use TypeScript interfaces and default parameters instead. 
+### Deprecated Features (en-US)
 
-  *Example Transition:*
+Refer to deprecated features in the [official Mongoose documentation](https://mongoosejs.com/docs/).
 
-  ```typescript
-  // Before
-  import PropTypes from 'prop-types';
+---
 
-  function Heading({ text }) {
-    return <h1>{text}</h1>;
-  }
+### Referências Adicionais (pt-BR)
 
-  Heading.propTypes = {
-    text: PropTypes.string,
-  };
+- [Documentação Oficial do Mongoose](https://mongoosejs.com/docs/)
+- [Validações no Mongoose](https://mongoosejs.com/docs/validation.html)
 
-  Heading.defaultProps = {
-    text: 'Hello, world!',
-  };
+### Additional References (en-US)
 
-  // After
-  interface HeadingProps {
-    text?: string;
-  }
-
-  function Heading({ text = 'Hello, world!' }: HeadingProps) {
-    return <h1>{text}</h1>;
-  }
-  ```
-
-- **Error Handling Changes**: Errors in render are no longer re-thrown, reducing duplication. Uncaught errors are reported to `window.reportError`, and caught errors are reported to `console.error`. 
-
-**8. Additional Resources**
-
-- **React TypeScript Cheatsheets**: Comprehensive guides for using React with TypeScript. 
-
-- **Vite Documentation**: Official documentation for Vite.
-
-- **React 19 Upgrade Guide**: Detailed information on upgrading to React 19 and handling deprecated features. 
-
-By following this cheat sheet, you can set up a modern React project with Vite and TypeScript, while adhering to the latest best practices and avoiding deprecated features. 
+- [Mongoose Official Documentation](https://mongoosejs.com/docs/)
+- [Mongoose Validations](https://mongoosejs.com/docs/validation.html)
