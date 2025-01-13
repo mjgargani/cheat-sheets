@@ -1,7 +1,10 @@
 #!/bin/bash
 
-# Nome do repositório (ou diretório)
-REPO_DIR="md_cheat-sheets"
+# Nome do repositório
+REPO_NAME="md_cheat-sheets"
+
+# Diretório (se for o caso)
+REPO_DIR="./"
 
 # Verifica se o diretório existe
 if [ ! -d "$REPO_DIR" ]; then
@@ -13,7 +16,7 @@ fi
 TIMESTAMP=$(date +"%Y-%m-%d_%H-%M-%S")
 
 # Nome do arquivo ZIP
-ZIP_FILE="${REPO_DIR}_${TIMESTAMP}.zip"
+ZIP_FILE="${REPO_NAME}_${TIMESTAMP}.zip"
 
 # Compacta o repositório com alta compressão (-9)
 zip -r -9 "$ZIP_FILE" "$REPO_DIR"
