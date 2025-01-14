@@ -1,5 +1,3 @@
-### **Português (pt-BR)**
-
 # Cheat Sheets de Desenvolvimento
 
 Este repositório contém uma coleção de cheat sheets para várias tecnologias e ferramentas de desenvolvimento. Cada arquivo fornece comandos essenciais, exemplos de configuração e práticas recomendadas para ajudar os desenvolvedores a trabalhar de forma eficiente com essas tecnologias.
@@ -20,10 +18,8 @@ Para instruções específicas sobre o uso do Ghostwriter, consulte o arquivo [i
 
 ## Conteúdo
 
-### AI-Usage-Policy
-- [Termo de Responsabilidade](./AI-Usage-Policy/responsability.md)
-- [Registros do ChatGPT](./AI-Usage-Policy/chatgpt.logs.md)
-- [Registros do GitHub Copilot](./AI-Usage-Policy/ghcopilot.logs.md)
+### AI-Usage
+- [Termo de Responsabilidade](./ai-usage/responsability.md)
 
 ### Cheat Sheets
 #### Networking
@@ -33,19 +29,26 @@ Para instruções específicas sobre o uso do Ghostwriter, consulte o arquivo [i
 - **JavaScript**
   - [Vanilla JavaScript](./cheat-sheets/programming/javascript/vanilla.md)
 - **MongoDB**
-  - [Cheat Sheet do MongoDB](./cheat-sheets/programming/mongodb/mongodb-cheat-sheet.md)
-  - [Cheat Sheet do Mongoose](./cheat-sheets/programming/mongodb/mongoose-cheat-sheet.md)
+  - [MongoDB Cheat Sheet](./cheat-sheets/programming/mongodb/mongodb-cheat-sheet.md)
+  - [Mongoose Cheat Sheet](./cheat-sheets/programming/mongodb/mongoose-cheat-sheet.md)
 - **NestJS**
+  - [DTOs e Relações](./cheat-sheets/programming/nestjs/dtos-relations.md)
   - [Cheat Sheet do Jest com TypeScript e NestJS](./cheat-sheets/programming/nestjs/jest-ts-nestjs-cheat-sheet.md)
   - [Cheat Sheet do NestJS](./cheat-sheets/programming/nestjs/nestjs-cheat-sheet.md)
+  - [Validação com Class Validator](./cheat-sheets/programming/nestjs/nestjs-class-validator.md)
+  - [DTO Genérico no NestJS](./cheat-sheets/programming/nestjs/nestjs-dto-generic.md)
+  - [DTO com ORM/ODM no NestJS](./cheat-sheets/programming/nestjs/nestjs-dto-orm-odm.md)
+  - [NestJS DTOs](./cheat-sheets/programming/nestjs/nestjs-dtos.md)
+  - [Segurança no NestJS](./cheat-sheets/programming/nestjs/nestjs-security.md)
 - **Node.js**
-  - [Cheat Sheet do Node.js](./cheat-sheets/programming/nodejs/nodejs-cheat-sheet.md)
+  - [Node.js Cheat Sheet](./cheat-sheets/programming/nodejs/nodejs-cheat-sheet.md)
   - [Vite com React e TypeScript](./cheat-sheets/programming/nodejs/vite-reactjs-ts-cheat-sheet.md)
   - [Vite com Vitest](./cheat-sheets/programming/nodejs/vite-vitest-cheat-sheet.md)
 - **Shell**
   - [Shell Scripting](./cheat-sheets/programming/shell/scripting.md)
 - **TypeScript**
-  - [Cheat Sheet do TypeScript](./cheat-sheets/programming/typescript/typescript-cheat-sheet.md)
+  - [Decorators no NestJS](./cheat-sheets/programming/typescript/decorators-nestjs.md)
+  - [TypeScript Cheat Sheet](./cheat-sheets/programming/typescript/typescript-cheat-sheet.md)
 
 #### Servers
 - **Files**
@@ -56,15 +59,15 @@ Para instruções específicas sobre o uso do Ghostwriter, consulte o arquivo [i
 
 #### Systems
 - **Docker**
-  - [Cheat Sheet do Docker](./cheat-sheets/systems/docker/docker-cheat-sheet.md)
+  - [Docker Cheat Sheet](./cheat-sheets/systems/docker/docker-cheat-sheet.md)
 - **Linux**
   - [Estrutura de Pastas no Linux](./cheat-sheets/systems/linux/folder-structure.md)
   - [ProxMox Virtual Environment](./cheat-sheets/systems/linux/pve-cheat-sheet.md)
 
 #### Tools
 - **VSCode**
-  - [Cheat Sheet do VSCode](./cheat-sheets/tools/vscode/vscode-cheat-sheet.md)
-  - [Cheat Sheet do VSCode Server](./cheat-sheets/tools/vscode/vscode-server-cheat-sheet.md)
+  - [VSCode Cheat Sheet](./cheat-sheets/tools/vscode/vscode-cheat-sheet.md)
+  - [VSCode Server Cheat Sheet](./cheat-sheets/tools/vscode/vscode-server-cheat-sheet.md)
 
 ---
 

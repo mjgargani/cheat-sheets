@@ -25,7 +25,7 @@ No entanto, estabeleço regras claras e sustentáveis para garantir que a IA nã
 
 Por isso, antes que alguém questione se o código X ou Y foi copiado, este termo de responsabilidade é minha garantia. Registro aqui, na medida do possível, os conteúdos desenvolvidos ou dialogados com o suporte de IAs e faço as devidas referências para garantir que, caso utilize código autoral, os créditos sejam devidamente atribuídos.
 
-Se este termo ofender sua senioridade, fique à vontade para criar uma Issue ou enviar um Pull Request em qualquer um dos meus projetos (os que utilizarem IA terão uma pasta `./AI-Usage-Policy/`). Caso contrário, existem centenas de outros projetos disponíveis para consulta. Cada pessoa aprende de forma diferente, e, felizmente, encontrei a minha.
+Se este termo ofender sua senioridade, fique à vontade para criar uma Issue ou enviar um Pull Request em qualquer um dos meus projetos (os que utilizarem IA terão uma pasta `./ai-usage/`). Caso contrário, existem centenas de outros projetos disponíveis para consulta. Cada pessoa aprende de forma diferente, e, felizmente, encontrei a minha.
 
 **Com um grande abraço,  
 Rodrigo Gargani Oliveira**
@@ -59,7 +59,7 @@ However, I establish clear and sustainable rules to ensure that AI does not simp
 
 For this reason, before anyone questions whether code X or Y is copied, this responsibility statement serves as my guarantee. I document here, as much as possible, the content developed or discussed with the support of AI tools and provide proper references to ensure that, if any proprietary code is used, the appropriate credits are given.
 
-If this statement offends your sense of seniority, feel free to open an Issue or submit a Pull Request in any of my projects (those utilizing AI will include a `./AI-Usage-Policy/` folder). Otherwise, there are hundreds of other projects available for you to consult. Each individual learns in their own way, and fortunately, I have found mine.
+If this statement offends your sense of seniority, feel free to open an Issue or submit a Pull Request in any of my projects (those utilizing AI will include a `./ai-usage/` folder). Otherwise, there are hundreds of other projects available for you to consult. Each individual learns in their own way, and fortunately, I have found mine.
 
 **With warm regards,  
 Rodrigo Gargani Oliveira**
@@ -76,4 +76,4 @@ Rodrigo Gargani Oliveira**
 
 #### Signature
 
-d168f10012dfa7b88c77f11fdc2154851a16f46e774f87958a5b35b9c36df1a7
+e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
