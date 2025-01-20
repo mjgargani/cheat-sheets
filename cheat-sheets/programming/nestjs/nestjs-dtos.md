@@ -1,22 +1,22 @@
-### DTOs no NestJS - Cheat Sheet (2025)
+### DTOs in NestJS - Cheat Sheet (2025)
 
-#### O que são DTOs?
-- **Data Transfer Objects (DTOs)** são objetos usados para transferir dados entre diferentes camadas de uma aplicação, garantindo validação, consistência e segurança.
-- No NestJS, são usados para:
-  - Validar a entrada de dados.
-  - Definir contratos entre controladores e serviços.
-  - Melhorar a organização e a manutenibilidade do código.
+#### What Are DTOs?
+- **Data Transfer Objects (DTOs)** are objects used to transfer data between different layers of an application, ensuring validation, consistency, and security.
+- In NestJS, DTOs are used to:
+  - Validate incoming data.
+  - Define contracts between controllers and services.
+  - Improve code organization and maintainability.
 
 ---
 
-### Criando DTOs no NestJS
+### Creating DTOs in NestJS
 
-#### 1. Instalar Dependências Necessárias
+#### 1. Install Required Dependencies
 ```bash
 npm install class-validator class-transformer
 ```
 
-#### 2. Definir um DTO Básico
+#### 2. Define a Basic DTO
 ```typescript
 import { IsString, IsInt, Min, Max } from 'class-validator';
 
@@ -33,10 +33,10 @@ export class CreateUserDto {
 
 ---
 
-### Recursos Avançados
+### Advanced Features
 
-#### 1. **Validação Aninhada**
-- Para validar objetos dentro de objetos:
+#### 1. **Nested Validation**
+- To validate objects within objects:
 ```typescript
 import { Type } from 'class-transformer';
 import { ValidateNested, IsString } from 'class-validator';
@@ -59,8 +59,8 @@ export class CreateUserDto {
 }
 ```
 
-#### 2. **Parâmetros Opcionais**
-- Use decoradores como `@IsOptional()` para tornar campos opcionais.
+#### 2. **Optional Parameters**
+- Use decorators like `@IsOptional()` to make fields optional.
 ```typescript
 import { IsString, IsOptional } from 'class-validator';
 
@@ -71,8 +71,8 @@ export class UpdateUserDto {
 }
 ```
 
-#### 3. **Transformação Automática**
-- Use `@Transform` para modificar valores automaticamente:
+#### 3. **Automatic Transformation**
+- Use `@Transform` to modify values automatically:
 ```typescript
 import { Transform } from 'class-transformer';
 
@@ -83,26 +83,26 @@ export class CreateUserDto {
 }
 ```
 
-#### 4. **Whitelist e ForbidUnknownValues**
-- Configurar `ValidationPipe` para remover propriedades desconhecidas ou lançar erros:
+#### 4. **Whitelist and ForbidUnknownValues**
+- Configure `ValidationPipe` to remove unknown properties or throw errors:
 ```typescript
 import { ValidationPipe } from '@nestjs/common';
 
 app.useGlobalPipes(new ValidationPipe({
-  whitelist: true, // Remove propriedades não definidas no DTO
-  forbidNonWhitelisted: true, // Lança erro para propriedades não definidas
+  whitelist: true, // Removes undefined properties
+  forbidNonWhitelisted: true, // Throws error for unknown properties
 }));
 ```
 
 ---
 
-### Práticas Recomendadas
+### Best Practices
 
-1. **Segregar DTOs por Contexto**
-   - Crie DTOs específicos para diferentes operações (ex.: `CreateUserDto`, `UpdateUserDto`).
+1. **Segregate DTOs by Context**
+   - Create specific DTOs for different operations (e.g., `CreateUserDto`, `UpdateUserDto`).
 
-2. **Validação Customizada**
-   - Crie decoradores personalizados para regras específicas:
+2. **Custom Validation**
+   - Create custom decorators for specific rules:
    ```typescript
    import { registerDecorator, ValidationOptions, ValidationArguments } from 'class-validator';
 
@@ -123,39 +123,39 @@ app.useGlobalPipes(new ValidationPipe({
    }
    ```
 
-   Uso:
+   Usage:
    ```typescript
    import { IsPositive } from './custom-decorators';
 
    export class ProductDto {
-     @IsPositive({ message: 'O valor deve ser positivo!' })
+     @IsPositive({ message: 'Value must be positive!' })
      price: number;
    }
    ```
 
-3. **Documentação com Swagger**
-   - Para gerar automaticamente a documentação dos DTOs:
+3. **Documentation with Swagger**
+   - Automatically generate documentation for DTOs:
    ```typescript
    import { ApiProperty } from '@nestjs/swagger';
 
    export class CreateUserDto {
-     @ApiProperty({ description: 'Nome do usuário' })
+     @ApiProperty({ description: 'Name of the user' })
      name: string;
 
-     @ApiProperty({ description: 'Idade do usuário', minimum: 18, maximum: 100 })
+     @ApiProperty({ description: 'Age of the user', minimum: 18, maximum: 100 })
      age: number;
    }
    ```
 
-   Instale o Swagger no projeto:
+   Install Swagger:
    ```bash
    npm install @nestjs/swagger swagger-ui-express
    ```
 
 ---
 
-### Fontes e Referências
-- [Documentação Oficial do NestJS - Pipes](https://docs.nestjs.com/pipes)
+### References
+- [NestJS Documentation - Pipes](https://docs.nestjs.com/pipes)
 - [Class Validator GitHub](https://github.com/typestack/class-validator)
 - [Class Transformer GitHub](https://github.com/typestack/class-transformer)
 - [NestJS Swagger](https://docs.nestjs.com/openapi/introduction)

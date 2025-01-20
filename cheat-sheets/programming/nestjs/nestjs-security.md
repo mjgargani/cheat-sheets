@@ -1,13 +1,13 @@
-# JWT Decorators e Guards no NestJS
+# JWT Decorators and Guards in NestJS Cheat Sheet
 
-Atualizado em: **Janeiro de 2025**  
-Este cheat-sheet cobre práticas modernas para usar Decorators e Guards no NestJS, especialmente com JWT, incluindo exemplos avançados.
+Updated: **January 2025**  
+This cheat sheet covers modern practices for using JWTs with custom decorators and guards in NestJS, including advanced examples.
 
 ---
 
-## **1. Decorators Customizados**
-### Criando um Decorator para Extrair o Usuário do JWT
-Você pode criar um Decorator para acessar dados do usuário diretamente no controller.
+## **1. Custom Decorators**
+### Creating a Decorator to Extract User from JWT
+You can create a custom decorator to access user data directly in a controller.
 
 ```typescript
 import { createParamDecorator, ExecutionContext } from '@nestjs/common';
@@ -15,12 +15,12 @@ import { createParamDecorator, ExecutionContext } from '@nestjs/common';
 export const CurrentUser = createParamDecorator(
   (data: unknown, ctx: ExecutionContext) => {
     const request = ctx.switchToHttp().getRequest();
-    return request.user; // Assumindo que o Passport.js popula request.user
+    return request.user; // Assuming Passport.js populates request.user
   },
 );
 ```
 
-**Uso no Controller:**
+**Usage in Controller:**
 ```typescript
 @Get('profile')
 getProfile(@CurrentUser() user: any) {
@@ -31,8 +31,8 @@ getProfile(@CurrentUser() user: any) {
 ---
 
 ## **2. JWT Auth Guard**
-### Implementando um Guard com `@nestjs/passport`
-O Guard é responsável por verificar se o JWT é válido.
+### Implementing a Guard with `@nestjs/passport`
+The guard verifies if the JWT is valid.
 
 ```typescript
 import { Injectable } from '@nestjs/common';
@@ -42,7 +42,7 @@ import { AuthGuard } from '@nestjs/passport';
 export class JwtAuthGuard extends AuthGuard('jwt') {}
 ```
 
-**Uso no Controller:**
+**Usage in Controller:**
 ```typescript
 @UseGuards(JwtAuthGuard)
 @Get('protected')
@@ -53,9 +53,9 @@ getProtectedData() {
 
 ---
 
-## **3. Estratégia JWT**
-### Configurando a Estratégia no Serviço
-A estratégia define como o JWT será validado.
+## **3. JWT Strategy**
+### Configuring the Strategy in the Service
+The strategy defines how the JWT is validated.
 
 ```typescript
 import { Injectable } from '@nestjs/common';
@@ -68,7 +68,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       ignoreExpiration: false,
-      secretOrKey: process.env.JWT_SECRET, // Armazene a chave em variáveis de ambiente
+      secretOrKey: process.env.JWT_SECRET, // Store the key in environment variables
     });
   }
 
@@ -80,9 +80,9 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
 
 ---
 
-## **4. Guards Customizados**
-### Exemplo: Guard de Permissão Personalizada
-Você pode criar um guard para verificar permissões específicas.
+## **4. Custom Guards**
+### Example: Custom Permission Guard
+Create a guard to check specific permissions.
 
 ```typescript
 import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common';
@@ -99,7 +99,7 @@ export class RolesGuard implements CanActivate {
 }
 ```
 
-**Uso no Controller:**
+**Usage in Controller:**
 ```typescript
 @UseGuards(new RolesGuard(['admin']))
 @Get('admin-area')
@@ -110,9 +110,9 @@ getAdminData() {
 
 ---
 
-## **5. Módulo de Autenticação**
-### Estrutura Completa de Configuração
-Certifique-se de registrar o módulo `JwtModule` corretamente no seu projeto.
+## **5. Authentication Module**
+### Full Configuration Setup
+Ensure the `JwtModule` is registered correctly in your project.
 
 ```typescript
 import { Module } from '@nestjs/common';
@@ -136,9 +136,10 @@ export class AuthModule {}
 
 ---
 
-## **6. Dicas Avançadas**
-### Middleware para Rastrear Requisições
-Adicione um middleware para rastrear o usuário nas requisições.
+## **6. Advanced Tips**
+
+### Middleware for Request Tracking
+Add middleware to log user activity for each request.
 
 ```typescript
 import { Injectable, NestMiddleware } from '@nestjs/common';
@@ -152,14 +153,14 @@ export class LoggerMiddleware implements NestMiddleware {
 }
 ```
 
-### Uso de Refresh Tokens
-Adicione suporte a Refresh Tokens para melhorar a experiência de login:
-- Salve o Refresh Token no banco de dados.
-- Valide-o ao invés de revalidar o JWT a cada requisição.
+### Refresh Tokens
+Add support for Refresh Tokens to enhance login experience:
+- Store the Refresh Token in the database.
+- Validate it instead of revalidating the JWT for every request.
 
 ---
 
-## **7. Referências**
+## **7. References**
 - [NestJS Documentation - Guards](https://docs.nestjs.com/guards)
 - [NestJS Documentation - Custom Decorators](https://docs.nestjs.com/custom-decorators)
 - [Passport JWT Strategy](http://www.passportjs.org/packages/passport-jwt/)

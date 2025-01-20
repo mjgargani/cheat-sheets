@@ -1,29 +1,20 @@
-# Cheat Sheets de Desenvolvimento
+# Development Cheat Sheets Repository
 
-Este repositório contém uma coleção de cheat sheets para várias tecnologias e ferramentas de desenvolvimento. Cada arquivo fornece comandos essenciais, exemplos de configuração e práticas recomendadas para ajudar os desenvolvedores a trabalhar de forma eficiente com essas tecnologias.
+This repository contains a collection of cheat sheets for various development tools and technologies. Each file provides essential commands, configuration examples, and best practices to help developers work efficiently.
 
-**Nota:** Estes cheat sheets foram construídos e atualizados com a ajuda do Chat-GPT.
-
-## Ghostwriter para Leitura
-
-Os arquivos deste repositório podem ser lidos e editados utilizando o [Ghostwriter](https://wereturtle.github.io/ghostwriter/), um editor minimalista de Markdown que oferece:
-
-- **Visualização Limpa:** Veja o conteúdo em tempo real com temas customizáveis.
-- **Suporte ao Repositório:** Ideal para explorar e editar os cheat sheets.
-- **Portabilidade:** Funciona diretamente sem necessidade de instalação.
-
-Para instruções específicas sobre o uso do Ghostwriter, consulte o arquivo [instructions.md](./ghostwriter/instructions.md) localizado na pasta `./ghostwriter`.
+**Note:** These cheat sheets were created and updated with the assistance of ChatGPT.
 
 ---
 
-## Conteúdo
+## Table of Contents
 
 ### AI-Usage
-- [Termo de Responsabilidade](./ai-usage/responsability.md)
+- [Responsibility Terms](./ai-usage/responsability.md)
 
 ### Cheat Sheets
+
 #### Networking
-- [Conceitos Avançados](./cheat-sheets/networking/advanced/concepts.md)
+- [Advanced Concepts](./cheat-sheets/networking/advanced/concepts.md)
 
 #### Programming
 - **JavaScript**
@@ -32,22 +23,22 @@ Para instruções específicas sobre o uso do Ghostwriter, consulte o arquivo [i
   - [MongoDB Cheat Sheet](./cheat-sheets/programming/mongodb/mongodb-cheat-sheet.md)
   - [Mongoose Cheat Sheet](./cheat-sheets/programming/mongodb/mongoose-cheat-sheet.md)
 - **NestJS**
-  - [DTOs e Relações](./cheat-sheets/programming/nestjs/dtos-relations.md)
-  - [Cheat Sheet do Jest com TypeScript e NestJS](./cheat-sheets/programming/nestjs/jest-ts-nestjs-cheat-sheet.md)
-  - [Cheat Sheet do NestJS](./cheat-sheets/programming/nestjs/nestjs-cheat-sheet.md)
-  - [Validação com Class Validator](./cheat-sheets/programming/nestjs/nestjs-class-validator.md)
-  - [DTO Genérico no NestJS](./cheat-sheets/programming/nestjs/nestjs-dto-generic.md)
-  - [DTO com ORM/ODM no NestJS](./cheat-sheets/programming/nestjs/nestjs-dto-orm-odm.md)
+  - [DTOs and Relations](./cheat-sheets/programming/nestjs/dtos-relations.md)
+  - [Jest with TypeScript and NestJS](./cheat-sheets/programming/nestjs/jest-ts-nestjs-cheat-sheet.md)
+  - [NestJS Cheat Sheet](./cheat-sheets/programming/nestjs/nestjs-cheat-sheet.md)
+  - [Class Validator in NestJS](./cheat-sheets/programming/nestjs/nestjs-class-validator.md)
+  - [Generic DTO in NestJS](./cheat-sheets/programming/nestjs/nestjs-dto-generic.md)
+  - [DTO with ORM/ODM in NestJS](./cheat-sheets/programming/nestjs/nestjs-dto-orm-odm.md)
   - [NestJS DTOs](./cheat-sheets/programming/nestjs/nestjs-dtos.md)
-  - [Segurança no NestJS](./cheat-sheets/programming/nestjs/nestjs-security.md)
+  - [Security in NestJS](./cheat-sheets/programming/nestjs/nestjs-security.md)
 - **Node.js**
   - [Node.js Cheat Sheet](./cheat-sheets/programming/nodejs/nodejs-cheat-sheet.md)
-  - [Vite com React e TypeScript](./cheat-sheets/programming/nodejs/vite-reactjs-ts-cheat-sheet.md)
-  - [Vite com Vitest](./cheat-sheets/programming/nodejs/vite-vitest-cheat-sheet.md)
+  - [Vite with React and TypeScript](./cheat-sheets/programming/nodejs/vite-reactjs-ts-cheat-sheet.md)
+  - [Vite with Vitest](./cheat-sheets/programming/nodejs/vite-vitest-cheat-sheet.md)
 - **Shell**
   - [Shell Scripting](./cheat-sheets/programming/shell/scripting.md)
 - **TypeScript**
-  - [Decorators no NestJS](./cheat-sheets/programming/typescript/decorators-nestjs.md)
+  - [Decorators in NestJS](./cheat-sheets/programming/typescript/decorators-nestjs.md)
   - [TypeScript Cheat Sheet](./cheat-sheets/programming/typescript/typescript-cheat-sheet.md)
 
 #### Servers
@@ -55,14 +46,14 @@ Para instruções específicas sobre o uso do Ghostwriter, consulte o arquivo [i
   - [Linux File Server](./cheat-sheets/servers/files/linux.md)
   - [Windows File Server](./cheat-sheets/servers/files/windows.md)
 - **Web**
-  - [Node.js Básico](./cheat-sheets/servers/web/basics-nodejs.md)
+  - [Node.js Basics](./cheat-sheets/servers/web/basics-nodejs.md)
 
 #### Systems
 - **Docker**
   - [Docker Cheat Sheet](./cheat-sheets/systems/docker/docker-cheat-sheet.md)
 - **Linux**
-  - [Estrutura de Pastas no Linux](./cheat-sheets/systems/linux/folder-structure.md)
-  - [ProxMox Virtual Environment](./cheat-sheets/systems/linux/pve-cheat-sheet.md)
+  - [Linux Folder Structure](./cheat-sheets/systems/linux/folder-structure.md)
+  - [Proxmox Virtual Environment](./cheat-sheets/systems/linux/pve-cheat-sheet.md)
 
 #### Tools
 - **VSCode**
@@ -71,35 +62,35 @@ Para instruções específicas sobre o uso do Ghostwriter, consulte o arquivo [i
 
 ---
 
-## Script de Compressão
+## Script for Compression
 
-Para facilitar a compressão e envio de versões do projeto para análise ou revisão, incluímos o script `compress_project.sh`. Este script:
+To facilitate project compression and submission for review or analysis, a `compress_project.sh` script is included. This script:
 
-- Compacta o repositório atual em um arquivo ZIP com alta compressão.
-- Nomeia o arquivo com o formato `md_cheat-sheets_<timestamp>.zip`.
-- Automatiza o processo de geração de backups datados.
+- Compresses the current repository into a high-compression ZIP file.
+- Names the file using the format `md_cheat-sheets_<timestamp>.zip`.
+- Automates the generation of dated backups.
 
-### Uso do Script
+### Usage Instructions
 
-1. Certifique-se de que o script está no diretório raiz do repositório.
-2. Torne o script executável:
+1. Ensure the script is located in the repository root.
+2. Make the script executable:
    ```bash
    chmod +x compress_project.sh
    ```
-3. Execute o script:
+3. Run the script:
    ```bash
    ./compress_project.sh
    ```
-   Isso criará um arquivo ZIP na raiz do repositório com a data e hora atuais no nome.
+   This will create a ZIP file in the repository root, timestamped in its name.
 
 ---
 
-## Como Usar
+## Usage
 
-Cada arquivo de cheat sheet está organizado de forma a fornecer uma referência rápida e fácil para comandos e configurações comuns. Basta abrir o arquivo correspondente à tecnologia ou ferramenta que você está utilizando.
+Each cheat sheet is organized to provide a quick and easy reference for common commands and configurations. Open the relevant file for the technology or tool you're working with.
 
 ---
 
-## Contribuições
+## Contributions
 
-Contribuições são bem-vindas! Se você deseja adicionar novos cheat sheets ou melhorar os existentes, sinta-se à vontade para abrir um pull request.
+Contributions are welcome! If you’d like to add new cheat sheets or improve existing ones, feel free to open a pull request.

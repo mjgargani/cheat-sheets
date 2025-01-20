@@ -1,203 +1,205 @@
-# JavaScript Vanilla - Guia Completo
+# Vanilla JavaScript Cheat Sheet
 
-## Sumário
+Vanilla JavaScript refers to using plain JavaScript without additional libraries or frameworks. It is fundamental for web development, enabling developers to create interactive, dynamic, and scalable web applications.
 
-1. [Introdução](#introducao)
-2. [Conceitos Básicos](#conceitos-basicos)
-   - [Declaração de Variáveis](#declaracao-de-variaveis)
-   - [Tipos de Dados](#tipos-de-dados)
-   - [Estruturas Condicionais](#estruturas-condicionais)
-3. [Conceitos Intermediários](#conceitos-intermediarios)
-   - [Funções](#funcoes)
-   - [Manipulação de Arrays](#manipulacao-de-arrays)
-   - [Manipulação de Objetos](#manipulacao-de-objetos)
-4. [Conceitos Avançados](#conceitos-avancados)
-   - [Promises e Async/Await](#promises-e-async-await)
-   - [Manipulação de DOM](#manipulacao-de-dom)
-   - [Programação Orientada a Objetos](#programacao-orientada-a-objetos)
-5. [Dicas e Boas Práticas](#dicas-e-boas-praticas)
-6. [Referências](#referencias)
+## Table of Contents
 
----
-
-## 1. Introdução
-
-JavaScript é uma linguagem de programação essencial para desenvolvimento web. Este guia cobre conceitos fundamentais e avançados, usando apenas JavaScript puro (Vanilla JavaScript).
+1. [Introduction](#introduction)
+2. [Basic Concepts](#basic-concepts)
+   - [Variable Declarations](#variable-declarations)
+   - [Data Types](#data-types)
+   - [Conditional Structures](#conditional-structures)
+3. [Intermediate Concepts](#intermediate-concepts)
+   - [Functions](#functions)
+   - [Array Manipulation](#array-manipulation)
+   - [Object Manipulation](#object-manipulation)
+4. [Advanced Concepts](#advanced-concepts)
+   - [Promises and Async/Await](#promises-and-asyncawait)
+   - [DOM Manipulation](#dom-manipulation)
+   - [Object-Oriented Programming](#object-oriented-programming)
+5. [Tips and Best Practices](#tips-and-best-practices)
+6. [References](#references)
 
 ---
 
-## 2. Conceitos Básicos
+## 1. Introduction
 
-### Declaração de Variáveis
+JavaScript is a versatile programming language essential for web development. This cheat sheet covers core and advanced concepts using plain JavaScript (Vanilla JavaScript).
 
-- **`var`**: Escopo de função (evitar uso).
-- **`let`**: Escopo de bloco.
-- **`const`**: Escopo de bloco, para valores imutáveis.
+---
 
-Exemplo:
+## 2. Basic Concepts
+
+### Variable Declarations
+
+- **`var`**: Function-scoped (avoid using).
+- **`let`**: Block-scoped.
+- **`const`**: Block-scoped, for immutable values.
+
+Example:
 ```javascript
-let nome = "João";
-const idade = 25;
-var pais = "Brasil";
+let name = "John";
+const age = 25;
+var country = "USA";
 ```
 
-### Tipos de Dados
+### Data Types
 
-1. Primitivos:
+1. Primitive:
    - `string`, `number`, `boolean`, `undefined`, `null`, `symbol`, `bigint`.
-2. Referência:
+2. Reference:
    - `Object`, `Array`, `Function`.
 
-Exemplo:
+Example:
 ```javascript
-const texto = "Olá";
-const numero = 42;
-const lista = [1, 2, 3];
-const objeto = { chave: "valor" };
+const text = "Hello";
+const number = 42;
+const array = [1, 2, 3];
+const object = { key: "value" };
 ```
 
-### Estruturas Condicionais
+### Conditional Structures
 
 - **`if`/`else`**:
 ```javascript
-if (idade >= 18) {
-    console.log("Maior de idade");
+if (age >= 18) {
+    console.log("Adult");
 } else {
-    console.log("Menor de idade");
+    console.log("Minor");
 }
 ```
 
-- **Operador Ternário**:
+- **Ternary Operator**:
 ```javascript
-const mensagem = idade >= 18 ? "Maior de idade" : "Menor de idade";
-console.log(mensagem);
+const message = age >= 18 ? "Adult" : "Minor";
+console.log(message);
 ```
 
 ---
 
-## 3. Conceitos Intermediários
+## 3. Intermediate Concepts
 
-### Funções
+### Functions
 
-1. Declaração tradicional:
+1. Traditional declaration:
 ```javascript
-function somar(a, b) {
+function add(a, b) {
     return a + b;
 }
 ```
 
-2. Funções anônimas:
+2. Anonymous functions:
 ```javascript
-const subtrair = function(a, b) {
+const subtract = function(a, b) {
     return a - b;
 };
 ```
 
 3. Arrow Functions:
 ```javascript
-const multiplicar = (a, b) => a * b;
+const multiply = (a, b) => a * b;
 ```
 
-### Manipulação de Arrays
+### Array Manipulation
 
-1. Métodos comuns:
+1. Common methods:
    - `push`, `pop`, `shift`, `unshift`, `map`, `filter`, `reduce`.
 
-Exemplo:
+Example:
 ```javascript
-const numeros = [1, 2, 3, 4];
-const dobrados = numeros.map(n => n * 2);
-console.log(dobrados); // [2, 4, 6, 8]
+const numbers = [1, 2, 3, 4];
+const doubled = numbers.map(n => n * 2);
+console.log(doubled); // [2, 4, 6, 8]
 ```
 
-### Manipulação de Objetos
+### Object Manipulation
 
-1. Acessando propriedades:
+1. Accessing properties:
 ```javascript
-const pessoa = { nome: "Ana", idade: 30 };
-console.log(pessoa.nome); // Ana
+const person = { name: "Anna", age: 30 };
+console.log(person.name); // Anna
 ```
 
-2. Desestruturação:
+2. Destructuring:
 ```javascript
-const { nome, idade } = pessoa;
-console.log(nome, idade);
+const { name, age } = person;
+console.log(name, age);
 ```
 
 ---
 
-## 4. Conceitos Avançados
+## 4. Advanced Concepts
 
-### Promises e Async/Await
+### Promises and Async/Await
 
 1. Promises:
 ```javascript
-const promessa = new Promise((resolve, reject) => {
-    const sucesso = true;
-    if (sucesso) resolve("Deu certo");
-    else reject("Deu errado");
+const promise = new Promise((resolve, reject) => {
+    const success = true;
+    if (success) resolve("Success");
+    else reject("Failure");
 });
 ```
 
 2. Async/Await:
 ```javascript
-async function executar() {
+async function execute() {
     try {
-        const resultado = await promessa;
-        console.log(resultado);
-    } catch (erro) {
-        console.log(erro);
+        const result = await promise;
+        console.log(result);
+    } catch (error) {
+        console.log(error);
     }
 }
 ```
 
-### Manipulação de DOM
+### DOM Manipulation
 
-1. Selecionar elementos:
+1. Selecting elements:
 ```javascript
-const elemento = document.querySelector("#id");
-elemento.textContent = "Novo texto";
+const element = document.querySelector("#id");
+element.textContent = "New text";
 ```
 
-2. Adicionar eventos:
+2. Adding events:
 ```javascript
-elemento.addEventListener("click", () => {
-    alert("Elemento clicado!");
+element.addEventListener("click", () => {
+    alert("Element clicked!");
 });
 ```
 
-### Programação Orientada a Objetos
+### Object-Oriented Programming
 
 1. Classes:
 ```javascript
-class Pessoa {
-    constructor(nome, idade) {
-        this.nome = nome;
-        this.idade = idade;
+class Person {
+    constructor(name, age) {
+        this.name = name;
+        this.age = age;
     }
 
-    cumprimentar() {
-        return `Olá, meu nome é ${this.nome}`;
+    greet() {
+        return `Hello, my name is ${this.name}`;
     }
 }
 
-const joao = new Pessoa("João", 25);
-console.log(joao.cumprimentar());
+const john = new Person("John", 25);
+console.log(john.greet());
 ```
 
 ---
 
-## 5. Dicas e Boas Práticas
+## 5. Tips and Best Practices
 
-- Sempre use `const` e `let` ao invés de `var`.
-- Utilize arrow functions para simplificar funções anônimas.
-- Prefira desestruturação para melhorar a legibilidade do código.
-- Valide entradas e trate exceções.
+- Always use `const` and `let` instead of `var`.
+- Use arrow functions to simplify anonymous functions.
+- Prefer destructuring for better readability.
+- Validate inputs and handle exceptions.
 
 ---
 
-## 6. Referências
+## 6. References
 
-- MDN Web Docs. [JavaScript Guide](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide). Acesso em 12/01/2025.
-- Eloquent JavaScript. [Eloquent JavaScript Online Book](https://eloquentjavascript.net/). Acesso em 12/01/2025.
-- W3Schools. [JavaScript Tutorial](https://www.w3schools.com/js/). Acesso em 12/01/2025.
+- MDN Web Docs. [JavaScript Guide](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide).
+- Eloquent JavaScript. [Eloquent JavaScript Online Book](https://eloquentjavascript.net/).
+- W3Schools. [JavaScript Tutorial](https://www.w3schools.com/js/).

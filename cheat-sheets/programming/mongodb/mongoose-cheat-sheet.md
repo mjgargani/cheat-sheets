@@ -1,20 +1,10 @@
-# Mongoose Cheat Sheet (Atualizado em Janeiro de 2025)
+# Mongoose Cheat Sheet
 
-Este cheat sheet aborda o uso do Mongoose, uma biblioteca de modelagem para MongoDB, detalhando comandos essenciais, melhores práticas e abstrações pedagógicas para facilitar o aprendizado.
+Mongoose is a MongoDB modeling library that provides a strict interface for creating, querying, updating, and deleting documents. This cheat sheet covers essential commands, best practices, and abstractions to simplify data modeling and application development.
 
-## Índice (pt-BR)
+---
 
-1. [O que é o Mongoose?](#o-que-e-o-mongoose)
-2. [Instalação](#instalacao)
-3. [Conectando ao MongoDB](#conectando-ao-mongodb)
-4. [Definição de Esquema](#definicao-de-esquema)
-5. [Operações CRUD](#operacoes-crud)
-6. [Validações e Middleware](#validacoes-e-middleware)
-7. [População de Dados](#populacao-de-dados)
-8. [Recursos Depreciados](#recursos-depreciados)
-9. [Referências Adicionais](#referencias-adicionais)
-
-## Table of Contents (en-US)
+## Table of Contents
 
 1. [What is Mongoose?](#what-is-mongoose)
 2. [Installation](#installation)
@@ -28,35 +18,21 @@ Este cheat sheet aborda o uso do Mongoose, uma biblioteca de modelagem para Mong
 
 ---
 
-### O que é o Mongoose? (pt-BR)
+## What is Mongoose?
 
-Mongoose é uma biblioteca de modelagem para MongoDB que fornece uma interface rigorosa para criar, consultar, atualizar e excluir documentos. Ele abstrai detalhes complexos do MongoDB, permitindo foco no modelo de dados.
-
-- **Modelagem Avançada**: Crie esquemas detalhados com validação embutida.
-- **Middleware Poderoso**: Execute lógica personalizada antes ou depois de ações.
-- **População de Dados**: Relacione coleções com facilidade.
-
-Mais informações: [Mongoose Docs](https://mongoosejs.com/).
-
-### What is Mongoose? (en-US)
-
-Mongoose is a MongoDB modeling library that provides a strict interface for creating, querying, updating, and deleting documents. It abstracts complex MongoDB details, allowing you to focus on data modeling.
+Mongoose is designed to simplify interactions with MongoDB, providing schema-based data modeling and abstraction for document management.
 
 - **Advanced Modeling**: Create detailed schemas with built-in validation.
-- **Powerful Middleware**: Execute custom logic before or after actions.
-- **Data Population**: Easily relate collections.
+- **Powerful Middleware**: Execute custom logic before or after database actions.
+- **Data Population**: Easily reference and populate related collections.
 
-More information: [Mongoose Docs](https://mongoosejs.com/).
+More information: [Mongoose Official Documentation](https://mongoosejs.com/).
 
 ---
 
-### Instalação (pt-BR)
+## Installation
 
-```bash
-npm install mongoose
-```
-
-### Installation (en-US)
+To install Mongoose:
 
 ```bash
 npm install mongoose
@@ -64,20 +40,9 @@ npm install mongoose
 
 ---
 
-### Conectando ao MongoDB (pt-BR)
+## Connecting to MongoDB
 
-```javascript
-const mongoose = require('mongoose');
-
-mongoose.connect('mongodb://localhost:27017/my_database', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-})
-  .then(() => console.log('Conectado ao MongoDB'))
-  .catch((err) => console.error('Erro de conexão', err));
-```
-
-### Connecting to MongoDB (en-US)
+Example connection:
 
 ```javascript
 const mongoose = require('mongoose');
@@ -92,7 +57,9 @@ mongoose.connect('mongodb://localhost:27017/my_database', {
 
 ---
 
-### Definição de Esquema (pt-BR)
+## Schema Definition
+
+Defining a schema:
 
 ```javascript
 const userSchema = new mongoose.Schema({
@@ -101,54 +68,17 @@ const userSchema = new mongoose.Schema({
   age: Number,
   createdAt: { type: Date, default: Date.now },
 });
-```
 
-### Schema Definition (en-US)
-
-```javascript
-const userSchema = new mongoose.Schema({
-  name: { type: String, required: true },
-  email: { type: String, required: true, unique: true },
-  age: Number,
-  createdAt: { type: Date, default: Date.now },
-});
+const User = mongoose.model('User', userSchema);
 ```
 
 ---
 
-### Operações CRUD (pt-BR)
+## CRUD Operations
 
-**Criação**:
-
-```javascript
-const User = mongoose.model('User', userSchema);
-
-const newUser = new User({
-  name: 'João',
-  email: 'joao@example.com',
-  age: 30,
-});
-
-newUser.save()
-  .then(user => console.log('Usuário salvo:', user))
-  .catch(err => console.error('Erro ao salvar:', err));
-```
-
-**Leitura**:
+### Create
 
 ```javascript
-User.find()
-  .then(users => console.log('Usuários:', users))
-  .catch(err => console.error('Erro na consulta:', err));
-```
-
-### CRUD Operations (en-US)
-
-**Create**:
-
-```javascript
-const User = mongoose.model('User', userSchema);
-
 const newUser = new User({
   name: 'John',
   email: 'john@example.com',
@@ -160,7 +90,7 @@ newUser.save()
   .catch(err => console.error('Save error:', err));
 ```
 
-**Read**:
+### Read
 
 ```javascript
 User.find()
@@ -168,28 +98,27 @@ User.find()
   .catch(err => console.error('Query error:', err));
 ```
 
----
-
-### Validações e Middleware (pt-BR)
-
-- **Validação Customizada**:
+### Update
 
 ```javascript
-const userSchema = new mongoose.Schema({
-  username: {
-    type: String,
-    validate: {
-      validator: (v) => /\w{5,}/.test(v),
-      message: (props) => `${props.value} não é um nome de usuário válido!`,
-    },
-    required: [true, 'Nome de usuário é obrigatório'],
-  },
-});
+User.findByIdAndUpdate('user_id', { age: 35 }, { new: true })
+  .then(user => console.log('Updated user:', user))
+  .catch(err => console.error('Update error:', err));
 ```
 
-### Validations and Middleware (en-US)
+### Delete
 
-- **Custom Validation**:
+```javascript
+User.findByIdAndDelete('user_id')
+  .then(() => console.log('User deleted'))
+  .catch(err => console.error('Delete error:', err));
+```
+
+---
+
+## Validations and Middleware
+
+### Custom Validation
 
 ```javascript
 const userSchema = new mongoose.Schema({
@@ -204,9 +133,25 @@ const userSchema = new mongoose.Schema({
 });
 ```
 
+### Middleware
+
+```javascript
+userSchema.pre('save', function(next) {
+  console.log('Pre-save middleware triggered');
+  next();
+});
+
+userSchema.post('save', function(doc, next) {
+  console.log('Post-save middleware triggered');
+  next();
+});
+```
+
 ---
 
-### População de Dados (pt-BR)
+## Data Population
+
+Referencing and populating related data:
 
 ```javascript
 const postSchema = new mongoose.Schema({
@@ -215,39 +160,21 @@ const postSchema = new mongoose.Schema({
 });
 
 const Post = mongoose.model('Post', postSchema);
-Post.find().populate('author').exec();
-```
 
-### Data Population (en-US)
-
-```javascript
-const postSchema = new mongoose.Schema({
-  title: String,
-  author: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-});
-
-const Post = mongoose.model('Post', postSchema);
-Post.find().populate('author').exec();
+Post.find().populate('author').exec()
+  .then(posts => console.log('Posts:', posts))
+  .catch(err => console.error('Population error:', err));
 ```
 
 ---
 
-### Recursos Depreciados (pt-BR)
-
-Consulte os recursos obsoletos na [documentação oficial do Mongoose](https://mongoosejs.com/docs/).
-
-### Deprecated Features (en-US)
+## Deprecated Features
 
 Refer to deprecated features in the [official Mongoose documentation](https://mongoosejs.com/docs/).
 
 ---
 
-### Referências Adicionais (pt-BR)
-
-- [Documentação Oficial do Mongoose](https://mongoosejs.com/docs/)
-- [Validações no Mongoose](https://mongoosejs.com/docs/validation.html)
-
-### Additional References (en-US)
+## Additional References
 
 - [Mongoose Official Documentation](https://mongoosejs.com/docs/)
 - [Mongoose Validations](https://mongoosejs.com/docs/validation.html)

@@ -1,169 +1,191 @@
-# Estrutura de Pastas no Linux (Ubuntu-Based)
+# Linux Folder Structure Cheat Sheet
 
-## Sumário
+Understanding the Linux directory structure is fundamental for system administration, development, and troubleshooting. Linux organizes its files and directories in a hierarchical tree structure starting from the root directory `/`. This cheat sheet explains the purpose of standard directories in Linux systems, focusing on Ubuntu-based distributions.
 
-1. [Introdução](#introducao)
-2. [Estrutura de Diretórios](#estrutura-de-diretorios)
-   - [/](#raiz)
-   - [/bin](#bin)
-   - [/boot](#boot)
-   - [/dev](#dev)
-   - [/etc](#etc)
-   - [/home](#home)
-   - [/lib e /lib64](#lib-e-lib64)
-   - [/media e /mnt](#media-e-mnt)
-   - [/opt](#opt)
-   - [/proc](#proc)
-   - [/root](#root)
-   - [/sbin](#sbin)
-   - [/tmp](#tmp)
-   - [/usr](#usr)
-   - [/var](#var)
-3. [Conceitos Avançados](#conceitos-avancados)
-   - [Sistemas de Arquivos Virtuais](#sistemas-de-arquivos-virtuais)
-   - [Pontos de Montagem](#pontos-de-montagem)
-4. [Referências](#referencias)
+## Table of Contents
 
----
-
-## 1. Introdução
-
-O Linux organiza seus arquivos e diretórios em uma hierarquia bem definida, começando pelo diretório raiz (`/`). Este guia explica a estrutura de pastas padrão encontrada em sistemas baseados em Ubuntu.
+1. [Introduction](#introduction)
+2. [Standard Directory Structure](#standard-directory-structure)
+   - [/ - Root](#-root)
+   - [/bin - Essential Binaries](#bin---essential-binaries)
+   - [/boot - Boot Files](#boot---boot-files)
+   - [/dev - Device Files](#dev---device-files)
+   - [/etc - Configuration Files](#etc---configuration-files)
+   - [/home - User Directories](#home---user-directories)
+   - [/lib and /lib64 - Libraries](#lib-and-lib64---libraries)
+   - [/media and /mnt - Mount Points](#media-and-mnt---mount-points)
+   - [/opt - Optional Software](#opt---optional-software)
+   - [/proc - Process Information](#proc---process-information)
+   - [/root - Root User Home](#root---root-user-home)
+   - [/sbin - System Binaries](#sbin---system-binaries)
+   - [/tmp - Temporary Files](#tmp---temporary-files)
+   - [/usr - User System Resources](#usr---user-system-resources)
+   - [/var - Variable Data](#var---variable-data)
+3. [Advanced Concepts](#advanced-concepts)
+   - [Virtual File Systems](#virtual-file-systems)
+   - [Mount Points](#mount-points)
+4. [References](#references)
 
 ---
 
-## 2. Estrutura de Diretórios
+## Introduction
 
-### /
-O diretório raiz que contém todos os outros diretórios. Ele é o topo da hierarquia de arquivos.
+The Linux file system is structured to provide logical organization and ease of use. Each directory serves a specific purpose, enabling users and applications to interact with the system effectively. This organization follows the [Filesystem Hierarchy Standard (FHS)](https://refspecs.linuxfoundation.org/FHS_3.0/fhs/index.html), ensuring consistency across distributions.
 
 ---
 
-### /bin
-Contém binários essenciais, como comandos básicos que podem ser usados por todos os usuários. Exemplo:
+## Standard Directory Structure
+
+### / - Root
+The root directory is the starting point of the Linux filesystem hierarchy. All other directories branch from here.
+
+---
+
+### /bin - Essential Binaries
+Contains critical system commands and binaries available to all users. Examples:
+
 ```bash
-/bin/ls
-/bin/cp
+/bin/ls  # List directory contents
+/bin/cp  # Copy files and directories
 ```
 
 ---
 
-### /boot
-Contém arquivos necessários para inicializar o sistema, como o kernel e o bootloader (ex.: GRUB). Exemplos:
+### /boot - Boot Files
+Holds files required to boot the system, including the kernel and bootloader configurations. Examples:
+
 ```bash
-/boot/vmlinuz
-/boot/initrd.img
+/boot/vmlinuz  # Linux kernel
+/boot/grub  # GRUB bootloader settings
 ```
 
 ---
 
-### /dev
-Armazena arquivos especiais que representam dispositivos de hardware. Exemplo:
+### /dev - Device Files
+Contains special files representing devices. Examples:
+
 ```bash
-/dev/sda1  # Partição do disco
-/dev/null  # Dispositivo nulo
+/dev/sda1  # First partition of the first disk
+/dev/null  # Discard output
 ```
 
 ---
 
-### /etc
-Contém arquivos de configuração do sistema. Exemplo:
+### /etc - Configuration Files
+Stores system-wide configuration files. Examples:
+
 ```bash
-/etc/fstab  # Configuração de pontos de montagem
-/etc/hosts  # Mapeamento de IPs e nomes de host
+/etc/fstab  # Mount configuration
+/etc/hosts  # Static hostname mapping
 ```
 
 ---
 
-### /home
-Contém os diretórios pessoais dos usuários. Exemplo:
+### /home - User Directories
+Contains personal directories for each user. Example:
+
 ```bash
-/home/usuario
+/home/john  # Home directory for user 'john'
 ```
 
 ---
 
-### /lib e /lib64
-Contém bibliotecas compartilhadas necessárias para os binários em `/bin` e `/sbin`. Exemplos:
+### /lib and /lib64 - Libraries
+Holds shared libraries needed by binaries in `/bin` and `/sbin`. Examples:
+
 ```bash
-/lib/x86_64-linux-gnu/libc.so.6
+/lib/x86_64-linux-gnu/libc.so.6  # Standard C library
 ```
 
 ---
 
-### /media e /mnt
-- `/media`: Pontos de montagem para dispositivos removíveis (pendrives, CDs).
-- `/mnt`: Usado para montar sistemas de arquivos temporários.
+### /media and /mnt - Mount Points
+- **/media**: Automatically mounted removable devices (e.g., USB drives).
+- **/mnt**: Temporary mount points for manual use.
 
 ---
 
-### /opt
-Armazena softwares opcionais instalados manualmente. Exemplo:
+### /opt - Optional Software
+Contains software installed manually or outside of the standard package management system. Example:
+
 ```bash
 /opt/google/chrome
 ```
 
 ---
 
-### /proc
-Sistema de arquivos virtual que fornece informações sobre processos e o kernel. Exemplo:
+### /proc - Process Information
+A virtual filesystem providing real-time system information. Examples:
+
 ```bash
-/proc/cpuinfo  # Informações sobre a CPU
-/proc/meminfo  # Informações sobre a memória
+/proc/cpuinfo  # CPU details
+/proc/meminfo  # Memory usage
 ```
 
 ---
 
-### /root
-Diretório home do usuário root (administrador).
+### /root - Root User Home
+The home directory for the root (administrator) user.
 
 ---
 
-### /sbin
-Contém binários essenciais para administração do sistema, como comandos para usuários root. Exemplo:
+### /sbin - System Binaries
+Contains essential binaries for system administration, typically executed by the root user. Example:
+
 ```bash
-/sbin/reboot
+/sbin/reboot  # Reboot the system
 ```
 
 ---
 
-### /tmp
-Diretório para arquivos temporários. Dados armazenados aqui podem ser excluídos automaticamente.
+### /tmp - Temporary Files
+Stores temporary files that may be cleared automatically. Used by applications and processes.
 
 ---
 
-### /usr
-Armazena aplicativos e arquivos de uso geral. Subdiretórios comuns incluem:
-- `/usr/bin`: Binários de aplicativos.
-- `/usr/lib`: Bibliotecas.
-- `/usr/share`: Arquivos compartilhados (ex.: manuais).
+### /usr - User System Resources
+Holds secondary programs and libraries for users. Common subdirectories include:
+
+- `/usr/bin`: User executables.
+- `/usr/lib`: Libraries.
+- `/usr/share`: Shared resources (e.g., man pages).
 
 ---
 
-### /var
-Contém dados variáveis, como logs e filas de impressão. Exemplo:
+### /var - Variable Data
+Contains files with dynamic content, such as logs and caches. Example:
+
 ```bash
-/var/log/syslog  # Logs do sistema
+/var/log/syslog  # System log
 ```
 
 ---
 
-## 3. Conceitos Avançados
+## Advanced Concepts
 
-### Sistemas de Arquivos Virtuais
+### Virtual File Systems
+Directories like `/proc` and `/sys` are virtual and dynamically generated, providing system and kernel information in real-time.
 
-No Linux, diretórios como `/proc` e `/sys` são virtuais e não armazenam dados em discos. Eles fornecem informações dinâmicas sobre o sistema em tempo real.
+### Mount Points
+A mount point is where a filesystem is accessed. Examples:
 
-### Pontos de Montagem
+- Mount a disk manually:
 
-Um ponto de montagem é o local onde um sistema de arquivos é acessado. Exemplos:
-- Partições adicionais podem ser montadas em `/mnt/dados`.
-- Pendrives são automaticamente montados em `/media/usuario/dispositivo`.
+```bash
+sudo mount /dev/sdb1 /mnt/data
+```
+
+- View mounted filesystems:
+
+```bash
+mount | grep /mnt
+```
 
 ---
 
-## 4. Referências
+## References
 
-- The Linux Documentation Project. [Filesystem Hierarchy Standard](https://tldp.org/LDP/Linux-Filesystem-Hierarchy/html/). Acesso em 12/01/2025.
-- Ubuntu Docs. [Linux Directory Structure](https://ubuntu.com/tutorials/directory-structure). Acesso em 12/01/2025.
+- The Linux Documentation Project: [Filesystem Hierarchy Standard](https://tldp.org/LDP/Linux-Filesystem-Hierarchy/html/).
+- Ubuntu Documentation: [Linux Directory Structure](https://ubuntu.com/tutorials/directory-structure).
 - Nemeth, E. **UNIX and Linux System Administration Handbook**. Pearson, 2017.
+- Linux Foundation: [FHS 3.0 Specification](https://refspecs.linuxfoundation.org/FHS_3.0/fhs/index.html).

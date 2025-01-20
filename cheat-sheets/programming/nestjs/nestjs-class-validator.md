@@ -1,22 +1,26 @@
-# DTOs no NestJS: Cheat Sheet Avançado (2025)
+# Advanced DTOs in NestJS Cheat Sheet
 
-## O que é um DTO (Data Transfer Object)?
-
-Um **DTO** é um objeto usado para transferir dados entre processos, garantindo a validação, tipagem e estrutura dos dados em sua aplicação. No NestJS, são comumente usados para validar dados de entrada e saída de APIs.
+Data Transfer Objects (DTOs) are essential in NestJS for validating and structuring input and output data within applications. This guide provides advanced insights into using DTOs effectively with various ORMs and advanced validation techniques.
 
 ---
 
-## Configuração Base para DTOs
+## What is a DTO (Data Transfer Object)?
 
-### Instale as dependências necessárias
+A **DTO** is an object used to transfer data between layers or processes. In NestJS, DTOs are primarily used to validate and structure input data in APIs. They help ensure data consistency, enforce types, and reduce redundancy.
+
+---
+
+## Base Configuration for DTOs
+
+### Install Required Dependencies
 
 ```bash
 npm install --save class-validator class-transformer
 ```
 
-Adicione os pacotes de validação (`class-validator`) e transformação de objetos (`class-transformer`) para criar DTOs eficazes.
+The `class-validator` package validates data, while `class-transformer` handles data transformation.
 
-### Habilite validação global no `main.ts`
+### Enable Global Validation in `main.ts`
 
 ```typescript
 import { ValidationPipe } from '@nestjs/common';
@@ -28,9 +32,9 @@ async function bootstrap() {
 
   app.useGlobalPipes(
     new ValidationPipe({
-      whitelist: true, // Remove propriedades não declaradas no DTO
-      forbidNonWhitelisted: true, // Rejeita solicitações com propriedades extras
-      transform: true, // Transforma dados para os tipos esperados no DTO
+      whitelist: true, // Removes undefined properties
+      forbidNonWhitelisted: true, // Rejects extra properties
+      transform: true, // Converts input data to the expected DTO type
     }),
   );
 
@@ -41,9 +45,9 @@ bootstrap();
 
 ---
 
-## Estrutura de um DTO
+## DTO Structure
 
-### Criação de um DTO Simples
+### Creating a Simple DTO
 
 ```typescript
 import { IsString, IsInt, Min, Max } from 'class-validator';
@@ -59,22 +63,22 @@ export class CreateUserDto {
 }
 ```
 
-### Tipos de Validações Comuns
+### Common Validation Decorators
 
-| Decorador        | Descrição                                      |
-|------------------|------------------------------------------------|
-| `@IsString()`    | Garante que o valor é uma string.             |
-| `@IsInt()`       | Garante que o valor é um número inteiro.      |
-| `@IsEmail()`     | Valida se é um e-mail válido.                 |
-| `@IsOptional()`  | Permite que o campo seja opcional.            |
-| `@IsArray()`     | Garante que o valor é um array.               |
-| `@ValidateNested()` | Valida objetos aninhados com outro DTO.    |
+| Decorator             | Description                                |
+|-----------------------|--------------------------------------------|
+| `@IsString()`         | Ensures the value is a string.             |
+| `@IsInt()`            | Ensures the value is an integer.           |
+| `@IsEmail()`          | Validates the value as a proper email.     |
+| `@IsOptional()`       | Marks the field as optional.               |
+| `@IsArray()`          | Ensures the value is an array.             |
+| `@ValidateNested()`   | Validates nested objects using other DTOs. |
 
 ---
 
-## Integração com TypeORM
+## Integration with TypeORM
 
-### Usando DTOs com TypeORM Entities
+### Using DTOs with TypeORM Entities
 
 ```typescript
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
@@ -92,7 +96,7 @@ export class User {
 }
 ```
 
-#### Transformando DTO em Entidade
+#### Transforming DTO into Entity
 
 ```typescript
 import { plainToInstance } from 'class-transformer';
@@ -108,9 +112,9 @@ const userEntity = plainToInstance(User, dto);
 
 ---
 
-## Integração com Sequelize ORM
+## Integration with Sequelize ORM
 
-### Criação do Model
+### Defining a Model
 
 ```typescript
 import { Table, Column, Model, DataType } from 'sequelize-typescript';
@@ -125,7 +129,7 @@ export class User extends Model {
 }
 ```
 
-#### Mapeando DTO para Model
+#### Mapping DTO to Model
 
 ```typescript
 import { CreateUserDto } from './create-user.dto';
@@ -138,9 +142,9 @@ await user.save();
 
 ---
 
-## Integração com Mongoose (ODM para MongoDB)
+## Integration with Mongoose (ODM for MongoDB)
 
-### Definição do Schema
+### Defining the Schema
 
 ```typescript
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
@@ -160,7 +164,7 @@ export class User {
 export const UserSchema = SchemaFactory.createForClass(User);
 ```
 
-#### Aplicando DTO para Document
+#### Applying DTO to Document
 
 ```typescript
 import { Model } from 'mongoose';
@@ -181,9 +185,9 @@ export class UserService {
 
 ---
 
-## Recursos Avançados
+## Advanced Features
 
-### DTOs Aninhados
+### Nested DTOs
 
 ```typescript
 import { Type } from 'class-transformer';
@@ -207,7 +211,7 @@ export class CreateUserDto {
 }
 ```
 
-### Validação Customizada
+### Custom Validation
 
 ```typescript
 import { registerDecorator, ValidationOptions, ValidationArguments } from 'class-validator';
@@ -228,7 +232,7 @@ export function IsPositiveInteger(validationOptions?: ValidationOptions) {
   };
 }
 
-// Uso
+// Usage
 export class CreateUserDto {
   @IsPositiveInteger({ message: 'Age must be a positive integer' })
   age: number;
@@ -237,7 +241,7 @@ export class CreateUserDto {
 
 ---
 
-## Referências
+## References
 
 - [NestJS Documentation - Pipes](https://docs.nestjs.com/pipes)
 - [class-validator GitHub](https://github.com/typestack/class-validator)

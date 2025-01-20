@@ -1,8 +1,35 @@
-# Vite & Vitest Cheat-Sheet (2025)
+# Vite & Vitest Cheat Sheet
 
-## **Vite Basics**
+This cheat sheet provides an overview of Vite, a modern build tool, and Vitest, a fast and lightweight testing framework. It includes setup instructions, configurations, and examples to streamline development and testing workflows.
+
+---
+
+## Table of Contents
+
+1. [Vite Basics](#vite-basics)
+   - [Installation](#installation)
+   - [Configuration](#configuration)
+   - [Common Commands](#common-commands)
+2. [Vitest Basics](#vitest-basics)
+   - [Installation](#installation-1)
+   - [Configuration](#configuration-1)
+   - [Running Tests](#running-tests)
+   - [Example Test](#example-test)
+3. [Advanced Vitest Features](#advanced-vitest-features)
+   - [Mocking Modules](#mocking-modules)
+   - [Mocking API Calls](#mocking-api-calls)
+   - [Testing React Components](#testing-react-components)
+4. [Integration with Next.js](#integration-with-nextjs)
+5. [Additional References](#additional-references)
+
+---
+
+## Vite Basics
 
 ### Installation
+
+Create a new Vite project:
+
 ```bash
 # Create a new Vite project
 npm create vite@latest my-project --template react
@@ -18,7 +45,9 @@ npm run dev
 ```
 
 ### Configuration
-- **`vite.config.js` example:**
+
+Example `vite.config.js`:
+
 ```javascript
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
@@ -41,22 +70,29 @@ export default defineConfig({
 ```
 
 ### Common Commands
+
 ```bash
 npm run dev     # Start development server
 npm run build   # Build for production
 npm run preview # Preview the production build
 ```
 
-## **Vitest Basics**
+---
+
+## Vitest Basics
 
 ### Installation
+
+Install Vitest and React Testing Library:
+
 ```bash
-# Install Vitest and React Testing Library
 npm install -D vitest @testing-library/react @testing-library/jest-dom
 ```
 
 ### Configuration
-- **`vite.config.js` update for Vitest:**
+
+Update `vite.config.js` for Vitest:
+
 ```javascript
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
@@ -71,12 +107,14 @@ export default defineConfig({
 });
 ```
 
-- **`setup.js` for global setup:**
+Create a `setup.js` file for global setup:
+
 ```javascript
 import '@testing-library/jest-dom';
 ```
 
 ### Running Tests
+
 ```bash
 npx vitest        # Run all tests
 npx vitest watch  # Watch mode
@@ -84,6 +122,7 @@ npx vitest run    # Run tests without UI
 ```
 
 ### Example Test
+
 ```javascript
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
@@ -100,15 +139,21 @@ test('renders a button and handles click', async () => {
 });
 ```
 
-## **Advanced Vitest: Mocks & Testing with React/Next.js**
+---
+
+## Advanced Vitest Features
 
 ### Mocking Modules
-- Mock a simple module in `src/utils/math.js`:
+
+Mock a simple module in `src/utils/math.js`:
+
 ```javascript
 export const add = (a, b) => a + b;
 export const subtract = (a, b) => a - b;
 ```
-- Mock in test file:
+
+Mock in a test file:
+
 ```javascript
 import { vi } from 'vitest';
 import * as math from '@/utils/math';
@@ -122,14 +167,18 @@ test('mock add function', () => {
 ```
 
 ### Mocking API Calls
-- Mock a `fetch` request in `src/api.js`:
+
+Mock a `fetch` request in `src/api.js`:
+
 ```javascript
 export const fetchData = async () => {
   const response = await fetch('/api/data');
   return response.json();
 };
 ```
-- Mock in test file:
+
+Mock in a test file:
+
 ```javascript
 import { vi } from 'vitest';
 import { fetchData } from '@/api';
@@ -152,6 +201,7 @@ test('mocks fetchData', async () => {
 ```
 
 ### Testing React Components with Mocked Context
+
 ```javascript
 import { render, screen } from '@testing-library/react';
 import { MyContext } from '@/context/MyContext';
@@ -168,13 +218,17 @@ test('renders with mocked context', () => {
 });
 ```
 
-## **Integration with Next.js**
+---
+
+## Integration with Next.js
 
 ### Setup
+
 1. **Install dependencies:**
    ```bash
    npm install next @testing-library/react @testing-library/jest-dom vitest
    ```
+
 2. **Update `vite.config.js`:**
    ```javascript
    import { defineConfig } from 'vite';
@@ -189,6 +243,7 @@ test('renders with mocked context', () => {
      },
    });
    ```
+
 3. **`setup.js`:**
    ```javascript
    import '@testing-library/jest-dom';
@@ -199,6 +254,7 @@ test('renders with mocked context', () => {
    ```
 
 ### Next.js Page Test Example
+
 ```javascript
 import { render, screen } from '@testing-library/react';
 import Home from '@/pages/index';
@@ -209,27 +265,11 @@ test('renders the home page', () => {
 });
 ```
 
-### Mocking API Routes
-1. **API Route (`src/pages/api/data.js`):**
-   ```javascript
-   export default function handler(req, res) {
-     res.status(200).json({ message: 'Hello, world!' });
-   }
-   ```
-2. **Mock in Test:**
-   ```javascript
-   import { vi } from 'vitest';
+---
 
-   vi.mock('@/pages/api/data', () => ({
-     default: () => ({ message: 'Mocked response' }),
-   }));
+## Additional References
 
-   test('mocks API route', async () => {
-     const { default: handler } = await import('@/pages/api/data');
-     const res = { status: vi.fn().mockReturnThis(), json: vi.fn() };
-     handler({}, res);
-
-     expect(res.status).toHaveBeenCalledWith(200);
-     expect(res.json).toHaveBeenCalledWith({ message: 'Mocked response' });
-   });
-   
+- [Vite Official Documentation](https://vitejs.dev/)
+- [Vitest Documentation](https://vitest.dev/)
+- [React Testing Library Documentation](https://testing-library.com/docs/react-testing-library/intro)
+- [Next.js Testing Documentation](https://nextjs.org/docs/testing)

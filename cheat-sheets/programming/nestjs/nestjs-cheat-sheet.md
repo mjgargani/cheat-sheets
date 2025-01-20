@@ -1,22 +1,10 @@
-# NestJS Cheat Sheet (Atualizado em Janeiro de 2025)
+# NestJS Cheat Sheet
 
-Este cheat sheet cobre os conceitos e práticas essenciais do NestJS, um framework progressivo para construir aplicações Node.js escaláveis e robustas. Baseado nas últimas versões e melhores práticas, ele serve como um guia rápido para desenvolvimento e abstrações pedagógicas.
+NestJS is a progressive Node.js framework designed for building scalable and maintainable applications. It combines the best practices of object-oriented programming (OOP), functional programming (FP), and reactive programming (RP), offering a modular architecture inspired by Angular.
 
-## Índice (pt-BR)
+---
 
-1. [O que é o NestJS?](#o-que-e-o-nestjs)
-2. [Instalação](#instalacao)
-3. [Estrutura do Projeto](#estrutura-do-projeto)
-4. [Módulos e Injeção de Dependência](#modulos-e-injecao-de-dependencia)
-5. [Controladores](#controladores)
-6. [Serviços](#servicos)
-7. [Pipes e Interceptadores](#pipes-e-interceptadores)
-8. [Guards e Middleware](#guards-e-middleware)
-9. [Testes no NestJS](#testes-no-nestjs)
-10. [Recursos Depreciados](#recursos-depreciados)
-11. [Referências Adicionais](#referencias-adicionais)
-
-## Table of Contents (en-US)
+## Table of Contents
 
 1. [What is NestJS?](#what-is-nestjs)
 2. [Installation](#installation)
@@ -27,45 +15,25 @@ Este cheat sheet cobre os conceitos e práticas essenciais do NestJS, um framewo
 7. [Pipes and Interceptors](#pipes-and-interceptors)
 8. [Guards and Middleware](#guards-and-middleware)
 9. [Testing in NestJS](#testing-in-nestjs)
-10. [Deprecated Features](#deprecated-features)
-11. [Additional References](#additional-references)
+10. [Additional References](#additional-references)
 
 ---
 
-### O que é o NestJS? (pt-BR)
+## What is NestJS?
 
-NestJS é um framework para construção de aplicações Node.js escaláveis e fortemente tipadas. Baseado no TypeScript, ele utiliza conceitos de Programação Orientada a Objetos (POO) e Injeção de Dependência, inspirando-se no Angular para fornecer uma estrutura modular.
+NestJS is a framework built with TypeScript that leverages modern JavaScript features to create powerful and scalable server-side applications. Key features include:
 
-- **Modularidade**: Organize seu código em módulos reutilizáveis.
-- **Flexibilidade**: Integração fácil com bibliotecas externas.
-- **Ferramentas Avançadas**: Suporte nativo para GraphQL, WebSockets, e validações.
-
-Mais informações: [Documentação Oficial do NestJS](https://docs.nestjs.com/).
-
-### What is NestJS? (en-US)
-
-NestJS is a framework for building scalable and strongly-typed Node.js applications. Built with TypeScript, it employs Object-Oriented Programming (OOP) and Dependency Injection concepts, taking inspiration from Angular to provide a modular structure.
-
-- **Modularity**: Organize your code into reusable modules.
-- **Flexibility**: Easy integration with external libraries.
-- **Advanced Tools**: Native support for GraphQL, WebSockets, and validations.
+- **Modularity**: Code is organized into reusable and independent modules.
+- **Flexibility**: Integrates seamlessly with other libraries and tools.
+- **Comprehensive Features**: Built-in support for WebSockets, GraphQL, microservices, and more.
 
 More information: [NestJS Official Documentation](https://docs.nestjs.com/).
 
 ---
 
-### Instalação (pt-BR)
+## Installation
 
-Instale o NestJS CLI e crie um novo projeto:
-
-```bash
-npm install -g @nestjs/cli
-nest new nome-do-projeto
-```
-
-### Installation (en-US)
-
-Install the NestJS CLI and create a new project:
+Install the NestJS CLI globally and create a new project:
 
 ```bash
 npm install -g @nestjs/cli
@@ -74,25 +42,9 @@ nest new project-name
 
 ---
 
-### Estrutura do Projeto (pt-BR)
+## Project Structure
 
-Ao criar um novo projeto, a estrutura inicial será:
-
-```
-project-root/
-├── src/
-│   ├── app.controller.ts
-│   ├── app.module.ts
-│   ├── app.service.ts
-│   └── main.ts
-├── test/
-├── package.json
-└── tsconfig.json
-```
-
-### Project Structure (en-US)
-
-When creating a new project, the initial structure will be:
+When creating a new project, the default structure is:
 
 ```
 project-root/
@@ -108,30 +60,11 @@ project-root/
 
 ---
 
-### Módulos e Injeção de Dependência (pt-BR)
+## Modules and Dependency Injection
 
-Módulos são a base da organização no NestJS:
+Modules are the organizational foundation in NestJS. Each module encapsulates a specific feature or functionality of the application.
 
-**Exemplo de Módulo:**
-
-```typescript
-import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-
-@Module({
-  imports: [],
-  controllers: [AppController],
-  providers: [AppService],
-})
-export class AppModule {}
-```
-
-### Modules and Dependency Injection (en-US)
-
-Modules are the foundation of organization in NestJS:
-
-**Module Example:**
+### Example Module
 
 ```typescript
 import { Module } from '@nestjs/common';
@@ -148,32 +81,11 @@ export class AppModule {}
 
 ---
 
-### Controladores (pt-BR)
+## Controllers
 
-Controladores gerenciam rotas e respostas HTTP:
+Controllers handle incoming requests and return responses. They define the routes of your application.
 
-**Exemplo:**
-
-```typescript
-import { Controller, Get } from '@nestjs/common';
-import { AppService } from './app.service';
-
-@Controller()
-export class AppController {
-  constructor(private readonly appService: AppService) {}
-
-  @Get()
-  getHello(): string {
-    return this.appService.getHello();
-  }
-}
-```
-
-### Controllers (en-US)
-
-Controllers manage routes and HTTP responses:
-
-**Example:**
+### Example Controller
 
 ```typescript
 import { Controller, Get } from '@nestjs/common';
@@ -192,38 +104,109 @@ export class AppController {
 
 ---
 
-### Testes no NestJS (pt-BR)
+## Services
 
-Use o Jest para testes unitários e de integração:
+Services handle the business logic and can be shared across multiple controllers using dependency injection.
 
-**Teste de Unidade Exemplo:**
+### Example Service
 
 ```typescript
-import { Test, TestingModule } from '@nestjs/testing';
-import { AppService } from './app.service';
+import { Injectable } from '@nestjs/common';
 
-describe('AppService', () => {
-  let service: AppService;
-
-  beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
-      providers: [AppService],
-    }).compile();
-
-    service = module.get<AppService>(AppService);
-  });
-
-  it('should return "Hello World!"', () => {
-    expect(service.getHello()).toBe('Hello World!');
-  });
-});
+@Injectable()
+export class AppService {
+  getHello(): string {
+    return 'Hello, World!';
+  }
+}
 ```
 
-### Testing in NestJS (en-US)
+---
 
-Use Jest for unit and integration tests:
+## Pipes and Interceptors
 
-**Unit Test Example:**
+### Pipes
+Transform and validate request data before it reaches the handler.
+
+Example:
+
+```typescript
+import { PipeTransform, Injectable, ArgumentMetadata } from '@nestjs/common';
+
+@Injectable()
+export class ValidationPipe implements PipeTransform {
+  transform(value: any, metadata: ArgumentMetadata) {
+    // Perform validation or transformation
+    return value;
+  }
+}
+```
+
+### Interceptors
+Customize request/response behavior.
+
+Example:
+
+```typescript
+import { CallHandler, ExecutionContext, Injectable, NestInterceptor } from '@nestjs/common';
+import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
+
+@Injectable()
+export class LoggingInterceptor implements NestInterceptor {
+  intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
+    console.log('Before...');
+
+    return next.handle().pipe(tap(() => console.log('After...')));
+  }
+}
+```
+
+---
+
+## Guards and Middleware
+
+### Guards
+Guards are used for authentication and authorization.
+
+Example:
+
+```typescript
+import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common';
+
+@Injectable()
+export class AuthGuard implements CanActivate {
+  canActivate(context: ExecutionContext): boolean {
+    const request = context.switchToHttp().getRequest();
+    return Boolean(request.user);
+  }
+}
+```
+
+### Middleware
+Middleware applies logic before the route handler is executed.
+
+Example:
+
+```typescript
+import { Injectable, NestMiddleware } from '@nestjs/common';
+
+@Injectable()
+export class LoggerMiddleware implements NestMiddleware {
+  use(req: any, res: any, next: () => void) {
+    console.log(`${req.method} ${req.url}`);
+    next();
+  }
+}
+```
+
+---
+
+## Testing in NestJS
+
+Use Jest for unit and integration testing.
+
+### Example Unit Test
 
 ```typescript
 import { Test, TestingModule } from '@nestjs/testing';
@@ -240,20 +223,15 @@ describe('AppService', () => {
     service = module.get<AppService>(AppService);
   });
 
-  it('should return "Hello World!"', () => {
-    expect(service.getHello()).toBe('Hello World!');
+  it('should return "Hello, World!"', () => {
+    expect(service.getHello()).toBe('Hello, World!');
   });
 });
 ```
 
 ---
 
-### Referências Adicionais (pt-BR)
-
-- [Documentação Oficial do NestJS](https://docs.nestjs.com/)
-- [Repositório GitHub do NestJS](https://github.com/nestjs/nest)
-
-### Additional References (en-US)
+## Additional References
 
 - [NestJS Official Documentation](https://docs.nestjs.com/)
 - [NestJS GitHub Repository](https://github.com/nestjs/nest)

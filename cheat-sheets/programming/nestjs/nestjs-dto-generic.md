@@ -1,28 +1,28 @@
-# DTOs no NestJS: Guia Definitivo (2025)
+# DTOs in NestJS: Definitive Guide
 
-## O que são DTOs?
+## What Are DTOs?
 
-**Data Transfer Objects (DTOs)** são objetos usados para transferir dados entre diferentes camadas de uma aplicação, garantindo validação, consistência e segurança. No NestJS, DTOs são amplamente utilizados para:
+**Data Transfer Objects (DTOs)** are objects used to transfer data between different layers of an application. In NestJS, DTOs play a key role in:
 
-- Validar dados de entrada em controladores e serviços.
-- Garantir a tipagem estática e consistência de dados.
-- Simplificar a lógica de negócios e aumentar a manutenibilidade do código.
+- Validating input data in controllers and services.
+- Ensuring static typing and data consistency.
+- Simplifying business logic and improving code maintainability.
 
 ---
 
-## Configuração Básica
+## Basic Configuration
 
-### Instalação de Dependências
+### Installing Dependencies
 
-Para usar DTOs com validação e transformação de dados:
+To use DTOs with validation and data transformation:
 
 ```bash
 npm install class-validator class-transformer
 ```
 
-### Configuração do ValidationPipe no `main.ts`
+### Configuring ValidationPipe in `main.ts`
 
-Habilite a validação global no pipeline de requisições:
+Enable global validation in the request pipeline:
 
 ```typescript
 import { ValidationPipe } from '@nestjs/common';
@@ -34,9 +34,9 @@ async function bootstrap() {
 
   app.useGlobalPipes(
     new ValidationPipe({
-      whitelist: true, // Remove propriedades não declaradas no DTO
-      forbidNonWhitelisted: true, // Rejeita solicitações com propriedades extras
-      transform: true, // Transforma dados para os tipos esperados no DTO
+      whitelist: true, // Removes undefined properties
+      forbidNonWhitelisted: true, // Rejects extra properties
+      transform: true, // Transforms data into expected DTO types
     }),
   );
 
@@ -47,11 +47,11 @@ bootstrap();
 
 ---
 
-## Criando DTOs
+## Creating DTOs
 
-### DTO Básico
+### Basic DTO
 
-Um exemplo simples de DTO para criação de usuários:
+A simple example of a DTO for creating users:
 
 ```typescript
 import { IsString, IsInt, Min, Max } from 'class-validator';
@@ -67,9 +67,9 @@ export class CreateUserDto {
 }
 ```
 
-### DTO com Validação Aninhada
+### DTO with Nested Validation
 
-Valide objetos dentro de outros objetos:
+Validate objects within other objects:
 
 ```typescript
 import { Type } from 'class-transformer';
@@ -93,9 +93,9 @@ export class CreateUserDto {
 }
 ```
 
-### DTO com Parâmetros Opcionais
+### DTO with Optional Parameters
 
-Use `@IsOptional()` para campos opcionais:
+Use `@IsOptional()` for optional fields:
 
 ```typescript
 import { IsString, IsOptional } from 'class-validator';
@@ -109,11 +109,11 @@ export class UpdateUserDto {
 
 ---
 
-## Integração com ORMs e ODMs
+## Integration with ORMs and ODMs
 
 ### TypeORM
 
-#### Definindo DTOs e Entidades
+#### Defining DTOs and Entities
 
 ```typescript
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
@@ -134,9 +134,9 @@ export class User {
 }
 ```
 
-#### Transformando DTOs em Entidades
+#### Transforming DTOs into Entities
 
-Use `plainToInstance` para converter um DTO em uma entidade:
+Use `plainToInstance` to convert a DTO into an entity:
 
 ```typescript
 import { plainToInstance } from 'class-transformer';
@@ -152,7 +152,7 @@ const userEntity = plainToInstance(User, dto);
 
 ### Sequelize ORM
 
-#### Mapeando DTOs para Models
+#### Mapping DTOs to Models
 
 ```typescript
 import { Table, Column, Model, DataType } from 'sequelize-typescript';
@@ -170,9 +170,9 @@ export class User extends Model {
 }
 ```
 
-### Mongoose (ODM para MongoDB)
+### Mongoose (ODM for MongoDB)
 
-#### Definindo Schemas e DTOs
+#### Defining Schemas and DTOs
 
 ```typescript
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
@@ -194,11 +194,11 @@ export const UserSchema = SchemaFactory.createForClass(User);
 
 ---
 
-## Recursos Avançados
+## Advanced Features
 
-### Validação Customizada
+### Custom Validation
 
-Crie decoradores personalizados para validação:
+Create custom validation decorators:
 
 ```typescript
 import { registerDecorator, ValidationOptions, ValidationArguments } from 'class-validator';
@@ -220,18 +220,18 @@ export function IsPositiveInteger(validationOptions?: ValidationOptions) {
 }
 ```
 
-Uso:
+Usage:
 
 ```typescript
 export class ProductDto {
-  @IsPositiveInteger({ message: 'O preço deve ser um número inteiro positivo!' })
+  @IsPositiveInteger({ message: 'Price must be a positive integer!' })
   price: number;
 }
 ```
 
-### Transformação Automática
+### Automatic Transformation
 
-Transforme valores automaticamente:
+Transform values automatically:
 
 ```typescript
 import { Transform } from 'class-transformer';
@@ -243,23 +243,23 @@ export class CreateUserDto {
 }
 ```
 
-### Documentação com Swagger
+### Documentation with Swagger
 
-Gere documentação automaticamente para seus DTOs:
+Generate documentation automatically for your DTOs:
 
 ```typescript
 import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateUserDto {
-  @ApiProperty({ description: 'Nome do usuário' })
+  @ApiProperty({ description: 'Name of the user' })
   name: string;
 
-  @ApiProperty({ description: 'Idade do usuário', minimum: 18, maximum: 100 })
+  @ApiProperty({ description: 'Age of the user', minimum: 18, maximum: 100 })
   age: number;
 }
 ```
 
-Instale o Swagger no projeto:
+Install Swagger:
 
 ```bash
 npm install @nestjs/swagger swagger-ui-express
@@ -267,19 +267,19 @@ npm install @nestjs/swagger swagger-ui-express
 
 ---
 
-## Comparação entre ORMs/ODMs
+## Comparison Between ORMs/ODMs
 
-| Recurso                 | TypeORM                     | SequelizeORM              | Mongoose                   |
-|-------------------------|-----------------------------|---------------------------|----------------------------|
-| **Validação**           | Via DTOs (`class-validator`)| Via DTOs (`class-validator`)| Schema-based, DTO opcional|
-| **Relacionamentos**     | Rico suporte via decorators| Definido em models        | Population para referências|
-| **Agregações**          | Limitado (via QueryBuilder) | SQL-based (raw queries)   | Full aggregation pipeline |
-| **Joins**               | Nativo                     | Nativo                    | Population                 |
-| **Subqueries**          | QueryBuilder               | Raw SQL                   | Limitado                   |
+| Feature                  | TypeORM                     | SequelizeORM              | Mongoose                   |
+|--------------------------|-----------------------------|---------------------------|----------------------------|
+| **Validation**           | Via DTOs (`class-validator`)| Via DTOs (`class-validator`)| Schema-based, DTO optional|
+| **Relationships**        | Rich support via decorators| Defined in models         | Population for references |
+| **Aggregations**         | Limited (via QueryBuilder) | SQL-based (raw queries)   | Full aggregation pipeline |
+| **Joins**                | Native                     | Native                    | Population                 |
+| **Subqueries**           | QueryBuilder               | Raw SQL                   | Limited                   |
 
 ---
 
-## Referências
+## References
 
 - [NestJS Documentation](https://docs.nestjs.com/)
 - [class-validator GitHub](https://github.com/typestack/class-validator)
@@ -287,7 +287,3 @@ npm install @nestjs/swagger swagger-ui-express
 - [TypeORM Documentation](https://typeorm.io/)
 - [Sequelize Documentation](https://sequelize.org/)
 - [Mongoose Documentation](https://mongoosejs.com/)
-
----
-
-_Última atualização: Janeiro de 2025_

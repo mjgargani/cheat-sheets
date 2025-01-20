@@ -1,15 +1,34 @@
-# DTOs in NestJS: Advanced Guide (2025)
+# DTOs in NestJS: Advanced Guide
+
+DTOs (Data Transfer Objects) define the structure of data exchanged between layers in a NestJS application. They enhance type safety, enforce validation rules, and ensure consistency in data formats. This guide explores advanced usage of DTOs with TypeORM, Sequelize, and Mongoose.
+
+---
+
+## Table of Contents
+
+1. [What Are DTOs?](#what-are-dtos)
+2. [Common Features for DTOs](#common-features-for-dtos)
+3. [DTOs with TypeORM](#dtos-with-typeorm)
+4. [DTOs with SequelizeORM](#dtos-with-sequelizeorm)
+5. [DTOs with Mongoose (ODM)](#dtos-with-mongoose-odm)
+6. [Comparisons](#comparisons)
+7. [Advanced Tips](#advanced-tips)
+8. [References](#references)
+
+---
 
 ## What Are DTOs?
-DTOs (Data Transfer Objects) are objects that define the structure of data exchanged between layers in a NestJS application. They:
 
+DTOs are used to:
 - Enhance type safety.
 - Enforce validation rules.
-- Ensure consistency in data formats.
+- Simplify serialization/deserialization for APIs.
+
+---
 
 ## Common Features for DTOs
-- Use of **TypeScript interfaces or classes** for strong typing.
-- **Validation decorators** from `class-validator` and `class-transformer`.
+
+DTOs leverage TypeScript's strong typing and validation decorators from libraries like `class-validator` and `class-transformer`.
 
 Example:
 
@@ -34,7 +53,6 @@ export class CreateUserDto {
 ## DTOs with TypeORM
 
 ### Defining DTOs for Entity Relationships
-DTOs can map to entities, including relationships (e.g., one-to-many, many-to-many).
 
 Example:
 
@@ -65,13 +83,13 @@ export class CreateCommentDto {
 
 ### Advanced Querying: Joins and Subqueries
 
-TypeORM supports advanced joins using the QueryBuilder:
+Use TypeORM's QueryBuilder for advanced queries:
 
 ```typescript
 const posts = await this.postRepository
-  .createQueryBuilder("post")
-  .leftJoinAndSelect("post.comments", "comment")
-  .where("post.id = :id", { id: postId })
+  .createQueryBuilder('post')
+  .leftJoinAndSelect('post.comments', 'comment')
+  .where('post.id = :id', { id: postId })
   .getMany();
 ```
 
@@ -80,7 +98,6 @@ const posts = await this.postRepository
 ## DTOs with SequelizeORM
 
 ### Defining DTOs for Models
-DTOs align with Sequelize models. Relationships are defined in models and referenced in DTOs.
 
 Example:
 
@@ -108,7 +125,7 @@ export class CreateProductDto {
 
 ### Advanced Querying: Aggregations and Groups
 
-Sequelize offers aggregation and grouping:
+Sequelize offers robust aggregation support:
 
 ```typescript
 const productCounts = await Product.findAll({
@@ -125,8 +142,6 @@ const productCounts = await Product.findAll({
 ## DTOs with Mongoose (ODM)
 
 ### Using DTOs with Schemas
-
-Mongoose schemas define relationships and validation. DTOs are mapped accordingly.
 
 Example:
 
@@ -145,7 +160,7 @@ export class CreateBlogDto {
 
 ### Advanced Querying: Aggregations
 
-Aggregation pipelines in Mongoose offer powerful querying:
+Mongoose supports aggregation pipelines for complex queries:
 
 ```typescript
 const results = await this.blogModel.aggregate([
@@ -170,7 +185,9 @@ const results = await this.blogModel.aggregate([
 
 ## Advanced Tips
 
-1. **Reusability:** Create shared DTOs for common patterns.
+1. **Reusability:**
+   Create shared DTOs for common patterns.
+
    ```typescript
    export class PaginationDto {
      @IsInt()
@@ -181,9 +198,10 @@ const results = await this.blogModel.aggregate([
    }
    ```
 
-2. **Custom Validators:** Use custom validation logic.
+2. **Custom Validators:**
+
    ```typescript
-   import { registerDecorator, ValidationOptions, ValidationArguments } from 'class-validator';
+   import { registerDecorator, ValidationOptions } from 'class-validator';
 
    export function IsUnique(validationOptions?: ValidationOptions) {
      return function (object: Object, propertyName: string) {
@@ -193,9 +211,8 @@ const results = await this.blogModel.aggregate([
          propertyName: propertyName,
          options: validationOptions,
          validator: {
-           async validate(value: any, args: ValidationArguments) {
-             // Custom validation logic
-             return true; // or false
+           validate(value: any) {
+             return true; // Replace with actual validation logic
            }
          }
        });
@@ -203,9 +220,11 @@ const results = await this.blogModel.aggregate([
    }
    ```
 
-3. **Integration Testing:** Ensure DTOs work well with services and database queries.
+3. **Integration Testing:**
+   Ensure DTOs work seamlessly with services and database queries.
 
-4. **Performance Considerations:** Optimize queries with projections and indexes for large datasets.
+4. **Performance Optimization:**
+   Use projections and indexing to improve query efficiency.
 
 ---
 
@@ -215,7 +234,3 @@ const results = await this.blogModel.aggregate([
 - [TypeORM Documentation](https://typeorm.io/)
 - [Sequelize Documentation](https://sequelize.org/)
 - [Mongoose Documentation](https://mongoosejs.com/)
-
----
-
-_Last updated: January 2025_

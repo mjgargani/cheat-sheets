@@ -1,16 +1,17 @@
-### **DTOs e Relacionamentos - Cheat Sheet (2025)**
+### **DTOs and Relationships - Cheat Sheet (2025)**
 
-#### **O que são DTOs?**
-DTO (Data Transfer Object) é um padrão usado para transportar dados entre diferentes camadas de uma aplicação. Ele ajuda a:
-- Reduzir o acoplamento entre camadas.
-- Garantir que apenas os dados necessários sejam transmitidos.
-- Facilitar a serialização/deserialização para APIs.
+#### **What are DTOs?**
+Data Transfer Objects (DTOs) are design patterns used to transfer data between different layers of an application. They help:
+- Reduce coupling between layers.
+- Ensure only necessary data is transmitted.
+- Simplify serialization/deserialization for APIs.
 
 ---
 
-#### **Estrutura Geral de DTO**
+#### **General DTO Structure**
+
 ```typescript
-// Exemplo em TypeScript (NestJS)
+// Example in TypeScript (NestJS)
 export class CreateUserDTO {
   readonly name: string;
   readonly email: string;
@@ -27,13 +28,14 @@ export class UserResponseDTO {
 
 ---
 
-#### **Relacionamentos em Bancos de Dados**
-Relacionamentos indicam como as tabelas ou coleções estão conectadas. Eles variam dependendo se o banco de dados é relacional ou não-relacional.
+#### **Database Relationships**
+Relationships define how tables or collections are connected. The implementation varies between relational and non-relational databases.
 
-##### **Relacional (SQL)**
+##### **Relational (SQL)**
 
 1. **One-to-One**
-   - Cada registro em uma tabela está associado a um único registro em outra tabela.
+   Each record in one table is associated with exactly one record in another table.
+
    ```sql
    CREATE TABLE users (
        id INT PRIMARY KEY,
@@ -49,7 +51,8 @@ Relacionamentos indicam como as tabelas ou coleções estão conectadas. Eles va
    ```
 
 2. **One-to-Many**
-   - Um registro em uma tabela está associado a vários registros em outra tabela.
+   One record in a table is associated with multiple records in another table.
+
    ```sql
    CREATE TABLE users (
        id INT PRIMARY KEY,
@@ -65,7 +68,8 @@ Relacionamentos indicam como as tabelas ou coleções estão conectadas. Eles va
    ```
 
 3. **Many-to-Many**
-   - Uma tabela intermediária é usada para gerenciar a relação entre duas tabelas.
+   An intermediary table manages the relationship between two tables.
+
    ```sql
    CREATE TABLE students (
        id INT PRIMARY KEY,
@@ -86,10 +90,11 @@ Relacionamentos indicam como as tabelas ou coleções estão conectadas. Eles va
    );
    ```
 
-##### **Não-relacional (NoSQL)**
+##### **Non-relational (NoSQL)**
 
 1. **One-to-One**
-   - Normalmente armazenado no mesmo documento.
+   Typically stored in the same document.
+
    ```json
    {
        "userId": "1",
@@ -102,7 +107,9 @@ Relacionamentos indicam como as tabelas ou coleções estão conectadas. Eles va
    ```
 
 2. **One-to-Many**
-   - Incorporado ou referenciado.
+   Embedded or referenced.
+
+   **Embedded Example:**
    ```json
    {
        "userId": "1",
@@ -114,7 +121,7 @@ Relacionamentos indicam como as tabelas ou coleções estão conectadas. Eles va
    }
    ```
 
-   Ou usando referências:
+   **Referenced Example:**
    ```json
    {
        "userId": "1",
@@ -124,7 +131,8 @@ Relacionamentos indicam como as tabelas ou coleções estão conectadas. Eles va
    ```
 
 3. **Many-to-Many**
-   - Usando arrays de IDs.
+   Using arrays of IDs.
+
    ```json
    {
        "studentId": "1",
@@ -141,8 +149,9 @@ Relacionamentos indicam como as tabelas ou coleções estão conectadas. Eles va
 
 ---
 
-#### **Mapeamento DTO-Entidade**
-- **Relacional (ORM - TypeORM, Sequelize):**
+#### **Mapping DTO to Entity**
+
+- **Relational (ORM - TypeORM, Sequelize):**
   ```typescript
   @Entity()
   export class User {
@@ -172,7 +181,7 @@ Relacionamentos indicam como as tabelas ou coleções estão conectadas. Eles va
   }
   ```
 
-- **Não-relacional (ODM - Mongoose):**
+- **Non-relational (ODM - Mongoose):**
   ```typescript
   const UserSchema = new Schema({
       name: { type: String, required: true },
@@ -188,10 +197,11 @@ Relacionamentos indicam como as tabelas ou coleções estão conectadas. Eles va
 
 ---
 
-#### **Dicas Avançadas**
+#### **Advanced Tips**
 
-1. **Evitar Leitura Excessiva**
-   - Use **projection** no MongoDB ou selecione colunas específicas em SQL.
+1. **Avoid Over-fetching**
+   Use projections in MongoDB or select specific columns in SQL.
+
    ```typescript
    // MongoDB
    User.find({}, 'name email');
@@ -200,8 +210,9 @@ Relacionamentos indicam como as tabelas ou coleções estão conectadas. Eles va
    SELECT name, email FROM users;
    ```
 
-2. **Validação**
-   - Utilize bibliotecas como **class-validator** para validação de DTOs.
+2. **Validation**
+   Use libraries like **class-validator** for validating DTOs.
+
    ```typescript
    import { IsString, IsEmail } from 'class-validator';
 
@@ -214,20 +225,21 @@ Relacionamentos indicam como as tabelas ou coleções estão conectadas. Eles va
    }
    ```
 
-3. **Transformação**
-   - Converta DTOs em entidades utilizando bibliotecas como **class-transformer**.
+3. **Transformation**
+   Convert DTOs into entities using libraries like **class-transformer**.
+
    ```typescript
    import { plainToInstance } from 'class-transformer';
 
    const userEntity = plainToInstance(User, createUserDTO);
    ```
 
-4. **Normalização de Dados**
-   - Para gráficos complexos em relações, considere normalizar os dados antes de expor via APIs.
+4. **Data Normalization**
+   For complex relationship graphs, consider normalizing data before exposing it through APIs.
 
 ---
 
-#### **Recursos e Referências**
+#### **Resources and References**
 - [TypeORM Documentation](https://typeorm.io/)
 - [Mongoose Documentation](https://mongoosejs.com/)
 - [NestJS DTOs](https://docs.nestjs.com/controllers#request-payloads)

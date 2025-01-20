@@ -1,21 +1,10 @@
-# Node.js Cheat Sheet (Atualizado em Janeiro de 2025)
+# Node.js Cheat Sheet
 
-Este cheat sheet cobre comandos essenciais, conceitos importantes e práticas recomendadas para o desenvolvimento com Node.js. Baseado nas últimas versões, serve como um guia prático para desenvolvedores.
+Node.js is a JavaScript runtime built on Chrome's V8 engine, enabling the execution of JavaScript code outside the browser. It is widely used for creating scalable, high-performance server-side applications.
 
-## Índice (pt-BR)
+---
 
-1. [O que é o Node.js?](#o-que-e-o-nodejs)
-2. [Instalação](#instalacao)
-3. [Execução de Scripts](#execucao-de-scripts)
-4. [Módulos](#modulos)
-5. [Eventos](#eventos)
-6. [File System](#file-system)
-7. [HTTP](#http)
-8. [Debugging](#debugging)
-9. [Recursos Depreciados](#recursos-depreciados)
-10. [Referências Adicionais](#referencias-adicionais)
-
-## Table of Contents (en-US)
+## Table of Contents
 
 1. [What is Node.js?](#what-is-nodejs)
 2. [Installation](#installation)
@@ -30,43 +19,19 @@ Este cheat sheet cobre comandos essenciais, conceitos importantes e práticas re
 
 ---
 
-### O que é o Node.js? (pt-BR)
+## What is Node.js?
 
-Node.js é um runtime JavaScript baseado no mecanismo V8 do Chrome. Ele permite executar código JavaScript fora do navegador e é amplamente utilizado para criar aplicações de servidor escaláveis e performáticas.
+Node.js is designed for server-side and networking applications. Its non-blocking, event-driven architecture makes it ideal for data-intensive real-time applications.
 
-- **Event-Driven**: Baseado em eventos e não bloqueante.
-- **Alta Performance**: Aproveita o V8 para executar código rapidamente.
-- **Ecosistema Rico**: Milhões de pacotes disponíveis no npm.
-
-Mais informações: [Node.js Oficial](https://nodejs.org/pt-br/).
-
-### What is Node.js? (en-US)
-
-Node.js is a JavaScript runtime built on Chrome's V8 engine. It enables running JavaScript code outside the browser and is widely used for creating scalable and high-performance server applications.
-
-- **Event-Driven**: Non-blocking and event-based.
-- **High Performance**: Utilizes V8 for fast code execution.
+- **Event-Driven**: Handles asynchronous operations efficiently.
+- **High Performance**: Powered by the V8 JavaScript engine.
 - **Rich Ecosystem**: Millions of packages available on npm.
 
-More information: [Node.js Official](https://nodejs.org/).
+More information: [Node.js Official Documentation](https://nodejs.org/).
 
 ---
 
-### Instalação (pt-BR)
-
-Baixe e instale o Node.js do site oficial:
-
-```bash
-# Para sistemas baseados em Debian/Ubuntu
-sudo apt update
-sudo apt install -y nodejs npm
-
-# Verifique a versão instalada
-node --version
-npm --version
-```
-
-### Installation (en-US)
+## Installation
 
 Download and install Node.js from the official website:
 
@@ -82,21 +47,7 @@ npm --version
 
 ---
 
-### Execução de Scripts (pt-BR)
-
-- **Executar um arquivo JavaScript**:
-
-```bash
-node arquivo.js
-```
-
-- **Abrir o REPL (Read-Eval-Print Loop)**:
-
-```bash
-node
-```
-
-### Running Scripts (en-US)
+## Running Scripts
 
 - **Run a JavaScript file**:
 
@@ -112,31 +63,15 @@ node
 
 ---
 
-### Módulos (pt-BR)
+## Modules
 
-**Importando um módulo:**
-
-```javascript
-const fs = require('fs');
-```
-
-**Exportando funções ou objetos:**
-
-```javascript
-module.exports = {
-  minhaFuncao: () => console.log('Olá!'),
-};
-```
-
-### Modules (en-US)
-
-**Importing a module:**
+### Importing a Module
 
 ```javascript
 const fs = require('fs');
 ```
 
-**Exporting functions or objects:**
+### Exporting Functions or Objects
 
 ```javascript
 module.exports = {
@@ -146,21 +81,9 @@ module.exports = {
 
 ---
 
-### Eventos (pt-BR)
+## Events
 
-**Criando e Emitindo Eventos:**
-
-```javascript
-const EventEmitter = require('events');
-const emitter = new EventEmitter();
-
-emitter.on('evento', () => console.log('Evento disparado!'));
-emitter.emit('evento');
-```
-
-### Events (en-US)
-
-**Creating and Emitting Events:**
+### Creating and Emitting Events
 
 ```javascript
 const EventEmitter = require('events');
@@ -172,21 +95,9 @@ emitter.emit('event');
 
 ---
 
-### File System (pt-BR)
+## File System
 
-**Lendo um arquivo:**
-
-```javascript
-const fs = require('fs');
-fs.readFile('arquivo.txt', 'utf8', (err, data) => {
-  if (err) throw err;
-  console.log(data);
-});
-```
-
-### File System (en-US)
-
-**Reading a file:**
+### Reading a File
 
 ```javascript
 const fs = require('fs');
@@ -198,33 +109,16 @@ fs.readFile('file.txt', 'utf8', (err, data) => {
 
 ---
 
-### HTTP (pt-BR)
+## HTTP
 
-**Criando um servidor HTTP:**
-
-```javascript
-const http = require('http');
-const server = http.createServer((req, res) => {
-  res.statusCode = 200;
-  res.setHeader('Content-Type', 'text/plain');
-  res.end('Olá Mundo\n');
-});
-
-server.listen(3000, () => {
-  console.log('Servidor rodando em http://localhost:3000/');
-});
-```
-
-### HTTP (en-US)
-
-**Creating an HTTP server:**
+### Creating an HTTP Server
 
 ```javascript
 const http = require('http');
 const server = http.createServer((req, res) => {
   res.statusCode = 200;
   res.setHeader('Content-Type', 'text/plain');
-  res.end('Hello World\n');
+  res.end('Hello, World!\n');
 });
 
 server.listen(3000, () => {
@@ -234,17 +128,9 @@ server.listen(3000, () => {
 
 ---
 
-### Debugging (pt-BR)
+## Debugging
 
-**Iniciando o Debugger:**
-
-```bash
-node inspect arquivo.js
-```
-
-### Debugging (en-US)
-
-**Starting the Debugger:**
+### Starting the Debugger
 
 ```bash
 node inspect file.js
@@ -252,22 +138,13 @@ node inspect file.js
 
 ---
 
-### Recursos Depreciados (pt-BR)
+## Deprecated Features
 
-Consulte as funções obsoletas e removidas na [documentação oficial](https://nodejs.org/api/deprecations.html).
-
-### Deprecated Features (en-US)
-
-Refer to deprecated and removed functions in the [official documentation](https://nodejs.org/api/deprecations.html).
+Refer to deprecated features in the [official Node.js documentation](https://nodejs.org/api/deprecations.html).
 
 ---
 
-### Referências Adicionais (pt-BR)
-
-- [Documentação Oficial do Node.js](https://nodejs.org/pt-br/)
-- [npm - Gerenciador de Pacotes](https://www.npmjs.com/)
-
-### Additional References (en-US)
+## Additional References
 
 - [Node.js Official Documentation](https://nodejs.org/)
 - [npm - Package Manager](https://www.npmjs.com/)

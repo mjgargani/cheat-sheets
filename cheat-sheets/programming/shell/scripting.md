@@ -1,125 +1,127 @@
-# Shell/Bash Script - Guia Completo
+# Shell/Bash Scripting Cheat Sheet
 
-## Sumário
+Shell scripting is a powerful way to automate tasks on Linux and Unix systems. This guide covers essential and advanced concepts for creating efficient and well-organized scripts.
 
-1. [Introdução](#introducao)
-2. [Conceitos Básicos](#conceitos-basicos)
-   - [O que é um Shell Script?](#o-que-e-um-shell-script)
-   - [Primeiro Script](#primeiro-script)
-   - [Execução de Scripts](#execucao-de-scripts)
-3. [Conceitos Intermediários](#conceitos-intermediarios)
-   - [Variáveis e Operações](#variaveis-e-operacoes)
-   - [Estruturas Condicionais](#estruturas-condicionais)
+## Table of Contents
+
+1. [Introduction](#introduction)
+2. [Basic Concepts](#basic-concepts)
+   - [What is a Shell Script?](#what-is-a-shell-script)
+   - [First Script](#first-script)
+   - [Running Scripts](#running-scripts)
+3. [Intermediate Concepts](#intermediate-concepts)
+   - [Variables and Operations](#variables-and-operations)
+   - [Conditional Structures](#conditional-structures)
    - [Loops](#loops)
-4. [Conceitos Avançados](#conceitos-avancados)
-   - [Funções](#funcoes)
-   - [Manipulação de Arquivos](#manipulacao-de-arquivos)
-   - [Depuração de Scripts](#depuracao-de-scripts)
-5. [Dicas e Boas Práticas](#dicas-e-boas-praticas)
-6. [Referências](#referencias)
+4. [Advanced Concepts](#advanced-concepts)
+   - [Functions](#functions)
+   - [File Manipulation](#file-manipulation)
+   - [Script Debugging](#script-debugging)
+5. [Tips and Best Practices](#tips-and-best-practices)
+6. [References](#references)
 
 ---
 
-## 1. Introdução
+## 1. Introduction
 
-Shell scripting é uma forma poderosa de automatizar tarefas em sistemas Linux e Unix. Este guia aborda conceitos básicos e avançados para criar scripts eficientes e bem organizados.
+Shell scripting is a way to write scripts to automate repetitive tasks or manage system-level operations. It allows developers and system administrators to efficiently execute sequences of commands.
 
 ---
 
-## 2. Conceitos Básicos
+## 2. Basic Concepts
 
-### O que é um Shell Script?
+### What is a Shell Script?
 
-Um shell script é um arquivo de texto contendo uma sequência de comandos que podem ser executados no terminal. Ele é interpretado pelo shell, como `bash`, `zsh`, ou `sh`.
+A shell script is a text file containing a series of commands interpreted by the shell (e.g., `bash`, `zsh`, or `sh`).
 
-### Primeiro Script
+### First Script
 
-1. Crie um arquivo chamado `meu_script.sh`:
+1. Create a file named `my_script.sh`:
    ```bash
-   nano meu_script.sh
+   nano my_script.sh
    ```
 
-2. Adicione o seguinte conteúdo:
+2. Add the following content:
    ```bash
    #!/bin/bash
-   echo "Olá, mundo!"
+   echo "Hello, world!"
    ```
 
-3. Torne o script executável:
+3. Make the script executable:
    ```bash
-   chmod +x meu_script.sh
+   chmod +x my_script.sh
    ```
 
-4. Execute o script:
+4. Run the script:
    ```bash
-   ./meu_script.sh
+   ./my_script.sh
    ```
 
-### Execução de Scripts
+### Running Scripts
 
-- **Execução direta**:
+- **Direct Execution**:
   ```bash
-  ./meu_script.sh
+  ./my_script.sh
   ```
-- **Usando o interpretador**:
+- **Using the Interpreter**:
   ```bash
-  bash meu_script.sh
+  bash my_script.sh
   ```
 
 ---
 
-## 3. Conceitos Intermediários
+## 3. Intermediate Concepts
 
-### Variáveis e Operações
+### Variables and Operations
 
-1. Declaração de variáveis:
+1. Declaring variables:
    ```bash
-   nome="João"
-   echo "Olá, $nome"
+   name="John"
+   echo "Hello, $name"
    ```
 
-2. Operações matemáticas:
+2. Performing arithmetic:
    ```bash
    x=$((5 + 3))
    echo "$x"
    ```
 
-3. Variáveis de ambiente:
+3. Environment variables:
    ```bash
    echo "$HOME"
    echo "$PATH"
    ```
 
-### Estruturas Condicionais
+### Conditional Structures
 
-1. `if` simples:
+1. Simple `if` statement:
    ```bash
    if [ $x -gt 5 ]; then
-       echo "Maior que 5"
+       echo "Greater than 5"
    fi
    ```
 
-2. `if-else`:
+2. `if-else` statement:
    ```bash
    if [ $x -eq 5 ]; then
-       echo "Igual a 5"
+       echo "Equal to 5"
    else
-       echo "Diferente de 5"
+       echo "Not equal to 5"
    fi
    ```
 
-3. Operadores comuns:
-   - Igual: `-eq`
-   - Diferente: `-ne`
-   - Maior que: `-gt`
-   - Menor que: `-lt`
+3. Common operators:
+   - Equal: `-eq`
+   - Not equal: `-ne`
+   - Greater than: `-gt`
+   - Less than: `-lt`
 
 ### Loops
 
 1. `for` loop:
    ```bash
    for i in {1..5}; do
-       echo "Número $i"
+       echo "Number $i"
    done
    ```
 
@@ -127,76 +129,76 @@ Um shell script é um arquivo de texto contendo uma sequência de comandos que p
    ```bash
    count=0
    while [ $count -lt 5 ]; do
-       echo "Contagem: $count"
+       echo "Count: $count"
        count=$((count + 1))
    done
    ```
 
 ---
 
-## 4. Conceitos Avançados
+## 4. Advanced Concepts
 
-### Funções
+### Functions
 
-1. Definindo funções:
+1. Defining functions:
    ```bash
-   minha_funcao() {
-       echo "Esta é uma função."
+   my_function() {
+       echo "This is a function."
    }
-   minha_funcao
+   my_function
    ```
 
-2. Passando parâmetros:
+2. Passing parameters:
    ```bash
-   soma() {
+   add() {
        echo $(( $1 + $2 ))
    }
-   soma 5 3
+   add 5 3
    ```
 
-### Manipulação de Arquivos
+### File Manipulation
 
-1. Lendo um arquivo linha por linha:
+1. Reading a file line by line:
    ```bash
-   while IFS= read -r linha; do
-       echo "$linha"
-   done < arquivo.txt
+   while IFS= read -r line; do
+       echo "$line"
+   done < file.txt
    ```
 
-2. Redirecionamento de saída:
+2. Redirecting output:
    ```bash
-   echo "Texto" > arquivo.txt
-   echo "Mais texto" >> arquivo.txt
+   echo "Text" > file.txt
+   echo "More text" >> file.txt
    ```
 
-### Depuração de Scripts
+### Script Debugging
 
-1. Executando em modo de depuração:
+1. Running in debug mode:
    ```bash
-   bash -x meu_script.sh
+   bash -x my_script.sh
    ```
 
-2. Adicionando pontos de depuração:
+2. Adding debug points:
    ```bash
-   set -x  # Inicia depuração
-   # Comandos
-   set +x  # Encerra depuração
+   set -x  # Start debugging
+   # Commands
+   set +x  # Stop debugging
    ```
 
 ---
 
-## 5. Dicas e Boas Práticas
+## 5. Tips and Best Practices
 
-- Sempre adicione o **shebang** (`#!/bin/bash`) no início do script.
-- Use comentários para explicar comandos complexos.
-- Valide entradas e trate erros com mensagens claras.
-- Use nomes de variáveis descritivos para melhorar a legibilidade.
-- Teste scripts em um ambiente seguro antes de usá-los em produção.
+- Always add the **shebang** (`#!/bin/bash`) at the beginning of scripts.
+- Use comments to explain complex commands.
+- Validate inputs and handle errors with clear messages.
+- Use descriptive variable names for readability.
+- Test scripts in a safe environment before production.
 
 ---
 
-## 6. Referências
+## 6. References
 
-- GNU. [Bash Reference Manual](https://www.gnu.org/software/bash/manual/bash.html). Acesso em 12/01/2025.
-- Linux Handbook. [Bash Scripting Basics](https://linuxhandbook.com/bash-scripting/). Acesso em 12/01/2025.
-- Stack Overflow. [Shell Script Best Practices](https://stackoverflow.com/questions/). Acesso em 12/01/2025.
+- GNU. [Bash Reference Manual](https://www.gnu.org/software/bash/manual/bash.html)
+- Linux Handbook. [Bash Scripting Basics](https://linuxhandbook.com/bash-scripting/)
+- Stack Overflow. [Shell Script Best Practices](https://stackoverflow.com/)

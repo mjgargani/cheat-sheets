@@ -1,21 +1,8 @@
-# TypeScript Cheat Sheet (Atualizado em Janeiro de 2025)
+# TypeScript Cheat Sheet
 
-Este cheat sheet fornece uma visão abrangente das funcionalidades do TypeScript, um superset do JavaScript que adiciona tipagem estática opcional. Baseado nas últimas versões, inclui conceitos básicos, melhores práticas e abstrações pedagógicas para facilitar o aprendizado.
+TypeScript is a superset of JavaScript that introduces optional static typing, enhancing scalability and maintainability in software development. This cheat sheet provides a concise overview of its features, including essential concepts and best practices.
 
-## Índice (pt-BR)
-
-1. [O que é TypeScript?](#o-que-e-typescript)
-2. [Instalação e Configuração](#instalacao-e-configuracao)
-3. [Tipos Básicos](#tipos-basicos)
-4. [Interfaces e Tipos](#interfaces-e-tipos)
-5. [Classes e Herança](#classes-e-heranca)
-6. [Funções](#funcoes)
-7. [Generics](#generics)
-8. [Módulos e Namespaces](#modulos-e-namespaces)
-9. [Recursos Depreciados](#recursos-depreciados)
-10. [Referências Adicionais](#referencias-adicionais)
-
-## Table of Contents (en-US)
+## Table of Contents
 
 1. [What is TypeScript?](#what-is-typescript)
 2. [Installation and Setup](#installation-and-setup)
@@ -30,43 +17,19 @@ Este cheat sheet fornece uma visão abrangente das funcionalidades do TypeScript
 
 ---
 
-### O que é TypeScript? (pt-BR)
+## What is TypeScript?
 
-TypeScript é um superset do JavaScript que adiciona tipagem estática opcional e recursos avançados para o desenvolvimento em escala. Ele é projetado para facilitar a manutenção e detecção de erros antes do tempo de execução.
-
-- **Tipagem Estática**: Define tipos para variáveis, funções e retornos.
-- **Ferramentas Avançadas**: IntelliSense, refatoração e verificação de erros.
-- **Compilação para JavaScript**: Código TypeScript é transpilado para JavaScript.
-
-Mais informações: [Documentação Oficial do TypeScript](https://www.typescriptlang.org/).
-
-### What is TypeScript? (en-US)
-
-TypeScript is a superset of JavaScript that adds optional static typing and advanced features for scalable development. It is designed to improve maintainability and catch errors before runtime.
+TypeScript is a superset of JavaScript that adds optional static typing and advanced features for scalable development. It helps developers catch errors at compile time and provides enhanced tooling support.
 
 - **Static Typing**: Define types for variables, functions, and returns.
-- **Advanced Tooling**: IntelliSense, refactoring, and error checking.
-- **Compiles to JavaScript**: TypeScript code is transpiled into JavaScript.
+- **Advanced Tooling**: Features like IntelliSense, refactoring, and error checking.
+- **Compiles to JavaScript**: TypeScript code is transpiled into JavaScript for browser compatibility.
 
 More information: [TypeScript Official Documentation](https://www.typescriptlang.org/).
 
 ---
 
-### Instalação e Configuração (pt-BR)
-
-**Instalação via npm**:
-
-```bash
-npm install -g typescript
-```
-
-**Criar um arquivo de configuração (`tsconfig.json`)**:
-
-```bash
-tsc --init
-```
-
-### Installation and Setup (en-US)
+## Installation and Setup
 
 **Install via npm**:
 
@@ -82,17 +45,7 @@ tsc --init
 
 ---
 
-### Tipos Básicos (pt-BR)
-
-```typescript
-let isDone: boolean = false;
-let decimal: number = 10;
-let name: string = 'TypeScript';
-let list: number[] = [1, 2, 3];
-let tuple: [string, number] = ['TypeScript', 10];
-```
-
-### Basic Types (en-US)
+## Basic Types
 
 ```typescript
 let isDone: boolean = false;
@@ -104,21 +57,7 @@ let tuple: [string, number] = ['TypeScript', 10];
 
 ---
 
-### Interfaces e Tipos (pt-BR)
-
-```typescript
-interface User {
-  name: string;
-  age: number;
-  isAdmin?: boolean;
-}
-
-function greet(user: User): string {
-  return `Hello, ${user.name}`;
-}
-```
-
-### Interfaces and Types (en-US)
+## Interfaces and Types
 
 ```typescript
 interface User {
@@ -134,29 +73,7 @@ function greet(user: User): string {
 
 ---
 
-### Classes e Herança (pt-BR)
-
-```typescript
-class Person {
-  constructor(public name: string) {}
-
-  greet(): string {
-    return `Hello, ${this.name}`;
-  }
-}
-
-class Employee extends Person {
-  constructor(name: string, public position: string) {
-    super(name);
-  }
-
-  work(): string {
-    return `${this.name} is working as a ${this.position}`;
-  }
-}
-```
-
-### Classes and Inheritance (en-US)
+## Classes and Inheritance
 
 ```typescript
 class Person {
@@ -180,17 +97,19 @@ class Employee extends Person {
 
 ---
 
-### Generics (pt-BR)
+## Functions
 
 ```typescript
-function identity<T>(arg: T): T {
-  return arg;
+function add(x: number, y: number): number {
+  return x + y;
 }
 
-let output = identity<string>('TypeScript');
+const multiply = (x: number, y: number): number => x * y;
 ```
 
-### Generics (en-US)
+---
+
+## Generics
 
 ```typescript
 function identity<T>(arg: T): T {
@@ -202,22 +121,42 @@ let output = identity<string>('TypeScript');
 
 ---
 
-### Recursos Depreciados (pt-BR)
+## Modules and Namespaces
 
-Consulte os recursos obsoletos na [documentação oficial do TypeScript](https://www.typescriptlang.org/docs/).
+### Modules
 
-### Deprecated Features (en-US)
+```typescript
+// math.ts
+export function add(x: number, y: number): number {
+  return x + y;
+}
+
+// main.ts
+import { add } from './math';
+console.log(add(2, 3));
+```
+
+### Namespaces
+
+```typescript
+namespace Utility {
+  export function log(message: string): void {
+    console.log(message);
+  }
+}
+
+Utility.log('Hello, TypeScript!');
+```
+
+---
+
+## Deprecated Features
 
 Refer to deprecated features in the [official TypeScript documentation](https://www.typescriptlang.org/docs/).
 
 ---
 
-### Referências Adicionais (pt-BR)
-
-- [Documentação Oficial do TypeScript](https://www.typescriptlang.org/)
-- [Guia de Configuração](https://www.typescriptlang.org/tsconfig)
-
-### Additional References (en-US)
+## Additional References
 
 - [TypeScript Official Documentation](https://www.typescriptlang.org/)
 - [Configuration Guide](https://www.typescriptlang.org/tsconfig)

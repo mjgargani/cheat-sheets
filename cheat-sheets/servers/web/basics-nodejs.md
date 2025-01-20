@@ -1,70 +1,72 @@
-# Servidores Web - Princípios Básicos e Node.js
+# Web Servers - Basics with Node.js
 
-## Sumário
+Web servers are fundamental components of modern applications, enabling the delivery of content (HTML, CSS, JavaScript, etc.) and communication with clients over HTTP/HTTPS. This cheat sheet introduces key concepts of web servers with practical examples using Node.js.
 
-1. [Introdução](#introducao)
-2. [Princípios Básicos de Servidores Web](#principios-basicos-de-servidores-web)
-   - [O que é um Servidor Web?](#o-que-e-um-servidor-web)
-   - [Como Funciona?](#como-funciona)
-3. [Exemplo Prático com Node.js](#exemplo-pratico-com-nodejs)
-   - [Configurando o Ambiente](#configurando-o-ambiente)
-   - [Criando um Servidor Básico](#criando-um-servidor-basico)
-   - [Servindo Arquivos Estáticos](#servindo-arquivos-estaticos)
-4. [Conceitos Relacionados](#conceitos-relacionados)
+---
+
+## Table of Contents
+
+1. [Introduction](#introduction)
+2. [Web Server Basics](#web-server-basics)
+   - [What is a Web Server?](#what-is-a-web-server)
+   - [How Does It Work?](#how-does-it-work)
+3. [Practical Example with Node.js](#practical-example-with-nodejs)
+   - [Setting Up the Environment](#setting-up-the-environment)
+   - [Creating a Basic Server](#creating-a-basic-server)
+   - [Serving Static Files](#serving-static-files)
+4. [Related Concepts](#related-concepts)
    - [CORS](#cors)
    - [HTTP Status Codes](#http-status-codes)
-5. [Referências](#referencias)
+5. [References](#references)
 
 ---
 
-## 1. Introdução
+## 1. Introduction
 
-Servidores web são componentes fundamentais para aplicações modernas. Eles permitem a entrega de conteúdo (HTML, CSS, JavaScript, etc.) e comunicação com clientes via HTTP/HTTPS.
-
-Este guia aborda princípios básicos de servidores web e um exemplo prático usando Node.js, sem frameworks.
+Web servers process client requests and deliver content or responses, such as HTML pages, JSON data, or static files. Node.js, with its lightweight and non-blocking architecture, is a popular choice for building web servers.
 
 ---
 
-## 2. Princípios Básicos de Servidores Web
+## 2. Web Server Basics
 
-### O que é um Servidor Web?
+### What is a Web Server?
 
-Um servidor web é um software ou hardware que:
-- Recebe requisições HTTP/HTTPS de clientes (navegadores, scripts, etc.).
-- Processa a requisição e retorna uma resposta (ex.: uma página HTML ou JSON).
+A web server is a software or hardware system that:
+- Receives HTTP/HTTPS requests from clients (e.g., browsers, scripts).
+- Processes the requests and returns responses (e.g., HTML pages, JSON data).
 
-### Como Funciona?
+### How Does It Work?
 
-1. O cliente envia uma requisição para um endereço específico (ex.: `http://localhost:3000`).
-2. O servidor processa a requisição, podendo:
-   - Entregar um arquivo estático (HTML, CSS, imagem, etc.).
-   - Executar uma lógica para gerar uma resposta dinâmica (ex.: JSON).
-3. O servidor retorna uma resposta com um código de status HTTP.
+1. The client sends a request to a specific address (e.g., `http://localhost:3000`).
+2. The server processes the request by:
+   - Serving a static file (e.g., HTML, CSS).
+   - Generating a dynamic response (e.g., JSON).
+3. The server responds with the requested data and an HTTP status code.
 
 ---
 
-## 3. Exemplo Prático com Node.js
+## 3. Practical Example with Node.js
 
-### Configurando o Ambiente
+### Setting Up the Environment
 
-1. **Instale o Node.js**:
-   - Faça o download do instalador oficial: [https://nodejs.org](https://nodejs.org).
-   - Confirme a instalação:
+1. **Install Node.js**:
+   - Download the installer from [Node.js Official Website](https://nodejs.org).
+   - Verify the installation:
      ```bash
      node -v
      npm -v
      ```
 
-2. **Crie uma pasta para o projeto**:
+2. **Create a Project Directory**:
    ```bash
-   mkdir servidor-web-basico
-   cd servidor-web-basico
+   mkdir basic-web-server
+   cd basic-web-server
    npm init -y
    ```
 
-### Criando um Servidor Básico
+### Creating a Basic Server
 
-1. **Crie o arquivo `server.js`**:
+1. **Create a `server.js` File**:
    ```javascript
    const http = require('http');
 
@@ -82,29 +84,30 @@ Um servidor web é um software ou hardware que:
    });
    ```
 
-2. **Execute o servidor**:
+2. **Run the Server**:
    ```bash
    node server.js
    ```
 
-3. **Acesse no navegador**: `http://127.0.0.1:3000`
+3. **Access the Server**:
+   - Open a browser and go to `http://127.0.0.1:3000`.
 
-### Servindo Arquivos Estáticos
+### Serving Static Files
 
-1. **Crie uma pasta `public` e adicione um arquivo `index.html`**:
+1. **Create a `public` Directory with an `index.html` File**:
    ```html
    <!DOCTYPE html>
    <html>
    <head>
-       <title>Meu Servidor</title>
+       <title>My Server</title>
    </head>
    <body>
-       <h1>Bem-vindo ao meu servidor!</h1>
+       <h1>Welcome to My Server!</h1>
    </body>
    </html>
    ```
 
-2. **Atualize o `server.js` para servir arquivos estáticos**:
+2. **Update `server.js` to Serve Static Files**:
    ```javascript
    const http = require('http');
    const fs = require('fs');
@@ -135,30 +138,30 @@ Um servidor web é um software ou hardware que:
    });
    ```
 
-3. **Reinicie o servidor e teste novamente**.
+3. **Restart the Server and Test Again**.
 
 ---
 
-## 4. Conceitos Relacionados
+## 4. Related Concepts
 
-### CORS
+### CORS (Cross-Origin Resource Sharing)
 
-- Permite que servidores especifiquem quem pode acessar seus recursos.
-- Exemplo de cabeçalho CORS no Node.js:
+- Enables servers to specify who can access their resources.
+- Example header in Node.js:
   ```javascript
   res.setHeader('Access-Control-Allow-Origin', '*');
   ```
 
 ### HTTP Status Codes
 
-- **200**: OK (requisição bem-sucedida).
-- **404**: Not Found (arquivo ou recurso não encontrado).
-- **500**: Internal Server Error (erro no servidor).
+- **200**: OK (Request successful).
+- **404**: Not Found (Resource not found).
+- **500**: Internal Server Error (Server-side issue).
 
 ---
 
-## 5. Referências
+## 5. References
 
-- Node.js Docs. [HTTP Module](https://nodejs.org/api/http.html). Acesso em 12/01/2025.
-- Mozilla. [HTTP Overview](https://developer.mozilla.org/en-US/docs/Web/HTTP/Overview). Acesso em 12/01/2025.
-- W3Schools. [Node.js Tutorial](https://www.w3schools.com/nodejs/). Acesso em 12/01/2025.
+- Node.js Docs. [HTTP Module](https://nodejs.org/api/http.html)
+- Mozilla. [HTTP Overview](https://developer.mozilla.org/en-US/docs/Web/HTTP/Overview)
+- W3Schools. [Node.js Tutorial](https://www.w3schools.com/nodejs/)
