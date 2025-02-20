@@ -37,6 +37,8 @@ This repository contains a collection of cheat sheets for various development to
   - [Vite with Vitest](./cheat-sheets/programming/nodejs/vite-vitest.md)
 - **Shell**
   - [Shell Scripting](./cheat-sheets/programming/shell/scripting.md)
+- **Powershell**
+  - [Powershell Scripting](./cheat-sheets/programming/power-shell/guide.md)
 - **TypeScript**
   - [Decorators in NestJS](./cheat-sheets/programming/typescript/decorators-nestjs.md)
   - [TypeScript Cheat Sheet](./cheat-sheets/programming/typescript/basics.md)
