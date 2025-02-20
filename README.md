@@ -42,6 +42,8 @@ This repository contains a collection of cheat sheets for various development to
 - **TypeScript**
   - [Decorators in NestJS](./cheat-sheets/programming/typescript/decorators-nestjs.md)
   - [TypeScript Cheat Sheet](./cheat-sheets/programming/typescript/basics.md)
+- **Comparisons**
+  - [PS x BASH x SH](./cheat-sheets/programming/comparisons/ps-bash-shell-script.md)
 
 #### Servers
 - **Files**
