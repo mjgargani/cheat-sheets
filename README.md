@@ -44,6 +44,7 @@ This repository contains a collection of cheat sheets for various development to
   - [TypeScript Cheat Sheet](./cheat-sheets/programming/typescript/basics.md)
 - **Comparisons**
   - [PS x BASH x SH](./cheat-sheets/programming/comparisons/ps-bash-shell-script.md)
+  - [Why PS on Linux?](./cheat-sheets/programming/comparisons/ps-on-linux.md)
 
 #### Servers
 - **Files**
