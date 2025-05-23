@@ -1,3 +1,7 @@
+I am marking this repository as **DEPRECIATED** because, in addition to lacking more refined curation, it will be part of a new repository that I call open-docs.
+
+The methods I used to prepare this material using the machine do not match my perception of its current popular use.
+
 # Development Cheat Sheets Repository
 
 This repository contains a collection of cheat sheets for various development tools and technologies. Each file provides essential commands, configuration examples, and best practices to help developers work efficiently.
